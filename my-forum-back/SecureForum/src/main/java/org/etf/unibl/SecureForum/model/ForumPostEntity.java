@@ -1,5 +1,6 @@
 package org.etf.unibl.SecureForum.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
@@ -26,6 +27,7 @@ public class ForumPostEntity {
     @Column(name = "modified_at", nullable = true)
     private Timestamp modifiedAt;
     @OneToMany(mappedBy = "referencedPost")
+    @JsonIgnore
     private List<CommentEntity> commentsOnPost;
     @ManyToOne
     @JoinColumn(name = "topic_id", referencedColumnName = "id", nullable = false)
