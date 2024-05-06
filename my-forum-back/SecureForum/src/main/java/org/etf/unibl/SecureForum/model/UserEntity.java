@@ -26,6 +26,7 @@ public class UserEntity {
     @Column(name = "create_time", nullable = false)
     private Timestamp createTime;
     @Basic
+    @Enumerated(EnumType.STRING) //Maybe unnecessary
     @Column(name = "type", nullable = false)
     private UserType type;
     @Basic
