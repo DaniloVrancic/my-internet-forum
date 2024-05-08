@@ -1,4 +1,4 @@
-package org.etf.unibl.SecureForum.additional.enums;
+package org.etf.unibl.SecureForum.model.enums;
 
 
 public enum UserType {

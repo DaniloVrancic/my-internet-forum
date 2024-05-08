@@ -1,6 +1,6 @@
 package org.etf.unibl.SecureForum.repositories;
 
-import org.etf.unibl.SecureForum.model.PermissionsEntity;
+import org.etf.unibl.SecureForum.model.entities.PermissionsEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

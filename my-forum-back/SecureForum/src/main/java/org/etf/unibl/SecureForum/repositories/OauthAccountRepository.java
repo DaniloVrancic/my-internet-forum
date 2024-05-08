@@ -1,6 +1,6 @@
 package org.etf.unibl.SecureForum.repositories;
 
-import org.etf.unibl.SecureForum.model.OauthAccountEntity;
+import org.etf.unibl.SecureForum.model.entities.OauthAccountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

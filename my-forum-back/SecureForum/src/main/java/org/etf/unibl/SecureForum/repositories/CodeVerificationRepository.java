@@ -1,6 +1,6 @@
 package org.etf.unibl.SecureForum.repositories;
 
-import org.etf.unibl.SecureForum.model.CodeVerificationEntity;
+import org.etf.unibl.SecureForum.model.entities.CodeVerificationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
