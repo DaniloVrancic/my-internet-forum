@@ -1,14 +1,20 @@
-<form method="post">
-    <label for="username">Username:</label><br/>
-    <input type="text" name="username" id="username" required="required" (input)="onInput()"/><br/><br/>
+<div class="main-content-div" style="margin-top: 15%;">
+    <div class="centered-form">
+        <form method="post" class="my-form">
+            <h1 class="form-title" style="text-align: center;">Register Form</h1>
+            <label for="username" class="input-field-descriptor">Username:</label>
+            <input type="text" name="username" id="username" required="required" class="input-field" placeholder=" " (input)="onInput()"/><br/><br/>
 
-    <label for="password">Password:</label><br/>
-    <input type="password" name="password" id="password" required="required" (input)="onInput()"/><br/><br/>
+            <label for="password" class="input-field-descriptor">Password:</label>
+            <input type="password" name="password" id="password" required="required" class="input-field" placeholder=" " (input)="onInput()"/><br/><br/>
 
-    <label for="email">E-mail:</label><br/>
-    <input type="email" name="email" id="email" required="required" (input)="onInput()"/><br/><br/>
+            <label for="email" class="input-field-descriptor">E-mail:</label>
+            <input type="email" name="email" id="email" required="required" class="input-field" placeholder=" " (input)="onInput()"/><br/><br/>
 
-
-    <button type="button" [disabled]="!this.isMyFormValid" (click)="registerUser()">Register</button><br/>
-    
-</form>
+            <div class="buttons-area">
+            <button type="button" [disabled]="!this.isMyFormValid" (click)="registerUser()">Register</button><br/>
+            </div>
+        
+        </form>
+    </div>
+</div>

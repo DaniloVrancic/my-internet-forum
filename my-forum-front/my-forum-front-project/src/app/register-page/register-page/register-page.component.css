@@ -1,0 +1,16 @@
+form {
+	background-color: var(--background-back-color);
+	border-radius: 20px;
+	box-sizing: border-box;
+	padding: 20px;
+  }
+
+.error-message{
+	border: 1px solid black;
+	border-radius: 0.4rem;
+	font-size: 1.2rem;
+	color: red;
+	padding: 1rem;
+}
+
+
