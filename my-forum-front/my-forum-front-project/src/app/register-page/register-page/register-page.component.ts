@@ -27,14 +27,7 @@ export class RegisterPageComponent implements OnInit{
   }
 
 onInput(){
-  if(this.myForm.checkValidity())
-    {
-      this.isMyFormValid = true;
-    }
-  else
-  {
-    this.isMyFormValid = false;
-  }
+  this.isMyFormValid = this.myForm.checkValidity();
 }
 
 
