@@ -1,1 +1,64 @@
-/* You can add global styles to this file, and also import other style files */
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+:root
+{
+    --primary-color: hsl(240, 40%, 60%);
+    --primary-color-alpha70: hsla(240, 40%, 60%, 0.7);
+    --secondary-color: hsl(45, 90%, 80%);
+    --button-color: rgba(225, 205, 165, 0.785);
+    --secondary-color-alpha70: hsla(225, 205, 165, 0.7);
+
+    --advisor-button-color: rgb(30, 85, 165);
+    --advisor-button-color2: rgb(100, 85, 165);
+
+    --title-main-text-color: #181818;
+    --input-main-text-color: #181818;
+    --background-back-color: rgba(230, 230, 230, 1);
+    --background-front-color: rgba(210, 210, 210, 1);
+    --hover-background-front-color: rgba(170, 170, 170, 1);
+    --input-descriptor-main-text-color: rgba(100, 100, 100, 1);
+    --input-descriptor-moved-text-color: ghostwhite;
+    --input-descriptor-moved-background-color: rgba(24, 24, 24, 1);
+    --radio-button-selection-color: #181818;
+    
+    --fixed-size-form-width: 500px; /*WIDTH for fixed sized form*/
+    --fixed-size-form-height: 350px; /*Height for fixed sized form*/
+}
+
+.homenaje-regular {
+    font-family: "Homenaje", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .homenaje-strong {
+    font-family: "Homenaje", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  .homenaje-weak {
+    font-family: "Homenaje", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+  }
+
+
+  .montserrat-regular {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .montserrat-strong {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .montserrat-weak {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
