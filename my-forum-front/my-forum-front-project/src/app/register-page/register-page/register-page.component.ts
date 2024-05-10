@@ -16,6 +16,7 @@ export class RegisterPageComponent implements OnInit{
 
   private myForm : any;
   public isMyFormValid : boolean = false;
+  public errorMessage: string = "";
   constructor(private router: Router,
             private http: HttpClient
             ){
@@ -31,6 +32,7 @@ onInput(){
 }
 
 
+
 registerUser() {
   
   
@@ -39,6 +41,16 @@ registerUser() {
   let registerRequest : RegisterRequest = {} as RegisterRequest;
 
   console.log(this.myForm);
+
+  if(!this.myForm.checkValidity())
+    {
+      this.myForm.reset();
+      this.errorMessage = "Not all data was input correctly.";
+      return;
+    }
+    else{
+      this.errorMessage = "";
+    }
 
   /*
   formData.append('username', this.username);

@@ -11,6 +11,7 @@ export class LoginPageComponent implements OnInit{
 
   private myForm : any;
   public isMyFormValid : boolean = false;
+  public errorMessage: string = "";
   constructor(){}
 
   ngOnInit(): void {
@@ -22,6 +23,16 @@ export class LoginPageComponent implements OnInit{
   }
 
   loginUser(){
+    if(!this.myForm.checkValidity)
+      {
+        this.errorMessage = "Not all data is correctly input.";
+        return;
+      }
+    else{
+      this.errorMessage = "";
+    }
+
+    //CONTINUE METHOD HERE
 
   }
 

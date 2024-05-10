@@ -2,6 +2,10 @@
     <div class="centered-form">
         <form method="post" class="my-form">
             <h1 class="form-title" style="text-align: center;">Register Form</h1>
+            @if(this.errorMessage.length > 0)
+            {
+                <div class="error-message">{{this.errorMessage}}</div>
+            }
             <label for="username" class="input-field-descriptor">Username:</label>
             <input type="text" name="username" id="username" required="required" class="input-field" placeholder=" " (input)="onInput()"/><br/><br/>
 
