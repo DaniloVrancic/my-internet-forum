@@ -23,14 +23,16 @@ public class UserController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.FOUND)
-    public List<User> findAll(){ return userService.findAll(User.class);}
+    public List<User> findAll(){
+        return userService.findAll(User.class);
+    }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.FOUND)
     public User findUserById(@PathVariable Integer id) throws NotFoundException
     { return userService.findById(id, User.class);}
 
-    @PostMapping("/add")
+    @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public User addUser(@RequestBody SignUpRequest request){
         User newUser = userService.signUp(request);

@@ -16,7 +16,7 @@ public class User {
 
     private Timestamp createTime;
 
-    private UserType type;
+    private String type;
 
     private UserEntity.Status status;
 
@@ -44,12 +44,12 @@ public class User {
         this.createTime = createTime;
     }
 
-    public UserType getType() {
+    public String getType() {
         return type;
     }
 
     public void setType(UserType type) {
-        this.type = type;
+        this.type = type.getValue();
     }
 
     public UserEntity.Status getStatus() {

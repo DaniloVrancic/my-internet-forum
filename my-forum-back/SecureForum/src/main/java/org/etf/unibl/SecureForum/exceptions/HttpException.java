@@ -2,7 +2,7 @@ package org.etf.unibl.SecureForum.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public class HttpException extends  RuntimeException{
+public class HttpException extends RuntimeException{
 
     private HttpStatus status;
     private Object data;
