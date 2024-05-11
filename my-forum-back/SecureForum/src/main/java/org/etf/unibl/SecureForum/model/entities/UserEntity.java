@@ -30,6 +30,7 @@ public class UserEntity implements BaseEntity<Integer> {
     @Enumerated(EnumType.STRING) //Maybe unnecessary
     @Column(name = "type", nullable = false)
     private UserType type;
+
     @Basic
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status", nullable = false)
@@ -83,12 +84,12 @@ public class UserEntity implements BaseEntity<Integer> {
         this.type = type;
     }
 
-    public Status getAllowed() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setAllowed(Status allowed) {
-        status = allowed;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
 

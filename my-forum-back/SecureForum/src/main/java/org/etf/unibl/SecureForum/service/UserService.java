@@ -1,6 +1,7 @@
 package org.etf.unibl.SecureForum.service;
 
 import org.etf.unibl.SecureForum.base.CrudService;
+import org.etf.unibl.SecureForum.model.dto.User;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.requests.ChangeRoleRequest;
 import org.etf.unibl.SecureForum.model.requests.ChangeStatusRequest;
@@ -10,12 +11,12 @@ import org.springframework.data.repository.core.CrudMethods;
 
 public interface UserService extends CrudService<Integer> {
 
-    void signUp(SignUpRequest request);
+    User signUp(SignUpRequest request);
 
-    void changeStatus(Integer userId, ChangeStatusRequest request);
+    User changeStatus(Integer userId, ChangeStatusRequest request);
 
-    void changeRole(Integer userId, ChangeRoleRequest request);
+    User changeRole(Integer userId, ChangeRoleRequest request);
 
-    UserEntity update(Integer id, UserUpdateRequest request);
+    User update(Integer id, UserUpdateRequest request);
 
 }

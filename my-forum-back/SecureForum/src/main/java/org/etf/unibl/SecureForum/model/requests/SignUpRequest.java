@@ -26,8 +26,8 @@ public class SignUpRequest {
     private Timestamp createTime;
     @NotBlank
     private UserType type;
-    @NotBlank
     private UserEntity.Status status;
+
 
     public String getUsername() {
         return username;
