@@ -3,6 +3,7 @@ package org.etf.unibl.SecureForum.service.impl;
 import jakarta.transaction.Transactional;
 import org.etf.unibl.SecureForum.additional.email.EmailSender;
 import org.etf.unibl.SecureForum.base.CrudJpaService;
+import org.etf.unibl.SecureForum.exceptions.NotFoundException;
 import org.etf.unibl.SecureForum.model.dto.User;
 import org.etf.unibl.SecureForum.model.entities.CodeVerificationEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
@@ -96,15 +97,47 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
     }
 
     @Override
-    public User changeStatus(Integer userId, ChangeStatusRequest request) {
-        //TODO: IMPLEMENT METHOD
-        return null;
+    public User changeStatus(ChangeStatusRequest request) {
+        UserEntity userToUpdate = userRepository.findById(request.getId()).orElseThrow(NotFoundException::new);
+        userToUpdate.setStatus(request.getStatus());
+
+        User userToReturn = new User();
+        userToReturn.setUsername(userToUpdate.getUsername());
+        userToReturn.setEmail(userToUpdate.getEmail());
+        userToReturn.setCreateTime(userToUpdate.getCreateTime());
+        userToReturn.setType(userToUpdate.getType());
+        userToReturn.setStatus(userToUpdate.getStatus());
+
+        if(request.getStatus().equals(userToUpdate.getStatus())) //If the status is the same, don't change it
+        {
+            return userToReturn; //but still return all the data as if it changed
+        }
+
+        UserEntity updatedEntity = userRepository.save(userToUpdate);
+
+        return userToReturn;
     }
 
     @Override
-    public User changeRole(Integer userId, ChangeRoleRequest request) {
-        //TODO: IMPLEMENT METHOD
-        return null;
+    public User changeRole(ChangeRoleRequest request) {
+        UserEntity userToUpdate = userRepository.findById(request.getId()).orElseThrow(NotFoundException::new);
+        userToUpdate.setType(request.getType());
+
+        User userToReturn = new User();
+        userToReturn.setUsername(userToUpdate.getUsername());
+        userToReturn.setEmail(userToUpdate.getEmail());
+        userToReturn.setCreateTime(userToUpdate.getCreateTime());
+        userToReturn.setType(userToUpdate.getType());
+        userToReturn.setStatus(userToUpdate.getStatus());
+
+        if(request.getType().equals(userToUpdate.getType())) //If the type is the same, don't change it
+        {
+            return userToReturn; //but still return all the data as if it changed
+        }
+
+        UserEntity updatedEntity = userRepository.save(userToUpdate);
+
+        return userToReturn;
     }
 
     @Override
