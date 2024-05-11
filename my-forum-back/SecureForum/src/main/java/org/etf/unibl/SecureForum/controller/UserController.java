@@ -3,12 +3,10 @@ package org.etf.unibl.SecureForum.controller;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
 import org.etf.unibl.SecureForum.model.dto.User;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
+import org.etf.unibl.SecureForum.model.requests.SignUpRequest;
 import org.etf.unibl.SecureForum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +26,11 @@ public class UserController {
     @GetMapping("/{id}")
     public User findUserById(@PathVariable Integer id) throws NotFoundException
     { return userService.findById(id, User.class);}
+
+    @PostMapping("/add")
+    public User addUser(@RequestBody SignUpRequest request){
+        
+    }
 
 
 }
