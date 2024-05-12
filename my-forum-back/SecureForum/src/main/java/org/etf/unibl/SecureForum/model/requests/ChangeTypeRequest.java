@@ -1,10 +1,9 @@
 package org.etf.unibl.SecureForum.model.requests;
 
 import jakarta.validation.constraints.NotBlank;
-import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.enums.UserType;
 
-public class ChangeRoleRequest {
+public class ChangeTypeRequest {
 
     @NotBlank
     private Integer id;

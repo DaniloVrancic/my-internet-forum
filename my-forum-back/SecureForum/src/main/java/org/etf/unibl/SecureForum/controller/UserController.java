@@ -5,9 +5,10 @@ import org.etf.unibl.SecureForum.exceptions.DuplicateEntryException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
 import org.etf.unibl.SecureForum.model.dto.User;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
+import org.etf.unibl.SecureForum.model.requests.ChangeStatusRequest;
+import org.etf.unibl.SecureForum.model.requests.ChangeTypeRequest;
 import org.etf.unibl.SecureForum.model.requests.SignUpRequest;
 import org.etf.unibl.SecureForum.model.requests.UserInsertRequest;
-import org.etf.unibl.SecureForum.model.requests.UserUpdateRequest;
 import org.etf.unibl.SecureForum.repositories.UserRepository;
 import org.etf.unibl.SecureForum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +89,7 @@ public class UserController {
         return newUser;
     }
 
-    @PutMapping("update")
+    @PutMapping("/update")
     public User updateUser(@RequestBody UserEntity userData) {
 
         UserEntity foundUser = userRepository.findById(userData.getId()).orElseThrow(NotFoundException::new);
@@ -117,6 +118,74 @@ public class UserController {
         }
 
         return userToReturn;
+    }
+
+    @PutMapping("/change-type")
+    public User changeTypeUser(@RequestBody ChangeTypeRequest request) {
+
+        UserEntity foundUser = userRepository.findById(request.getId()).orElseThrow(NotFoundException::new);
+
+        foundUser.setType(request.getType());
+
+
+        User userToReturn = null;
+        try{
+            userToReturn = userService.update(foundUser.getId(), foundUser, User.class);
+        }
+        catch (Exception ex){
+            throw new BadRequestException();
+        }
+
+        return userToReturn;
+    }
+
+    @PutMapping("/change-status")
+    public User changeTypeUser(@RequestBody ChangeStatusRequest request) {
+
+        UserEntity foundUser = userRepository.findById(request.getId()).orElseThrow(NotFoundException::new);
+
+        foundUser.setStatus(request.getStatus());
+
+        User userToReturn = null;
+        try{
+            userToReturn = userService.update(foundUser.getId(), foundUser, User.class);
+        }
+        catch (Exception ex){
+            throw new BadRequestException();
+        }
+
+        return userToReturn;
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteUserById(@PathVariable("id") Integer user_Id)
+    {
+        try
+        {
+            userService.delete(user_Id);
+        }
+        catch(Exception ex)
+        {
+            throw new BadRequestException();
+        }
+
+        return "Successfully deleted User (ID = " + user_Id + ")";
+    }
+
+    @DeleteMapping("/delete-username/{username}")
+    public String deleteUserByUsername(@PathVariable("username") String username)
+    {
+        try
+        {
+            UserEntity foundUser = userRepository.findByUsernameIs(username).orElseThrow(NotFoundException::new);
+            userService.delete(foundUser.getId());
+        }
+        catch(Exception ex)
+        {
+            throw new BadRequestException();
+        }
+
+        return "Successfully deleted User (Username = " + username + ")";
     }
 
 

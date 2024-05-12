@@ -117,7 +117,7 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
     }
 
     @Override
-    public User changeRole(ChangeRoleRequest request) {
+    public User changeRole(ChangeTypeRequest request) {
         UserEntity userToUpdate = userRepository.findById(request.getId()).orElseThrow(NotFoundException::new);
         userToUpdate.setType(request.getType());
 
