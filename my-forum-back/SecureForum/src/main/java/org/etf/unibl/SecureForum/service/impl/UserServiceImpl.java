@@ -7,10 +7,8 @@ import org.etf.unibl.SecureForum.exceptions.NotFoundException;
 import org.etf.unibl.SecureForum.model.dto.User;
 import org.etf.unibl.SecureForum.model.entities.CodeVerificationEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
-import org.etf.unibl.SecureForum.model.requests.ChangeRoleRequest;
-import org.etf.unibl.SecureForum.model.requests.ChangeStatusRequest;
-import org.etf.unibl.SecureForum.model.requests.SignUpRequest;
-import org.etf.unibl.SecureForum.model.requests.UserUpdateRequest;
+import org.etf.unibl.SecureForum.model.enums.UserType;
+import org.etf.unibl.SecureForum.model.requests.*;
 import org.etf.unibl.SecureForum.repositories.CodeVerificationRepository;
 import org.etf.unibl.SecureForum.repositories.UserRepository;
 import org.etf.unibl.SecureForum.service.UserService;
@@ -20,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Random;
 
 
@@ -51,19 +51,16 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
 
 
         PasswordEncoder encoder = getBCryptEncoder();   //Getting encoder for hashing
-        userForDatabase.setPassword(encoder.encode(request.getPassword())); //hashing the password for database
 
+        userForDatabase.setPassword(encoder.encode(request.getPassword())); //hashing the password for database
         userForDatabase.setUsername(request.getUsername());
         userForDatabase.setEmail(request.getEmail());
-        userForDatabase.setType(request.getType());
 
-        if(request.getStatus() != null) //if the request specifies the status, assign that status...
-        {
-            userForDatabase.setStatus(request.getStatus());
-        }
-        else{ //or else, by default, assign the Status to REQUESTED upon creating the entity
-            userForDatabase.setStatus(UserEntity.Status.REQUESTED);
-        }
+        //      DEFAULT VALUES FOR USERS THAT SIGN UP   ///////
+        userForDatabase.setStatus(UserEntity.Status.REQUESTED);
+        userForDatabase.setCreateTime(Timestamp.from(Instant.now()));
+        userForDatabase.setType(UserType.Forumer);
+        ///////////////////////////////////////////////////////
 
         UserEntity savedUser = userRepository.save(userForDatabase);
 
@@ -74,6 +71,7 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
             CodeVerificationEntity codeVerificationEntity = new CodeVerificationEntity();
             codeVerificationEntity.setVerificationCode(randomGeneratedCode);
             codeVerificationEntity.setReferencedUser(savedUser);
+            codeVerificationEntity.setCreatedAt(Timestamp.from(Instant.now()));
 
             CodeVerificationEntity savedCodeVerificationEntity =  codeVerificationRepository.save(codeVerificationEntity);
 
@@ -140,11 +138,6 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         return userToReturn;
     }
 
-    @Override
-    public User update(Integer id, UserUpdateRequest request) {
-        //TODO: IMPLEMENT METHOD
-        return null;
-    }
 
     private PasswordEncoder getBCryptEncoder(){
         return new BCryptPasswordEncoder();
@@ -172,7 +165,8 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         String htmlContent = "<body>" +
                 "<p>Hi " + name + ",</p>" +
                 "<p>Thank you for registering to MySecureForum. Please use the code below to activate your account:</p>" +
-                "<p><a href=\"" + code + "\">Activate Now</a></p>" +
+                "<p></p>"+
+                "<p><b>" + code + "</b></p>" +
                 "<p>We are eagerly waiting for you!</p>" +
                 "</body>";
 

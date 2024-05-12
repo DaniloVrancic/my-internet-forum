@@ -39,7 +39,7 @@ public class HttpException extends RuntimeException{
     public String toString()
     {
         return super.toString() + System.lineSeparator() +
-                "Data: " + data.toString() + System.lineSeparator() +
+                "Data: " + (data != null ? data.toString() : "") + System.lineSeparator() +
                 "Status: " + this.status.toString();
     }
 

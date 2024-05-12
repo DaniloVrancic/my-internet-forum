@@ -4,26 +4,27 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.enums.UserType;
 
 import java.sql.Timestamp;
 
-public class SignUpRequest {
+public class UserInsertRequest {
 
-
-
-    @NotBlank
+    @NotNull
     private String username;
-    @NotBlank
-    @Email
+    @NotNull
     private String email;
-    @NotBlank
+    @NotNull
     private String password;
 
+    private Timestamp createTime;
+    @NotNull
+    private UserType type;
 
+    @NotNull
+    private UserEntity.Status status;
     public String getUsername() {
         return username;
     }
@@ -48,4 +49,27 @@ public class SignUpRequest {
         this.password = password;
     }
 
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public UserType getType() {
+        return type;
+    }
+
+    public void setType(UserType type) {
+        this.type = type;
+    }
+
+    public UserEntity.Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserEntity.Status status) {
+        this.status = status;
+    }
 }
