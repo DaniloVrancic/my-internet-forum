@@ -3,7 +3,7 @@ import { StartPageComponent } from './start-page/start-page/start-page.component
 import { RegisterPageComponent } from './register-page/register-page/register-page.component';
 import { LoginPageComponent } from './login-page/login-page/login-page.component';
 import { MainPageComponent } from './main-page/main-page/main-page.component';
-import { VerifyCodePageComponent } from '../verify-code-page/verify-code-page/verify-code-page.component';
+import { VerifyCodePageComponent } from '../verify-code-page/verify-code-page.component';
 
 export const routes: Routes = [
     { path: 'start-page', component: StartPageComponent},

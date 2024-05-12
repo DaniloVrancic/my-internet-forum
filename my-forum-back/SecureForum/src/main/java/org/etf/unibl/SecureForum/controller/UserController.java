@@ -1,5 +1,6 @@
 package org.etf.unibl.SecureForum.controller;
 
+import jakarta.transaction.Transactional;
 import org.etf.unibl.SecureForum.exceptions.BadRequestException;
 import org.etf.unibl.SecureForum.exceptions.DuplicateEntryException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
@@ -92,8 +93,12 @@ public class UserController {
     }
 
     @PostMapping("/verify")
+    @Transactional
     public User verifyUser(@RequestBody VerifyUserRequest request)
     {
+
+        System.out.println("REQUESTED USER ID: " + request.getUser_id());
+        System.out.println("REQUESTED CODE: " + request.getVerificationCode());
         List<CodeVerificationEntity> listOfCodes = userService.getAllCodesForUser(request.getUser_id());
         boolean found = false;
 
