@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 import java.util.Random;
 
 
@@ -136,6 +137,12 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         UserEntity updatedEntity = userRepository.save(userToUpdate);
 
         return userToReturn;
+    }
+
+    @Override
+    public List<CodeVerificationEntity> getAllCodesForUser(Integer userId)
+    {
+        return codeVerificationRepository.findAllByReferencedUser_Id(userId);
     }
 
 

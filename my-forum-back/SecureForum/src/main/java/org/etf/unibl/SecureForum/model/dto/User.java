@@ -11,6 +11,11 @@ import java.sql.Timestamp;
 
 public class User {
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    private Integer id;
     private String username;
     private String email;
 
@@ -19,6 +24,14 @@ public class User {
     private String type;
 
     private UserEntity.Status status;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;

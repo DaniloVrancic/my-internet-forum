@@ -4,11 +4,9 @@ import org.etf.unibl.SecureForum.exceptions.BadRequestException;
 import org.etf.unibl.SecureForum.exceptions.DuplicateEntryException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
 import org.etf.unibl.SecureForum.model.dto.User;
+import org.etf.unibl.SecureForum.model.entities.CodeVerificationEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
-import org.etf.unibl.SecureForum.model.requests.ChangeStatusRequest;
-import org.etf.unibl.SecureForum.model.requests.ChangeTypeRequest;
-import org.etf.unibl.SecureForum.model.requests.SignUpRequest;
-import org.etf.unibl.SecureForum.model.requests.UserInsertRequest;
+import org.etf.unibl.SecureForum.model.requests.*;
 import org.etf.unibl.SecureForum.repositories.UserRepository;
 import org.etf.unibl.SecureForum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +85,31 @@ public class UserController {
         }
 
         return newUser;
+    }
+
+    @PostMapping("/verify")
+    public User verifyUser(@RequestBody VerifyUserRequest request)
+    {
+        List<CodeVerificationEntity> listOfCodes = userService.getAllCodesForUser(request.getUser_id());
+        boolean found = false;
+
+        for(CodeVerificationEntity codeEntity : listOfCodes){
+            if(codeEntity.getVerificationCode().trim().equals(request.getVerificationCode().trim()))
+            {
+                found = true;
+                break;
+            }
+        }
+
+        if(found){ //delete all the codes for this user in database and update the user as verified and return him.
+            UserEntity userToVerify = userRepository.findById(request.getUser_id()).orElseThrow(NotFoundException::new);
+            userToVerify.setStatus(UserEntity.Status.ACTIVE);
+            User savedUser = userService.update(userToVerify.getId(), userToVerify, User.class);
+            return savedUser;
+        }
+        else{
+            throw new NotFoundException();
+        }
     }
 
     @PutMapping("/update")
