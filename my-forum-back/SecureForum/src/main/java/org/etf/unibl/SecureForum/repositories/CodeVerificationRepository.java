@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface CodeVerificationRepository extends JpaRepository<CodeVerificationEntity, Integer>, JpaSpecificationExecutor<CodeVerificationEntity> {
     List<CodeVerificationEntity> findAllByReferencedUser_Id(Integer userId);
+
+    Integer deleteCodeVerificationEntitiesByReferencedUserId(Integer userId);
 }

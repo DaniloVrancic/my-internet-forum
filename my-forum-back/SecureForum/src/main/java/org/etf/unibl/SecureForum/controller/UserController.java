@@ -7,6 +7,7 @@ import org.etf.unibl.SecureForum.model.dto.User;
 import org.etf.unibl.SecureForum.model.entities.CodeVerificationEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.requests.*;
+import org.etf.unibl.SecureForum.repositories.CodeVerificationRepository;
 import org.etf.unibl.SecureForum.repositories.UserRepository;
 import org.etf.unibl.SecureForum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,15 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
+    private final CodeVerificationRepository codeVerificationRepository;
 
     @Autowired
     public UserController(UserService userService,
-                          UserRepository userRepository) {
+                          UserRepository userRepository,
+                          CodeVerificationRepository codeVerificationRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
+        this.codeVerificationRepository = codeVerificationRepository;
     }
 
     @GetMapping
@@ -105,6 +109,7 @@ public class UserController {
             UserEntity userToVerify = userRepository.findById(request.getUser_id()).orElseThrow(NotFoundException::new);
             userToVerify.setStatus(UserEntity.Status.ACTIVE);
             User savedUser = userService.update(userToVerify.getId(), userToVerify, User.class);
+            codeVerificationRepository.deleteCodeVerificationEntitiesByReferencedUserId(request.getUser_id()); //deletes the codes created for this user (multiple just in case if more were created)
             return savedUser;
         }
         else{
