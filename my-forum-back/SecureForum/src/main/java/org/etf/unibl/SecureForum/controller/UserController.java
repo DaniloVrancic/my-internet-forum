@@ -8,6 +8,7 @@ import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.requests.SignUpRequest;
 import org.etf.unibl.SecureForum.model.requests.UserInsertRequest;
 import org.etf.unibl.SecureForum.model.requests.UserUpdateRequest;
+import org.etf.unibl.SecureForum.repositories.UserRepository;
 import org.etf.unibl.SecureForum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,10 +26,13 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService,
+                          UserRepository userRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping
@@ -83,6 +87,38 @@ public class UserController {
 
         return newUser;
     }
+
+    @PutMapping("update")
+    public User updateUser(@RequestBody UserEntity userData) {
+
+        UserEntity foundUser = userRepository.findById(userData.getId()).orElseThrow(NotFoundException::new);
+
+        foundUser.setUsername(userData.getUsername());
+        foundUser.setEmail(userData.getEmail());
+        foundUser.setType(userData.getType());
+        foundUser.setCreateTime(userData.getCreateTime());
+        foundUser.setStatus(userData.getStatus());
+
+        if(userData.getPassword() != null && !userData.getPassword().isEmpty()) //if a new password was set, then hash it again before placing in database
+        {
+            PasswordEncoder encoder = getPasswordEncoder();
+            foundUser.setPassword(encoder.encode(userData.getPassword()));
+        }
+        User userToReturn = null;
+        try{
+            userToReturn = userService.update(foundUser.getId(), foundUser, User.class);
+        }
+        catch(DataIntegrityViolationException ex)
+        {
+            throw new DuplicateEntryException();
+        }
+        catch (Exception ex){
+            throw new BadRequestException();
+        }
+
+        return userToReturn;
+    }
+
 
     private PasswordEncoder getPasswordEncoder()
     {
