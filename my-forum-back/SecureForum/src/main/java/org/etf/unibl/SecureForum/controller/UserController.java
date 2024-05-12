@@ -122,10 +122,16 @@ public class UserController {
 
         UserEntity foundUser = userRepository.findById(userData.getId()).orElseThrow(NotFoundException::new);
 
+        /*  Setting all the fields that need to be updated */
+        if(!userData.getUsername().isEmpty())
         foundUser.setUsername(userData.getUsername());
+        if(!userData.getEmail().isEmpty())
         foundUser.setEmail(userData.getEmail());
+        if(userData.getType() != null)
         foundUser.setType(userData.getType());
+        if(userData.getCreateTime() != null)
         foundUser.setCreateTime(userData.getCreateTime());
+        if(userData.getStatus() != null)
         foundUser.setStatus(userData.getStatus());
 
         if(userData.getPassword() != null && !userData.getPassword().isEmpty()) //if a new password was set, then hash it again before placing in database
