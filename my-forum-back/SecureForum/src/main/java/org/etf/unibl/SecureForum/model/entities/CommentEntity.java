@@ -1,13 +1,14 @@
-package org.etf.unibl.SecureForum.model;
+package org.etf.unibl.SecureForum.model.entities;
 
 import jakarta.persistence.*;
+import org.etf.unibl.SecureForum.base.BaseEntity;
 
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "comment", schema = "my_secure_forum", catalog = "")
-public class CommentEntity {
+public class CommentEntity implements BaseEntity<Integer> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)

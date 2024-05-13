@@ -1,14 +1,15 @@
-package org.etf.unibl.SecureForum.model;
+package org.etf.unibl.SecureForum.model.entities;
 
 import jakarta.persistence.*;
-import org.etf.unibl.SecureForum.additional.enums.UserType;
+import org.etf.unibl.SecureForum.base.BaseEntity;
+import org.etf.unibl.SecureForum.model.enums.UserType;
 
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "user", schema = "my_secure_forum", catalog = "")
-public class UserEntity {
+public class UserEntity implements BaseEntity<Integer> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
@@ -26,11 +27,14 @@ public class UserEntity {
     @Column(name = "create_time", nullable = false)
     private Timestamp createTime;
     @Basic
+    @Enumerated(EnumType.STRING) //Maybe unnecessary
     @Column(name = "type", nullable = false)
     private UserType type;
+
     @Basic
-    @Column(name = "is_allowed", nullable = false)
-    private Boolean isAllowed;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "status", nullable = false)
+    private Status status;
 
     public Integer getId() {
         return id;
@@ -80,24 +84,29 @@ public class UserEntity {
         this.type = type;
     }
 
-    public Boolean getAllowed() {
-        return isAllowed;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setAllowed(Boolean allowed) {
-        isAllowed = allowed;
+    public void setStatus(Status status) {
+        this.status = status;
     }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(createTime, that.createTime) && type == that.type && Objects.equals(isAllowed, that.isAllowed);
+        return Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(createTime, that.createTime) && type == that.type && Objects.equals(status, that.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, email, password, createTime, type, isAllowed);
+        return Objects.hash(id, username, email, password, createTime, type, status);
+    }
+
+    public enum Status{
+        REQUESTED, ACTIVE, BLOCKED
     }
 }

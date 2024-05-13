@@ -1,7 +1,8 @@
-package org.etf.unibl.SecureForum.model;
+package org.etf.unibl.SecureForum.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.etf.unibl.SecureForum.base.BaseEntity;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "forum_post", schema = "my_secure_forum", catalog = "")
-public class ForumPostEntity {
+public class ForumPostEntity implements BaseEntity<Integer> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)

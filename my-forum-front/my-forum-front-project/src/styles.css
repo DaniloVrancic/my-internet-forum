@@ -1,1 +1,184 @@
-/* You can add global styles to this file, and also import other style files */
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
+background-color: var(--hover-background-front-color);
+}
+
+:root
+{
+    --primary-color: hsl(240, 40%, 60%);
+    --primary-color-alpha70: hsla(240, 40%, 60%, 0.7);
+    --secondary-color: hsl(45, 90%, 80%);
+    --button-color: rgba(225, 205, 165, 0.785);
+    --secondary-color-alpha70: hsla(225, 205, 165, 0.7);
+
+    --advisor-button-color: rgb(30, 85, 165);
+    --advisor-button-color2: rgb(100, 85, 165);
+
+    --title-main-text-color: #181818;
+    --input-main-text-color: #181818;
+    --background-back-color: rgba(230, 230, 230, 1);
+    --background-front-color: rgba(210, 210, 210, 1);
+    --hover-background-front-color: rgba(170, 170, 170, 1);
+    --input-descriptor-main-text-color: rgba(100, 100, 100, 1);
+    --input-descriptor-moved-text-color: rgb(200, 190, 100);
+    --input-descriptor-moved-background-color: rgba(24, 24, 24, 1);
+    --radio-button-selection-color: #181818;
+    
+    --fixed-size-form-width: 500px; /*WIDTH for fixed sized form*/
+    --fixed-size-form-height: 350px; /*Height for fixed sized form*/
+}
+
+.homenaje-regular {
+    font-family: "Homenaje", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+.homenaje-strong {
+    font-family: "Homenaje", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+
+.homenaje-weak {
+    font-family: "Homenaje", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+  }
+
+
+.montserrat-regular {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+.montserrat-strong {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+.montserrat-weak {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .form-title {
+    color: var(--title-main-text-color);
+    font-family: "Play", "Jersey 25", "sans-serif";
+    margin: 5px;
+    }
+    
+    .centered-form {
+    width: 40%;
+    margin-left: 30%;
+    }
+    
+    .fixed-width-form {
+    width: var(--fixed-size-form-width);
+    }
+    
+    
+    .fixed-height-form {
+    height: var(--fixed-size-form-height);
+    }
+    
+    .input-field {
+    background-color: var(--background-front-color);
+    border-radius: 10px;
+    border: 0px;
+    box-sizing: border-box;
+    color: var(--input-main-text-color);
+    font-size: 16px;
+    height: 40px;
+    outline: 0;
+    padding-left: 10px;
+    padding-top: 5px;
+    width: 100%;
+    font-family: "Play", "Jersey 25", "sans-serif";
+    }
+    
+    .input-field-descriptor {
+    font-size: 14px;
+    text-align: left;
+    display:block;
+    color: var(--input-descriptor-main-text-color);
+    font-family: "Play", "Jersey 25", "sans-serif";
+    font-weight: bold;
+    position: relative;
+    left: 0px;
+    top: 35px;
+    line-height: 12px;
+    transform-origin: 0;
+    transition: color 250ms, transform 250ms;
+    padding-left: 10px;
+    border-radius: 10px;
+    height: 20px;
+    }
+    
+    label:has(+ .input-field:focus), label:has(+ .input-field:not(:placeholder-shown)) {
+    transform: translateY(-25px) scale(0.9);
+    background-color: var(--input-descriptor-moved-background-color);
+    color: var(--input-descriptor-moved-text-color);
+    width: 40%;
+    line-height: 20px;
+    }
+    
+    .select-input {
+    cursor: pointer;
+    }
+    
+    .radio-input {
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+    }
+    
+    .radio-input:before {
+    content: '';
+    display: block;
+    position: relative;
+    top: 6px;
+    margin-left: 10px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 4px solid var(--background-back-color);
+    background-color: var(--background-front-color);
+    }
+    
+    .radio-input:checked:before, .radio-input:hover:before {
+    background-color: var(--radio-button-selection-color);
+    }
+    
+    .buttons-area {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    }
+    
+    .buttons-area > button {
+    flex-grow: 1;
+    margin: 2px;
+    font-family: "Play", "Jersey 25", "sans-serif";
+    background-color: var(--background-front-color);
+    border-radius: 12px;
+    border: 0;
+    box-sizing: border-box;
+    color: var(--input-main-text-color);
+    font-size: 16px;
+    height: 40px;
+    }
+    
+    .buttons-area > button:not(:disabled):hover {
+    background-color: var(--hover-background-front-color);
+    cursor: pointer;
+    }
+    
+    .buttons-area > button:disabled {
+    opacity: 0.3;
+    }
+
+

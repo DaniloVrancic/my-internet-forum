@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService implements EmailSender{
 
-    private final static String DEFAULT_EMAIL_SUBJECT = "Activate Your Account via Link";
+    private final static String DEFAULT_EMAIL_SUBJECT = "PIN Code for your Account Activation";
     private final static String DEFAULT_EMAIL_FROM = "danilo.vrancic@student.etf.unibl.org";
     private final static Logger LOGGER = LoggerFactory
             .getLogger(EmailService.class);
@@ -50,6 +50,8 @@ public class EmailService implements EmailSender{
         }
     }
 
+    @Override
+    @Async
     public void send(String to, String email, String subject) {
         try{
             String[] emailParts = email.split("\\|\\|\\|"); // Split text and HTML content
@@ -71,6 +73,8 @@ public class EmailService implements EmailSender{
         }
     }
 
+    @Override
+    @Async
     public void send(String to, String email, String subject, String from) {
         try{
             String[] emailParts = email.split("\\|\\|\\|"); // Split text and HTML content

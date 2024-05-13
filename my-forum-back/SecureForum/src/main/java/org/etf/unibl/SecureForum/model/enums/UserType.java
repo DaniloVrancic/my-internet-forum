@@ -1,10 +1,10 @@
-package org.etf.unibl.SecureForum.additional.enums;
+package org.etf.unibl.SecureForum.model.enums;
 
 
 public enum UserType {
-    ADMINISTRATOR("Administrator"),
-    MODERATOR("Moderator"),
-    FORUMER("Forumer");
+    Administrator("Administrator"),
+    Moderator("Moderator"),
+    Forumer("Forumer");
 
     private String value;
     private UserType(String value)

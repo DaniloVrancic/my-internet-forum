@@ -1,0 +1,19 @@
+<div class="main-content-div" style="margin-top: 15%;">
+    <div class="centered-form">
+        <form method="post" class="my-form" style="background-color: rgba(52, 51, 51, 0.6); border-radius: 2rem; padding: 0.5rem 1rem 1rem 1rem">
+            <h1 class="form-title" style="text-align: center;">Verify Account</h1>
+            @if(this.errorMessage.length > 0)
+            {
+                <div class="error-message">{{this.errorMessage}}</div>
+            }
+        
+
+                <label for="verificationCode" class="input-field-descriptor">Verification Code:</label>
+                <input type="text" name="verificationCode" id="verificationCode" class="input-field" placeholder=" " minlength="6" maxlength="6" required="required" pattern="^\d{6}$"/>
+                <div class="buttons-area">
+                    <button type="button" (click)="submitCode()">Submit</button>
+                    <button type="button" (click)="resendCode()">Resend Code</button>
+                </div>
+        </form>
+    </div>
+</div>
