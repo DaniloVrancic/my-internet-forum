@@ -5,6 +5,7 @@ import org.etf.unibl.SecureForum.exceptions.BadRequestException;
 import org.etf.unibl.SecureForum.exceptions.DuplicateEntryException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
 import org.etf.unibl.SecureForum.model.dto.User;
+import org.etf.unibl.SecureForum.model.dto.VerificationCodeEmailMessage;
 import org.etf.unibl.SecureForum.model.entities.CodeVerificationEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.requests.*;
@@ -122,22 +123,43 @@ public class UserController {
         }
     }
 
+    @PostMapping("/resend_code/{id}")
+    @Transactional
+    @ResponseStatus(HttpStatus.CREATED)
+    public VerificationCodeEmailMessage resendCode(@PathVariable Integer id) {
+        UserEntity foundUser = userRepository.findById(id).orElseThrow(NotFoundException::new);
+        final String SUCCESS_MESSAGE = "Successfully sent a new verification code to: " + foundUser.getEmail();
+
+        userService.generateNewVerificationCode(foundUser);
+        VerificationCodeEmailMessage returnMessage = new VerificationCodeEmailMessage();
+        returnMessage.setSendingMessage(SUCCESS_MESSAGE);
+        return returnMessage;
+    }
+
+
     @PutMapping("/update")
+    @Transactional
     public User updateUser(@RequestBody UserEntity userData) {
 
         UserEntity foundUser = userRepository.findById(userData.getId()).orElseThrow(NotFoundException::new);
 
         /*  Setting all the fields that need to be updated */
-        if(!userData.getUsername().isEmpty())
-        foundUser.setUsername(userData.getUsername());
-        if(!userData.getEmail().isEmpty())
-        foundUser.setEmail(userData.getEmail());
+        if(!userData.getUsername().isEmpty()){
+            foundUser.setUsername(userData.getUsername());
+        }
+        if(!userData.getEmail().isEmpty()){
+            foundUser.setEmail(userData.getEmail());
+        }
         if(userData.getType() != null)
-        foundUser.setType(userData.getType());
-        if(userData.getCreateTime() != null)
-        foundUser.setCreateTime(userData.getCreateTime());
-        if(userData.getStatus() != null)
-        foundUser.setStatus(userData.getStatus());
+        {
+            foundUser.setType(userData.getType());
+        }
+        if(userData.getCreateTime() != null){
+            foundUser.setCreateTime(userData.getCreateTime());
+        }
+        if(userData.getStatus() != null){
+            foundUser.setStatus(userData.getStatus());
+        }
 
         if(userData.getPassword() != null && !userData.getPassword().isEmpty()) //if a new password was set, then hash it again before placing in database
         {
@@ -160,6 +182,7 @@ public class UserController {
     }
 
     @PutMapping("/change-type")
+    @Transactional
     public User changeTypeUser(@RequestBody ChangeTypeRequest request) {
 
         UserEntity foundUser = userRepository.findById(request.getId()).orElseThrow(NotFoundException::new);
@@ -179,6 +202,7 @@ public class UserController {
     }
 
     @PutMapping("/change-status")
+    @Transactional
     public User changeTypeUser(@RequestBody ChangeStatusRequest request) {
 
         UserEntity foundUser = userRepository.findById(request.getId()).orElseThrow(NotFoundException::new);

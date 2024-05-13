@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { VerifyCodeRequest } from './verify-code-request-interface';
 import { error } from 'console';
 import { User } from '../interfaces/user';
+import { response } from 'express';
 
 @Component({
   selector: 'app-verify-code-page',
@@ -20,16 +21,17 @@ export class VerifyCodePageComponent implements OnInit{
   public isMyFormValid : boolean = false;
   public errorMessage: string = "";
 
-  constructor(private router: Router, public userService : UserService){}
+  constructor(private router: Router, public userService : UserService) //THIS PAGE SHOULDN'T BE OPENED WITHOUT A USER BEING LOADED IN THE SESSION STORAGE
+  {
+
+  }
 
   ngOnInit(): void {
       this.myForm = document.forms[0];
       
   }
 
-resendCode() {
-  throw new Error('Method not implemented.');
-}
+
 submitCode() {
   if(this.myForm.checkValidity())
     {
@@ -43,6 +45,7 @@ submitCode() {
       this.userService.verifyUser(requestToSend).subscribe(response =>
         {
           this.userService.setCurrentUser(response);
+          this.errorMessage = "";
           console.log(response);
         }
       ),
@@ -55,7 +58,24 @@ submitCode() {
   }
 }
 
-public setErrorMessage(errorMsg: string)
+resendCode() {
+  let currentUser = this.userService.getCurrentUser();
+  let currentUserId = currentUser?.id as number;
+
+  if(currentUser == null)
+    {
+      alert("No user found in session.");
+    }
+  else{
+    this.userService.resendVerificationCodeForUserId(currentUserId).subscribe(
+      (response: any) => {
+        alert(response.sendingMessage);
+      }
+    );
+  }
+}
+
+private setErrorMessage(errorMsg: string)
 {
   this.errorMessage = errorMsg;
 }

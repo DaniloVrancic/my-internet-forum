@@ -43,6 +43,8 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         this.codeVerificationRepository = codeVerificationRepository;
         this.emailSender = emailSender;
     }
+    
+    
 
 
     @Override
@@ -67,23 +69,7 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
 
         if(savedUser.getStatus().equals(UserEntity.Status.REQUESTED))
         {
-            String randomGeneratedCode = generateRandomVerificationCode();
-
-            CodeVerificationEntity codeVerificationEntity = new CodeVerificationEntity();
-            codeVerificationEntity.setVerificationCode(randomGeneratedCode);
-            codeVerificationEntity.setReferencedUser(savedUser);
-            codeVerificationEntity.setCreatedAt(Timestamp.from(Instant.now()));
-
-            CodeVerificationEntity savedCodeVerificationEntity =  codeVerificationRepository.save(codeVerificationEntity);
-
-            try{
-                emailSender.send(savedUser.getEmail(),
-                                buildEmail(savedUser.getUsername(), savedCodeVerificationEntity.getVerificationCode()));
-            }
-            catch(Exception ex){
-                System.out.println(ex.getLocalizedMessage());
-                throw ex;
-            }
+            generateNewVerificationCode(savedUser);
         }
         ////////    SETTING DATA FOR USER TO RETURN //////////
         userToReturn.setUsername(savedUser.getUsername());
@@ -93,6 +79,49 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         userToReturn.setStatus(savedUser.getStatus());
         /////////////////////////////////////////////////////
         return userToReturn;
+    }
+
+    /**
+     * Generates new Verification Code for user to Use, also sends it to the users email.
+     * @param savedUser User to send the code to
+     */
+    public void generateNewVerificationCode(UserEntity savedUser) {
+
+        List<CodeVerificationEntity> existingEntities = codeVerificationRepository.findAllByReferencedUser_Id(savedUser.getId());
+
+        CodeVerificationEntity codeVerificationEntity = null;
+        CodeVerificationEntity savedCodeVerificationEntity = null;
+        if(existingEntities.size() > 0) /* IF A CODE ALREADY EXISTS FOR A USER IN DATABASE, OVERWRITE IT WITH NEW CODE*/
+        {
+            codeVerificationEntity = existingEntities.get(0);
+            String randomGeneratedCode = generateRandomVerificationCode();
+            codeVerificationEntity.setVerificationCode(randomGeneratedCode);
+            codeVerificationEntity.setCreatedAt(Timestamp.from(Instant.now()));
+            savedCodeVerificationEntity = codeVerificationRepository.save(codeVerificationEntity);
+        }
+        else{ /*OTHERWISE IF IT DOESN'T EXIST, JUST CREATE A NEW ONE*/
+            String randomGeneratedCode = generateRandomVerificationCode();
+
+            codeVerificationEntity = new CodeVerificationEntity();
+            codeVerificationEntity.setVerificationCode(randomGeneratedCode);
+            codeVerificationEntity.setReferencedUser(savedUser);
+
+            codeVerificationEntity.setCreatedAt(Timestamp.from(Instant.now()));
+
+            savedCodeVerificationEntity =  codeVerificationRepository.save(codeVerificationEntity);
+        }
+
+
+
+
+        try{ /*AFTER CREATING OR UPDATING IT, JUST SEND A NEW EMAIL*/
+            emailSender.send(savedUser.getEmail(),
+                            buildEmail(savedUser.getUsername(), savedCodeVerificationEntity.getVerificationCode()));
+        }
+        catch(Exception ex){
+            System.out.println(ex.getLocalizedMessage());
+            throw ex;
+        }
     }
 
     @Override

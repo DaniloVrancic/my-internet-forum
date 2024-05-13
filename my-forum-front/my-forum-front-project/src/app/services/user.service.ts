@@ -53,6 +53,14 @@ export class UserService {
     return this.http.delete<string>(`${this.baseUrl}/delete-username/${username}`);
   }
 
+  resendVerificationCodeForUserId(id: number): Observable<string> {
+    return this.http.post<string>(`${this.baseUrl}/resend_code/${id}`, null);
+  }
+
+  resendVerificationCodeForUser(user: User): Observable<string> {
+    return this.http.post<any>(`${this.baseUrl}/resend_code/${user.id}`, null);
+  }
+
   public setCurrentUser(user: User | null)
   {
     //UserService.currentUser = user;

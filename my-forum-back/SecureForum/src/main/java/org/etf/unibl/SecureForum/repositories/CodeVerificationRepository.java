@@ -13,6 +13,8 @@ public interface CodeVerificationRepository extends JpaRepository<CodeVerificati
     @Transactional
     List<CodeVerificationEntity> findAllByReferencedUser_Id(Integer userId);
 
+    CodeVerificationEntity findByReferencedUser_Id(Integer userId);
+
     @Transactional
     Integer deleteCodeVerificationEntitiesByReferencedUserId(Integer userId);
 }
