@@ -11,10 +11,6 @@ import java.sql.Timestamp;
 
 public class User {
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
     private Integer id;
     private String username;
     private String email;
@@ -65,6 +61,10 @@ public class User {
         this.type = type.getValue();
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public UserEntity.Status getStatus() {
         return status;
     }
@@ -76,6 +76,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
+                "id='" + id + '\'' +
                 "username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", createTime=" + createTime +

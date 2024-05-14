@@ -81,6 +81,7 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
             generateNewVerificationCode(savedUser);
         }
         ////////    SETTING DATA FOR USER TO RETURN //////////
+        userToReturn.setId(savedUser.getId());
         userToReturn.setUsername(savedUser.getUsername());
         userToReturn.setEmail(savedUser.getEmail());
         userToReturn.setCreateTime(savedUser.getCreateTime());

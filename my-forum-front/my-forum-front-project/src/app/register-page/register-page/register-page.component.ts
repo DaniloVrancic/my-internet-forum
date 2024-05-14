@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { RegisterRequest } from './registerRequest';
 import { Form } from '@angular/forms';
 import { UserService } from '../../services/user.service';
+import { User } from '../../../interfaces/user';
 
 
 @Component({
@@ -56,8 +57,6 @@ registerUser() {
   
   const formData = new FormData();
 
-  console.log(this.myForm);
-
   if(!this.myForm.checkValidity())
     {
       this.myForm.reset();
@@ -67,17 +66,35 @@ registerUser() {
     else{
       this.errorMessage = "";
     }
- 
-    console.log(this.registerRequest);
 
     this.userService.registerUser(this.registerRequest)
     .subscribe(
     {
     next: response => {
-      // Handle success response
+      let user: User = {} as User;
+      console.log(response);
+      user = response;
+      this.userService.setCurrentUser(user);
+      this.errorMessage = ""; // Remove the error message at this point cause everything went alright.
+
+      if(user.status == "REQUESTED")
+        {
+          this.router.navigate(["/verify-page"]); //redirect the user to verification if he hasn't already been verified
+        }
+      else{
+        this.router.navigate(["/main-page"]);
+      }
     }, 
-    error: error => {},
-      // Handle error response
+    error: error => {
+      if(error.status === 409)
+        {
+          this.errorMessage = "Username already taken.";
+        }
+      else{
+          this.errorMessage = "Something went wrong.";
+      }
+      console.error(this.errorMessage);
+    },
     complete: () => {}
     });
     
