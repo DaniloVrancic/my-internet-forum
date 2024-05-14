@@ -28,6 +28,10 @@ export class UserService {
     return this.http.post<any>(`${this.baseUrl}/register`, request);
   }
 
+  loginUser(request: any): Observable<User> {
+    return this.http.post<any>(`${this.baseUrl}/login`, request)
+  }
+
   addUser(request: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/add`, request);
   }

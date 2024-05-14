@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.etf.unibl.SecureForum.additional.email.EmailSender;
 import org.etf.unibl.SecureForum.base.CrudJpaService;
 import org.etf.unibl.SecureForum.exceptions.ConflictException;
+import org.etf.unibl.SecureForum.exceptions.ForbiddenException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
 import org.etf.unibl.SecureForum.model.dto.User;
 import org.etf.unibl.SecureForum.model.entities.CodeVerificationEntity;
@@ -96,19 +97,32 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         User userToReturn = null;
 
         if(foundEntity != null){
-            userToReturn = new User();
-            userToReturn.setId(foundEntity.getId());
-            userToReturn.setUsername(foundEntity.getUsername());
-            userToReturn.setEmail(foundEntity.getEmail());
-            userToReturn.setType(foundEntity.getType());
-            userToReturn.setStatus(foundEntity.getStatus());
-            userToReturn.setCreateTime(foundEntity.getCreateTime());
+            if(getBCryptEncoder().matches(request.getPassword(), foundEntity.getPassword()))
+            {
+                userToReturn = new User();
+                userToReturn.setId(foundEntity.getId());
+                userToReturn.setUsername(foundEntity.getUsername());
+                userToReturn.setEmail(foundEntity.getEmail());
+                userToReturn.setType(foundEntity.getType());
+
+                userToReturn.setStatus(foundEntity.getStatus());
+
+                if(userToReturn.getStatus().equals(UserEntity.Status.BLOCKED))
+                {
+                    throw new ForbiddenException(); //if the user was blocked, don't allow him login
+                }
+
+                userToReturn.setCreateTime(foundEntity.getCreateTime());
+                return userToReturn;
+            }
+            else{ //If user was found but password is incorrect
+                throw new NotFoundException();
+            }
+
         }
         else{
             throw new NotFoundException();
         }
-
-        return userToReturn;
     }
 
     /**

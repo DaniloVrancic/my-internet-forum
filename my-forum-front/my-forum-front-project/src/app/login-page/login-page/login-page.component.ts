@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { LoginRequest } from '../../../interfaces/requests/login-request';
+import { User } from '../../../interfaces/user';
+import { Router } from '@angular/router';
+import { UserStatuses } from '../../../interfaces/user.statuses';
 
 @Component({
   selector: 'app-login-page',
@@ -8,7 +11,7 @@ import { LoginRequest } from '../../../interfaces/requests/login-request';
   imports: [],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css',
-  providers: [UserService]
+  providers: [UserService, Router]
 })
 export class LoginPageComponent implements OnInit{
 
@@ -16,7 +19,8 @@ export class LoginPageComponent implements OnInit{
   public isMyFormValid : boolean = false;
   public errorMessage: string = "";
   public loginRequest: LoginRequest;
-  constructor(private userService: UserService)
+  constructor(private userService: UserService,
+              private router: Router)
   {
     this.loginRequest = {} as LoginRequest;
   }
@@ -50,6 +54,37 @@ export class LoginPageComponent implements OnInit{
     }
 
     //CONTINUE METHOD HERE (MAKE /login endpoint)
+    this.userService.loginUser(this.loginRequest)
+    .subscribe(
+    {
+    next: response => {
+      console.log(response);
+      this.userService.setCurrentUser(response);
+      this.errorMessage = ""; // Remove the error message at this point cause everything went alright.
+
+      if(response.status == UserStatuses.requested)
+        {
+          this.router.navigate(["/verify-page"]); //redirect the user to verification if he hasn't already been verified
+        }
+      else{
+        this.router.navigate(["/main-page"]);
+      }
+    }, 
+    error: error => {
+      if(error.status === 403)
+        {
+          this.errorMessage = "Incorrect user data.";
+        }
+      else if(error.status === 404){
+        this.errorMessage = "Incorrect user data.";
+      }
+      else{
+          this.errorMessage = "Something went wrong.";
+      }
+      console.error(this.errorMessage);
+    },
+    complete: () => {}
+    });
 
   }
 
