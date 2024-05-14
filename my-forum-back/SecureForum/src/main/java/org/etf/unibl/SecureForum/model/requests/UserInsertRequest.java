@@ -4,7 +4,9 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.enums.UserType;
 
@@ -12,15 +14,17 @@ import java.sql.Timestamp;
 
 public class UserInsertRequest {
 
-    @NotNull
+    @NotNull(message = "Username is required")
     private String username;
-    @NotNull
+    @NotNull(message = "Email is required")
+    @Email(message = "Invalid email format")
     private String email;
-    @NotNull
+    @NotNull(message = "Password is required")
+    @Size(min = 5, message = "Password must be at least 5 characters long")
     private String password;
 
     private Timestamp createTime;
-    @NotNull
+    @NotNull(message = "User Type is required")
     private UserType type;
 
     @NotNull

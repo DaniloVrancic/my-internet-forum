@@ -81,6 +81,26 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         return userToReturn;
     }
 
+    public User login(LoginRequest request){
+        UserEntity foundEntity = userRepository.findByUsernameIs(request.getUsername()).orElseThrow(NotFoundException::new);
+        User userToReturn = null;
+
+        if(foundEntity != null){
+            userToReturn = new User();
+            userToReturn.setId(foundEntity.getId());
+            userToReturn.setUsername(foundEntity.getUsername());
+            userToReturn.setEmail(foundEntity.getEmail());
+            userToReturn.setType(foundEntity.getType());
+            userToReturn.setStatus(foundEntity.getStatus());
+            userToReturn.setCreateTime(foundEntity.getCreateTime());
+        }
+        else{
+            throw new NotFoundException();
+        }
+
+        return userToReturn;
+    }
+
     /**
      * Generates new Verification Code for user to Use, also sends it to the users email.
      * @param savedUser User to send the code to

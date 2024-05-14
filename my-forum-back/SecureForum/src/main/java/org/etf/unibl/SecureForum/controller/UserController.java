@@ -1,6 +1,7 @@
 package org.etf.unibl.SecureForum.controller;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.etf.unibl.SecureForum.exceptions.BadRequestException;
 import org.etf.unibl.SecureForum.exceptions.DuplicateEntryException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -25,6 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@Validated
 public class UserController {
 
     private final UserService userService;
@@ -53,7 +56,7 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public User registerUser(@RequestBody SignUpRequest request){
+    public User registerUser(@Valid @RequestBody SignUpRequest request){
 
 
         User newUser = userService.signUp(request);
@@ -64,7 +67,7 @@ public class UserController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public User addUser(@RequestBody UserInsertRequest request){
+    public User addUser(@Valid @RequestBody UserInsertRequest request){
 
 
         UserEntity entityToInsert = new UserEntity();
@@ -93,13 +96,16 @@ public class UserController {
         return newUser;
     }
 
+    @PostMapping("/login")
+    public User loginUser(@Valid @RequestBody LoginRequest request){
+        return userService.login(request);
+    }
+
     @PostMapping("/verify")
     @Transactional
     public User verifyUser(@RequestBody VerifyUserRequest request)
     {
 
-        System.out.println("REQUESTED USER ID: " + request.getUser_id());
-        System.out.println("REQUESTED CODE: " + request.getVerificationCode());
         List<CodeVerificationEntity> listOfCodes = userService.getAllCodesForUser(request.getUser_id());
         boolean found = false;
 
