@@ -56,7 +56,8 @@ submitCode() {
         {
           this.userService.setCurrentUser(response);
           this.errorMessage = "";
-          console.log(response);
+          alert("Successful user verification!");
+          this.router.navigate(['main-page']);
         }
       ),
         (error: any) => {
@@ -64,7 +65,7 @@ submitCode() {
       };
     }
   else{
-    this.errorMessage = "The verification code input incorrectly."
+    this.errorMessage = "The verification code was input incorrectly."
   }
 }
 
@@ -85,12 +86,9 @@ resendCode() {
   }
 }
 
-private setErrorMessage(errorMsg: string)
-{
-  this.errorMessage = errorMsg;
-}
-
-  
-
+  private setErrorMessage(errorMsg: string)
+  {
+    this.errorMessage = errorMsg;
+  }
 
 }

@@ -65,6 +65,7 @@ export class LoginPageComponent implements OnInit{
       if(response.status == UserStatuses.requested)
         {
           this.router.navigate(["/verify-page"]); //redirect the user to verification if he hasn't already been verified
+          alert("Please verify your account.\nVerification code has been sent to your e-mail.")
         }
       else{
         this.router.navigate(["/main-page"]);
@@ -73,7 +74,7 @@ export class LoginPageComponent implements OnInit{
     error: error => {
       if(error.status === 403)
         {
-          this.errorMessage = "Incorrect user data.";
+          this.errorMessage = "User is blocked.";
         }
       else if(error.status === 404){
         this.errorMessage = "Incorrect user data.";
