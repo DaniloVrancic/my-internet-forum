@@ -3,6 +3,7 @@ package org.etf.unibl.SecureForum.service.impl;
 import jakarta.transaction.Transactional;
 import org.etf.unibl.SecureForum.additional.email.EmailSender;
 import org.etf.unibl.SecureForum.base.CrudJpaService;
+import org.etf.unibl.SecureForum.exceptions.ConflictException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
 import org.etf.unibl.SecureForum.model.dto.User;
 import org.etf.unibl.SecureForum.model.entities.CodeVerificationEntity;
@@ -14,6 +15,8 @@ import org.etf.unibl.SecureForum.repositories.UserRepository;
 import org.etf.unibl.SecureForum.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -64,8 +67,14 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         userForDatabase.setCreateTime(Timestamp.from(Instant.now()));
         userForDatabase.setType(UserType.Forumer);
         ///////////////////////////////////////////////////////
-
-        UserEntity savedUser = userRepository.save(userForDatabase);
+        UserEntity savedUser = null;
+        try{
+            savedUser = userRepository.save(userForDatabase);
+        }
+        catch(DataIntegrityViolationException ex)
+        {
+            throw new ConflictException();
+        }
 
         if(savedUser.getStatus().equals(UserEntity.Status.REQUESTED))
         {
