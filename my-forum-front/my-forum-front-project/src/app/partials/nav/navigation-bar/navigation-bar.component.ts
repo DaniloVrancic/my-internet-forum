@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -8,5 +9,16 @@ import { Component } from '@angular/core';
   styleUrl: './navigation-bar.component.css'
 })
 export class NavigationBarComponent {
+constructor(private router: Router){}
+
+navigateToForumerPage() {
+  this.router.navigate(['forumer-page']);
+}
+navigateToModeratorPage() {
+  this.router.navigate(['moderator-page']);
+}
+navigateToAdminPage() {
+  this.router.navigate(['admin-page']);
+}
 
 }
