@@ -44,13 +44,13 @@ public class UserController {
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public List<User> findAll(){
         return userService.findAll(User.class);
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public User findUserById(@PathVariable Integer id) throws NotFoundException
     { return userService.findById(id, User.class);}
 

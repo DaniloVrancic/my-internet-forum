@@ -16,8 +16,8 @@ export class UserService {
     this.currentUser = null;
   }
 
-  findAll(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl);
+  findAll(): Observable<any> {
+    return this.http.get<any>(this.baseUrl);
   }
 
   findUserById(id: number): Observable<User> {

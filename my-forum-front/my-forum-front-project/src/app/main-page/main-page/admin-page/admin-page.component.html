@@ -1,2 +1,52 @@
 <app-navigation-bar></app-navigation-bar>
-<p>admin-page works!</p>
+<div class="main-content-div">
+    <form method="POST" class="centered-form">
+    <h1 class="form-title">User Management</h1>
+    @if(this.errorMessage.length > 0)
+    {
+        <div class="error-message">
+            {{this.errorMessage}}
+        </div>
+    }
+    	<label for="userSelect" class="input-field-descriptor">Select User:</label>
+        <select id="userSelect" name="userSelect" class="input-field select-input">
+        	<option id="emptyOption" (click)="this.selectNone()">(none)</option>
+            @for(currentUser of this.allUsers; track currentUser.id)
+            {   
+                <option id=`{{currentUser.username}}Option` (click)="this.selectUser(currentUser)">{{currentUser.username}}</option>
+            }
+        </select><br>
+    	<label for="userId" class="input-field-descriptor">Selected User ID:</label>
+        <input type="text" readonly="readonly" id="userId" name="userId" class="input-field" placeholder=" "><br>
+        
+        <label for="email" class="input-field-descriptor">Email:</label>
+        <input type="email" readonly="readonly" id="email" name="email" class="input-field" placeholder=" "><br>
+        
+        
+    <label for="status" class="input-field-descriptor">Status:</label>
+    <div class="input-field">
+        <input checked="checked" type="radio" id="activatedYes" name="status" value="false" class="radio-input" [checked]="this.selectedUser.status === 'ACTIVE'">
+        <label for="activatedYes">Activated</label>
+	    <input type="radio" id="blocked" name="status" value="true" class="radio-input" [checked]="this.selectedUser.status === 'BLOCKED'">
+	    <label for="blocked">Blocked</label><br>
+	</div>
+	
+	<br>
+	<label for="type" class="input-field-descriptor">Type:</label>
+	<div class="input-field">
+        <input type="radio" id="typeAdmin" name="type" value="Admin" class="radio-input" [checked]="this.selectedUser.type === 'Admin'">
+	    <label for="typeAdmin">Admin</label>
+	    <input type="radio"  id="typeModerator" name="type" value="Moderator" class="radio-input" [checked]="this.selectedUser.type === 'Moderator'">
+	    <label for="typeModerator">Moderator</label>
+	    <input type="radio" id="typeForumer" name="type" value="Forumer" class="radio-input" [checked]="this.selectedUser.type === 'Forumer'">
+	    <label for="typeForumer">Forumer</label>
+	</div>
+    <br>
+    <div class="buttons-area">
+        <button type="button" id="addUserButton" disabled>Add User</button>
+        <button type="reset">Clear All Inputs</button>
+        <button type="button" id="updateButton" disabled>Update User</button>
+        <button type="button" id="deleteButton" disabled>Remove User</button>
+    </div>
+    </form>
+</div>
