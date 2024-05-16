@@ -16,9 +16,10 @@ public class PermissionsEntity implements BaseEntity<Integer> {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private UserEntity referencedUser;
+
     @ManyToOne
     @JoinColumn(name = "topic_id", referencedColumnName = "id", nullable = false)
-    private TopicEntity topicId;
+    private TopicEntity topic;
     @Basic
     @Enumerated(EnumType.STRING)
     @Column(name = "permission")
@@ -26,10 +27,6 @@ public class PermissionsEntity implements BaseEntity<Integer> {
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setId(Integer id) {
@@ -58,14 +55,6 @@ public class PermissionsEntity implements BaseEntity<Integer> {
         this.referencedUser = referencedUser;
     }
 
-    public int getUserId() {
-        return referencedUser.getId();
-    }
-
-    public void setUserId(int userId) {
-        this.referencedUser.setId(userId);
-    }
-
     public PermissionType getPermission() {
         return permission;
     }
@@ -73,4 +62,15 @@ public class PermissionsEntity implements BaseEntity<Integer> {
     public void setPermission(PermissionType permission) {
         this.permission = permission;
     }
+
+    public TopicEntity getTopic() {
+        if(topic == null)
+            topic = new TopicEntity();
+        return topic;
+    }
+
+    public void setTopic(TopicEntity topic) {
+        this.topic = topic;
+    }
+
 }
