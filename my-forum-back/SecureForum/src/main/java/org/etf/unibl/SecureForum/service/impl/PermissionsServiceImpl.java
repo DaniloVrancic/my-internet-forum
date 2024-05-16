@@ -76,9 +76,9 @@ public class PermissionsServiceImpl extends CrudJpaService<PermissionsEntity, In
             newPermission.setUser_id(id);
             newPermission.setTopic_id(foundEntity.getTopic().getId());
             foundPermissions.add(newPermission);
+            permissionsRepository.deleteById(foundEntity.getId());
         });
 
-        deleteAllPermissionForUserId(id);
         return foundPermissions;
     }
 }
