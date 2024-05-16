@@ -67,6 +67,7 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         userForDatabase.setStatus(UserEntity.Status.REQUESTED);
         userForDatabase.setCreateTime(Timestamp.from(Instant.now()));
         userForDatabase.setType(UserType.Forumer);
+        userForDatabase.setOauth_account(false);
         ///////////////////////////////////////////////////////
         UserEntity savedUser = null;
         try{

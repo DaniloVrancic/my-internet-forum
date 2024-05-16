@@ -80,6 +80,7 @@ public class UserController {
         {
             request.setCreateTime(Timestamp.from(Instant.now()));
         }
+        entityToInsert.setOauth_account(false);
 
         entityToInsert.setCreateTime(request.getCreateTime());
 

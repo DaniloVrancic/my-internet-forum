@@ -1,10 +1,13 @@
 package org.etf.unibl.SecureForum.model.enums;
 
+/**
+ * Has all the defined  rights of use for
+ * a user commenting on a certain topic,
+ * as defined in the users` specification.
+ */
 public enum PermissionType {
     Create("Create"),
-    Read("Read"),
     Write("Write"),
-
     Delete("Delete");
 
     private String value;

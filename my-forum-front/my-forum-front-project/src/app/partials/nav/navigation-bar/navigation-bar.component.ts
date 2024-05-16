@@ -23,4 +23,9 @@ navigateToAdminPage() {
   this.router.navigate(['admin-page']);
 }
 
+logoutButton(){
+  sessionStorage.clear();
+  this.router.navigate(['']);
+}
+
 }
