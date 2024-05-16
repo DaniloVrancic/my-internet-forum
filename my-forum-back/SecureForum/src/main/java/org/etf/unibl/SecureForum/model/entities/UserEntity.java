@@ -21,7 +21,7 @@ public class UserEntity implements BaseEntity<Integer> {
     @Column(name = "email", nullable = false, length = 256)
     private String email;
     @Basic
-    @Column(name = "password", nullable = false, length = 512)
+    @Column(name = "password", length = 512)
     private String password;
     @Basic
     @Column(name = "create_time", nullable = false)
@@ -35,6 +35,10 @@ public class UserEntity implements BaseEntity<Integer> {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status", nullable = false)
     private Status status;
+
+    @Basic
+    @Column(name = "oauth_account", nullable = false)
+    private Boolean oauth_account;
 
     public Integer getId() {
         return id;
@@ -108,5 +112,13 @@ public class UserEntity implements BaseEntity<Integer> {
 
     public enum Status{
         REQUESTED, ACTIVE, BLOCKED
+    }
+
+    public Boolean getOauth_account() {
+        return oauth_account;
+    }
+
+    public void setOauth_account(Boolean oauth_account) {
+        this.oauth_account = oauth_account;
     }
 }
