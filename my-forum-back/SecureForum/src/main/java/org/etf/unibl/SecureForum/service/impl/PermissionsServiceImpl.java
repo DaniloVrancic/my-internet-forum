@@ -28,8 +28,9 @@ public class PermissionsServiceImpl extends CrudJpaService<PermissionsEntity, In
 
 
     @Autowired
-    public PermissionsServiceImpl(PermissionsRepository permissionsRepository, ModelMapper modelMapper, Class<PermissionsEntity> entityClass, UserRepository userRepository) {
-        super(permissionsRepository, modelMapper, entityClass);
+    public PermissionsServiceImpl(PermissionsRepository permissionsRepository, ModelMapper modelMapper,
+                                  UserRepository userRepository) {
+        super(permissionsRepository, modelMapper, PermissionsEntity.class);
 
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
@@ -50,7 +51,7 @@ public class PermissionsServiceImpl extends CrudJpaService<PermissionsEntity, In
 
         entityToAdd.setPermission(request.getType());
 
-        Permission savedPermission = insert(entityToAdd,Permission.class);
+        Permission savedPermission = this.insert(entityToAdd,Permission.class);
 
         return savedPermission;
     }
@@ -59,7 +60,7 @@ public class PermissionsServiceImpl extends CrudJpaService<PermissionsEntity, In
     public Permission deletePermissionById(Integer id)
     {
         Permission foundPermission = findById(id, Permission.class);
-        delete(id);
+        this.delete(id);
         return foundPermission;
     }
 
