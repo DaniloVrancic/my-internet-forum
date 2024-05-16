@@ -7,11 +7,12 @@ import { unsubscribe } from 'node:diagnostics_channel';
 import { Observable } from 'rxjs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-admin-page',
   standalone: true,
-  imports: [NavigationBarComponent, FormsModule, ReactiveFormsModule],
+  imports: [NavigationBarComponent, FormsModule, ReactiveFormsModule, JsonPipe],
   templateUrl: './admin-page.component.html',
   styleUrl: './admin-page.component.css',
   providers:[UserService]
@@ -27,7 +28,7 @@ export class AdminPageComponent implements OnInit, OnDestroy{
   constructor(private userService: UserService, private cdr: ChangeDetectorRef){
     this.allUsers = [];
     this.errorMessage = "";
-    this.selectedUser = {id: -1, username: "", email: "", createTime: "", status: "", type: ""};
+    this.selectedUser = this.initializeEmptyUser();
   }
 
 
@@ -62,25 +63,39 @@ export class AdminPageComponent implements OnInit, OnDestroy{
   }
 
 
-  selectUser(userToReturn: User) {
-      console.log(userToReturn);
-      this.selectedUser = userToReturn;
-      this.cdr.detectChanges();
-      this.updateForm();
-    }
+  selectUser(userToSelect: string) {
+      if(userToSelect === "null")
+        {
+          
+          this.selectedUser = this.initializeEmptyUser();
+          
+         // this.cdr.detectChanges();
+          this.updateForm();
+          return;
+        }
+      else
+      {
+        this.selectedUser = JSON.parse(userToSelect);
+        this.cdr.detectChanges();
+        this.updateForm();
+      }
 
-  selectNone() {
-      console.log("selected NONE");
-      this.selectedUser = {id: -1, username: "", email: "", createTime: "", status: "", type: ""};
-      this.cdr.detectChanges();
-      this.updateForm();
     }
 
   public updateForm()
   {
     let myForm = document.forms[0];
 
-    console.log("FORM WILL UPDATE NOW.");
+    if (this.selectedUser.id == -1) {
+      myForm["userId"].value = "";
+    } else {
+      myForm["userId"].value = this.selectedUser.id;
+    }
+    myForm["email"].value = this.selectedUser.email;
+  }
+
+  private initializeEmptyUser(): User {
+    return { id: -1, username: "", email: "", createTime: "", status: "", type: "" };
   }
 
 }

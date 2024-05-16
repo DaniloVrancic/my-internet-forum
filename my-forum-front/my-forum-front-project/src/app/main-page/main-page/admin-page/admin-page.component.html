@@ -9,11 +9,11 @@
         </div>
     }
     	<label for="userSelect" class="input-field-descriptor">Select User:</label>
-        <select id="userSelect" name="userSelect" class="input-field select-input">
-        	<option id="emptyOption" (click)="this.selectNone()">(none)</option>
+        <select #selectList id="userSelect" name="userSelect" class="input-field select-input" (change)="selectUser(selectList.value)">
+        	<option value="null">Select a User</option>
             @for(currentUser of this.allUsers; track currentUser.id)
             {   
-                <option id=`{{currentUser.username}}Option` (click)="this.selectUser(currentUser)">{{currentUser.username}}</option>
+                <option id=`{{currentUser.username}}Option` value="{{currentUser | json}}">{{currentUser.username}}</option>
             }
         </select><br>
     	<label for="userId" class="input-field-descriptor">Selected User ID:</label>
