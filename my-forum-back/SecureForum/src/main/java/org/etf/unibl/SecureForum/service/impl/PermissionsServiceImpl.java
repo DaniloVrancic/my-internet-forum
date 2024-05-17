@@ -38,6 +38,27 @@ public class PermissionsServiceImpl extends CrudJpaService<PermissionsEntity, In
     }
 
     @Transactional
+    public List<Permission> findAllByUserId(Integer user_id)
+    {
+        List<PermissionsEntity> allFoundEntities = permissionsRepository.findAllByReferencedUser_Id(user_id);
+
+        List<Permission> allFilteredPermissions = new ArrayList<>();
+
+        for(PermissionsEntity entity : allFoundEntities)
+        {
+            Permission mappedEntity = new Permission();
+            mappedEntity.setId(entity.getId());
+            mappedEntity.setUser_id(entity.getReferencedUser().getId());
+            mappedEntity.setTopic_id(entity.getTopic().getId());
+            mappedEntity.setTopic_name(entity.getTopic().getName());
+            mappedEntity.setType(entity.getPermission());
+            allFilteredPermissions.add(mappedEntity);
+        }
+
+        return allFilteredPermissions;
+    }
+
+    @Transactional
     public Permission addPermission(PermissionsRequest request){
         PermissionsEntity entityToAdd = new PermissionsEntity();
 
@@ -76,6 +97,7 @@ public class PermissionsServiceImpl extends CrudJpaService<PermissionsEntity, In
             newPermission.setType(foundEntity.getPermission());
             newPermission.setUser_id(id);
             newPermission.setTopic_id(foundEntity.getTopic().getId());
+            newPermission.setTopic_name(foundEntity.getTopic().getName());
             foundPermissions.add(newPermission);
             permissionsRepository.deleteById(foundEntity.getId());
         });

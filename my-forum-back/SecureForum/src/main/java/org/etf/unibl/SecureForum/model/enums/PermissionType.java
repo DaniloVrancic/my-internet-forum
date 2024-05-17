@@ -7,7 +7,7 @@ package org.etf.unibl.SecureForum.model.enums;
  */
 public enum PermissionType {
     Create("Create"),
-    Write("Write"),
+    Update("Update"),
     Delete("Delete");
 
     private String value;

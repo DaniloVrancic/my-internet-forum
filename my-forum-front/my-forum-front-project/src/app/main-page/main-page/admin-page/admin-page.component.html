@@ -1,6 +1,6 @@
 <app-navigation-bar></app-navigation-bar>
-<div class="main-content-div">
-    <form method="POST" class="centered-form">
+<div class="main-content-div" >
+    <form method="POST" class="centered-form" style="width: 70%; padding-right: 20rem; padding-left:0rem; margin-left: 15%">
     <h1 class="form-title">User Management</h1>
     @if(this.errorMessage.length > 0)
     {
@@ -25,28 +25,52 @@
         
     <label for="status" class="input-field-descriptor">Status:</label>
     <div class="input-field">
-        <input checked="checked" type="radio" id="activatedYes" name="status" value="false" class="radio-input" [checked]="this.selectedUser.status === 'ACTIVE'">
+        <input type="radio" id="activatedYes" name="status" value="ACTIVE" class="radio-input" [checked]="this.selectedUser.status === 'ACTIVE'">
         <label for="activatedYes">Activated</label>
-	    <input type="radio" id="blocked" name="status" value="true" class="radio-input" [checked]="this.selectedUser.status === 'BLOCKED'">
+	    <input type="radio" id="blocked" name="status" value="BLOCKED" class="radio-input" [checked]="this.selectedUser.status === 'BLOCKED'">
 	    <label for="blocked">Blocked</label><br>
 	</div>
 	
 	<br>
 	<label for="type" class="input-field-descriptor">Type:</label>
 	<div class="input-field">
-        <input type="radio" id="typeAdmin" name="type" value="Admin" class="radio-input" [checked]="this.selectedUser.type === 'Admin'">
-	    <label for="typeAdmin">Admin</label>
+        <input type="radio" id="typeAdmin" name="type" value="Admin" class="radio-input" [checked]="this.selectedUser.type === 'Administrator'">
+	    <label for="typeAdmin">Administrator</label>
 	    <input type="radio"  id="typeModerator" name="type" value="Moderator" class="radio-input" [checked]="this.selectedUser.type === 'Moderator'">
 	    <label for="typeModerator">Moderator</label>
 	    <input type="radio" id="typeForumer" name="type" value="Forumer" class="radio-input" [checked]="this.selectedUser.type === 'Forumer'">
 	    <label for="typeForumer">Forumer</label>
 	</div>
     <br>
+
+    <div class="permissions-container">
+        <section>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Permission ID</th>
+                        <th>Permission</th>
+                        <th>Referenced Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="buttons-area">
+                <button type="button">Delete Permission</button>
+            </div>
+        </section>
+
+
+    </div>
     <div class="buttons-area">
-        <button type="button" id="addUserButton" disabled>Add User</button>
         <button type="reset">Clear All Inputs</button>
         <button type="button" id="updateButton" disabled>Update User</button>
-        <button type="button" id="deleteButton" disabled>Remove User</button>
     </div>
     </form>
 </div>

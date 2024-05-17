@@ -1,0 +1,19 @@
+INSERT INTO `my_secure_forum`.`topic` (`name`) VALUES ('Nauka');
+INSERT INTO `my_secure_forum`.`topic` (`name`) VALUES ('Kultura');
+INSERT INTO `my_secure_forum`.`topic` (`name`) VALUES ('Sport');
+INSERT INTO `my_secure_forum`.`topic` (`name`) VALUES ('Muzika');
+
+
+#Needs to have a user with ID = 2
+INSERT INTO `my_secure_forum`.`permissions` (`user_id`, `topic_id`, `permission`) VALUES ('2', '2', 'Create');
+INSERT INTO `my_secure_forum`.`permissions` (`user_id`, `topic_id`, `permission`) VALUES ('2', '2', 'Update');
+INSERT INTO `my_secure_forum`.`permissions` (`user_id`, `topic_id`, `permission`) VALUES ('2', '2', 'Delete');
+INSERT INTO `my_secure_forum`.`permissions` (`user_id`, `topic_id`, `permission`) VALUES ('2', '3', 'Create');
+INSERT INTO `my_secure_forum`.`permissions` (`user_id`, `topic_id`, `permission`) VALUES ('2', '3', 'Delete');
+INSERT INTO `my_secure_forum`.`permissions` (`user_id`, `topic_id`, `permission`) VALUES ('2', '1', 'Create');
+INSERT INTO `my_secure_forum`.`permissions` (`user_id`, `topic_id`, `permission`) VALUES ('2', '4', 'Create');
+INSERT INTO `my_secure_forum`.`permissions` (`user_id`, `topic_id`, `permission`) VALUES ('2', '4', 'Delete');
+INSERT INTO `my_secure_forum`.`permissions` (`user_id`, `topic_id`, `permission`) VALUES ('2', '4', 'Update');
+#Needs to have a user with ID = 2
+
+
