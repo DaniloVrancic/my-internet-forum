@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { NavigationBarComponent } from '../../../partials/nav/navigation-bar/navigation-bar.component';
 import { UserService } from '../../../services/user.service';
 import { User } from '../../../../interfaces/user';
@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { JsonPipe } from '@angular/common';
+import { PermissionService } from '../../../services/permission.service';
+import { Permission } from '../../../../interfaces/pemission';
 
 @Component({
   selector: 'app-admin-page',
@@ -15,20 +17,24 @@ import { JsonPipe } from '@angular/common';
   imports: [NavigationBarComponent, FormsModule, ReactiveFormsModule, JsonPipe],
   templateUrl: './admin-page.component.html',
   styleUrl: './admin-page.component.css',
-  providers:[UserService]
+  providers:[UserService, PermissionService]
 })
 export class AdminPageComponent implements OnInit, OnDestroy{
-
   
   public allUsers: User[];
   public errorMessage: string;
   public selectedUser: User;
   public findAllSubscription: any;
+  public userPermissions: Permission[];
+  public selectedPermission: Permission | null;
 
-  constructor(private userService: UserService, private cdr: ChangeDetectorRef){
+  constructor(private userService: UserService, private permissionService: PermissionService,
+    private cdr: ChangeDetectorRef){
     this.allUsers = [];
     this.errorMessage = "";
     this.selectedUser = this.initializeEmptyUser();
+    this.userPermissions = [];
+    this.selectedPermission = null;
   }
 
 
@@ -68,6 +74,7 @@ export class AdminPageComponent implements OnInit, OnDestroy{
         {
           
           this.selectedUser = this.initializeEmptyUser();
+          this.userPermissions = [];
           
          // this.cdr.detectChanges();
           this.updateForm();
@@ -76,12 +83,24 @@ export class AdminPageComponent implements OnInit, OnDestroy{
       else
       {
         this.selectedUser = JSON.parse(userToSelect);
+        this.getPermissionsForUser(this.selectedUser.id);
         this.cdr.detectChanges();
         this.updateForm();
       }
 
     }
 
+  public getPermissionsForUser(user_id: number){
+    this.permissionService.findPermissionsByUserId(user_id).subscribe(
+      {next: response => {
+        this.userPermissions = response;
+      },
+      error: error => {
+        this.userPermissions = [];
+      },
+      complete: () => {}
+    })
+  }
   public updateForm()
   {
     let myForm = document.forms[0];
@@ -96,6 +115,49 @@ export class AdminPageComponent implements OnInit, OnDestroy{
 
   private initializeEmptyUser(): User {
     return { id: -1, username: "", email: "", createTime: "", status: "", type: "" };
+  }
+
+  selectPermission(permission: Permission, event: Event) {
+    event.stopPropagation();
+    if(this.selectedPermission === permission){
+        this.selectedPermission = null;
+        return;
+        }
+    else{
+      this.selectedPermission = permission;
+        }
+    }
+
+  isSelected(thisPermission: Permission) : boolean{
+      if(thisPermission == this.selectedPermission)
+        return true;
+      else
+        return false;
+      }
+    
+  deselectPermission() {
+    if(this.userPermissions.length > 0)
+      {
+        this.selectedPermission = null;
+      }
+    else{
+      return;
+      }
+    }
+
+    deletePermission(event: MouseEvent) {
+      event.stopPropagation();
+      this.permissionService.deletePermissionById(this.selectedPermission?.id as number).subscribe(
+        response => {
+        this.userPermissions = this.userPermissions.filter(p => p.id != this.selectedPermission?.id);
+        this.selectedPermission = null;
+        
+        this.cdr.detectChanges();
+      },
+      error => {
+        console.error("Failed to delete the permission", error);
+      }
+    );
   }
 
 }

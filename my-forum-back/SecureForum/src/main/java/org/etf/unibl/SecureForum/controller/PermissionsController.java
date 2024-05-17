@@ -1,7 +1,9 @@
 package org.etf.unibl.SecureForum.controller;
 
+import jakarta.persistence.EntityExistsException;
 import org.etf.unibl.SecureForum.model.dto.Permission;
 import org.etf.unibl.SecureForum.model.entities.PermissionsEntity;
+import org.etf.unibl.SecureForum.model.enums.PermissionType;
 import org.etf.unibl.SecureForum.model.requests.PermissionsRequest;
 import org.etf.unibl.SecureForum.repositories.PermissionsRepository;
 import org.etf.unibl.SecureForum.service.PermissionsService;
@@ -56,7 +58,15 @@ public class PermissionsController {
     @ResponseStatus(HttpStatus.CREATED)
     public Permission addPermission(@RequestBody PermissionsRequest request)
     {
-        return permissionsService.addPermission(request);
+        // FOR TESTING PURPOSESE TODO: DELETE THESE 2 LINES LATER
+        System.out.println(permissionsRepository.findByReferencedUser_IdAndTopic_IdAndAndPermission(2,2, PermissionType.Create));
+        System.out.println(permissionsRepository.findByReferencedUser_IdAndTopic_IdAndAndPermission(3,2, PermissionType.Create));
+
+        if(permissionsRepository.findByReferencedUser_IdAndTopic_IdAndAndPermission(request.getUser_id(), request.getTopic_id(), request.getType()) == null)
+        {
+            return permissionsService.addPermission(request);
+        }
+        throw new EntityExistsException();
     }
 
     @DeleteMapping("/delete/{id}")
