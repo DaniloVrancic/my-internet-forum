@@ -16,11 +16,14 @@
                 <option id=`{{currentUser.username}}Option` value="{{currentUser | json}}">{{currentUser.username}}</option>
             }
         </select><br>
+        <fieldset style="padding: 0.5rem 1rem; margin: 1rem 0rem; padding-bottom: 1.5rem;">
+            <legend>User Information</legend>
     	<label for="userId" class="input-field-descriptor">Selected User ID:</label>
         <input type="text" readonly="readonly" id="userId" name="userId" class="input-field" placeholder=" "><br>
         
         <label for="email" class="input-field-descriptor">Email:</label>
         <input type="email" readonly="readonly" id="email" name="email" class="input-field" placeholder=" "><br>
+        </fieldset>
         
         
     <label for="status" class="input-field-descriptor">Status:</label>
@@ -41,11 +44,41 @@
 	    <input type="radio" id="typeForumer" name="type" value="Forumer" class="radio-input" [checked]="this.selectedUser.type === 'Forumer'">
 	    <label for="typeForumer">Forumer</label>
 	</div>
-    <br>
+    <br />
+    <div class="buttons-area">
+        <button type="button" id="updateButton" disabled>Update User</button>
+    </div>
 
     @if(this.selectedUser.id !== -1){
     <div class="permissions-container" (click)="this.deselectPermission()">
-        <section class="table-section">
+        <fieldset class="insert-permission-section">
+            <legend>Add New Permission</legend>
+            <label for="type" class="input-field-descriptor">Permission Type:</label>
+            <div class="input-field" style="margin:0.4rem">
+                @for(permissionString of this.possiblePermissions; track permissionString)
+                {
+                    <input type="radio" id=`permissionName{{permissionString}}` name="permissionName" value=`{{permissionString}}` class="radio-input" (input)="selectPermissionName(permissionString)">
+                    <label for=`permissionName{{permissionString}}`>{{permissionString}}</label>
+                }
+            </div>
+            
+                <label for="selectTopicList" class="input-field-descriptor">Topic:</label>
+                <select #selectTopicList name="selectTopic" id="selectTopic" class="input-field select-input" (change)="selectTopic(selectTopicList.value)">
+
+                @for(currentTopic of this.allTopics; track currentTopic)
+                {
+                    <option value="{{currentTopic | json}}">{{currentTopic.name}}</option>
+                }
+                </select>
+            
+            <div class="buttons-area">
+                <button type="button" id="updateButton" [disabled]="!this.canAddPermission()" (click)="addPermission()">Add Permission</button>
+            </div>
+        </fieldset>
+        <fieldset style="padding-top: 2rem;">
+            <div>&nbsp;</div>
+            <legend>View or Remove Permission</legend>
+            <section class="table-section">
             <table>
                 <thead>
                     <tr>
@@ -68,15 +101,15 @@
             <div class="buttons-area">
                 <button type="button" [disabled]="this.selectedPermission == null" (click)="this.deletePermission($event)">Delete Permission</button>
             </div>
-        </section>
+            </section>
+        </fieldset>
 
 
     </div>
     }
     
     <div class="buttons-area">
-        <button type="reset">Clear All Inputs</button>
-        <button type="button" id="updateButton" disabled>Update User</button>
+        <button type="reset" (click)="clearForm()">[Clear All Inputs]</button>
     </div>
     </form>
 </div>

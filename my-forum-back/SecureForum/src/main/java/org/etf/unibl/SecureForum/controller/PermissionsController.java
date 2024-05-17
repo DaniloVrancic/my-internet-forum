@@ -58,15 +58,20 @@ public class PermissionsController {
     @ResponseStatus(HttpStatus.CREATED)
     public Permission addPermission(@RequestBody PermissionsRequest request)
     {
-        // FOR TESTING PURPOSESE TODO: DELETE THESE 2 LINES LATER
-        System.out.println(permissionsRepository.findByReferencedUser_IdAndTopic_IdAndAndPermission(2,2, PermissionType.Create));
-        System.out.println(permissionsRepository.findByReferencedUser_IdAndTopic_IdAndAndPermission(3,2, PermissionType.Create));
-
-        if(permissionsRepository.findByReferencedUser_IdAndTopic_IdAndAndPermission(request.getUser_id(), request.getTopic_id(), request.getType()) == null)
+        Permission permissionToReturn = new Permission();
+        PermissionsEntity foundEntity = null;
+        if((foundEntity = permissionsRepository.findByReferencedUser_IdAndTopic_IdAndAndPermission(request.getUser_id(), request.getTopic_id(), request.getType())) == null)
         {
             return permissionsService.addPermission(request);
         }
-        throw new EntityExistsException();
+        else{
+            permissionToReturn.setId(foundEntity.getId());
+            permissionToReturn.setType(foundEntity.getPermission());
+            permissionToReturn.setUser_id(foundEntity.getReferencedUser().getId());
+            permissionToReturn.setTopic_id(foundEntity.getTopic().getId());
+            permissionToReturn.setTopic_name(foundEntity.getTopic().getName());
+            return permissionToReturn;
+        }
     }
 
     @DeleteMapping("/delete/{id}")

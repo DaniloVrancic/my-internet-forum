@@ -74,6 +74,7 @@ public class PermissionsServiceImpl extends CrudJpaService<PermissionsEntity, In
 
         Permission savedPermission = this.insert(entityToAdd,Permission.class);
 
+
         return savedPermission;
     }
 
