@@ -23,8 +23,8 @@ public class CommentEntity implements BaseEntity<Integer> {
     @Column(name = "modified_at", nullable = true)
     private Timestamp modifiedAt;
     @Basic
-    @Column(name = "approved", nullable = false)
-    private Boolean approved;
+    @Column(name = "status", nullable = false)
+    private Status status;
     @ManyToOne
     @JoinColumn(name = "forum_post_id", referencedColumnName = "id", nullable = false)
     private ForumPostEntity referencedPost;
@@ -65,12 +65,12 @@ public class CommentEntity implements BaseEntity<Integer> {
         this.modifiedAt = modifiedAt;
     }
 
-    public Boolean getApproved() {
-        return approved;
+    public Status getApproved() {
+        return status;
     }
 
-    public void setApproved(Boolean approved) {
-        this.approved = approved;
+    public void setApproved(Status status) {
+        this.status = status;
     }
 
     @Override
@@ -78,12 +78,12 @@ public class CommentEntity implements BaseEntity<Integer> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CommentEntity that = (CommentEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(content, that.content) && Objects.equals(postedAt, that.postedAt) && Objects.equals(modifiedAt, that.modifiedAt) && Objects.equals(approved, that.approved);
+        return Objects.equals(id, that.id) && Objects.equals(content, that.content) && Objects.equals(postedAt, that.postedAt) && Objects.equals(modifiedAt, that.modifiedAt) && Objects.equals(status, that.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, content, postedAt, modifiedAt, approved);
+        return Objects.hash(id, content, postedAt, modifiedAt, status);
     }
 
     public ForumPostEntity getReferencedPost() {
@@ -92,5 +92,9 @@ public class CommentEntity implements BaseEntity<Integer> {
 
     public void setReferencedPost(ForumPostEntity referencedPost) {
         this.referencedPost = referencedPost;
+    }
+
+    public enum Status{
+        NEW, APPROVED, REJECTED
     }
 }
