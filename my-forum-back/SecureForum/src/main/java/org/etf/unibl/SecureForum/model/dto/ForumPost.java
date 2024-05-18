@@ -1,5 +1,7 @@
 package org.etf.unibl.SecureForum.model.dto;
 
+import org.etf.unibl.SecureForum.model.entities.TopicEntity;
+
 import java.sql.Timestamp;
 
 public class ForumPost {

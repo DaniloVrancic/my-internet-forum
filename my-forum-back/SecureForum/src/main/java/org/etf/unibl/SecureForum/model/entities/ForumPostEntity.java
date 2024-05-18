@@ -27,9 +27,6 @@ public class ForumPostEntity implements BaseEntity<Integer> {
     @Basic
     @Column(name = "modified_at", nullable = true)
     private Timestamp modifiedAt;
-    @OneToMany(mappedBy = "referencedPost")
-    @JsonIgnore
-    private List<CommentEntity> commentsOnPost;
     @ManyToOne
     @JoinColumn(name = "topic_id", referencedColumnName = "id", nullable = false)
     private TopicEntity postTopic;
@@ -88,14 +85,6 @@ public class ForumPostEntity implements BaseEntity<Integer> {
     @Override
     public int hashCode() {
         return Objects.hash(id, title, content, postedAt, modifiedAt);
-    }
-
-    public List<CommentEntity> getCommentsOnPost() {
-        return commentsOnPost;
-    }
-
-    public void setCommentsOnPost(List<CommentEntity> commentsOnPost) {
-        this.commentsOnPost = commentsOnPost;
     }
 
     public TopicEntity getPostTopic() {

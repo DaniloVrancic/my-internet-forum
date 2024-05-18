@@ -5,8 +5,10 @@ import jakarta.validation.constraints.Size;
 import org.etf.unibl.SecureForum.model.entities.TopicEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 
-public class CreatePostRequest {
+public class UpdatePostRequest {
 
+    @NotNull
+    private Integer id;
     @NotNull
     @Size(min = 1)
     private String title;
@@ -60,5 +62,12 @@ public class CreatePostRequest {
         this.user.setId(user_id);
     }
 
+    public Integer getId(){
+        return this.id;
+    }
+
+    public void setId(Integer id){
+        this.id = id;
+    }
 
 }
