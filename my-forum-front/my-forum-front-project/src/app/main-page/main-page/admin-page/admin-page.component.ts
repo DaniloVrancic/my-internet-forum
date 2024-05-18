@@ -264,4 +264,52 @@ export class AdminPageComponent implements OnInit, OnDestroy{
       });
       return myArray;
     }
+
+    updateUser(selectedUser: User) {  //Maybe needs a fix
+        let myForm = document.forms[0];
+        let changeHappenedFlag: boolean = false;
+
+        
+        let selectedStatus = myForm["status"].value;
+        if(selectedStatus == null || selectedStatus.length == 0)
+          {
+            return;
+          }
+        
+        let selectedType = myForm["type"].value;
+        if(selectedType == null || selectedType.length == 0)
+          {
+            return;
+          }
+
+        if(this.selectedUser.status !== selectedStatus || this.selectedUser.type !== selectedType)
+          {
+            this.userService.changePrivilege({id: this.selectedUser.id, status: selectedStatus, type: selectedType}).subscribe({
+              next: response => {this.selectedUser = response; changeHappenedFlag = true},
+              error: error => {console.error(error);}
+            })
+          }
+
+        if (changeHappenedFlag) {
+            let userToUpdate = this.allUsers.find(user => user.id === this.selectedUser.id);
+            if (userToUpdate) {
+                  userToUpdate.status = this.selectedUser.status;
+                  userToUpdate.type = this.selectedUser.type;
+            }
+          }
+      }
+
+    isUpdateUserButtonDisabled(){
+      let myForm = document.forms[0];
+      if(this.selectedUser.type === 'Administrator' || 
+          myForm["status"].value == null || myForm["status"].value.length == 0 || 
+          myForm["type"].value == null || myForm["type"].value.length == 0)
+          {
+            return true;
+          }
+      else
+          {
+            return false;
+          }
+    }
 }

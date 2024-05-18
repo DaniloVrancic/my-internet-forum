@@ -37,7 +37,7 @@
 	<br>
 	<label for="type" class="input-field-descriptor">Type:</label>
 	<div class="input-field">
-        <input type="radio" id="typeAdmin" name="type" value="Admin" class="radio-input" [checked]="this.selectedUser.type === 'Administrator'">
+        <input type="radio" id="typeAdmin" name="type" value="Administrator" class="radio-input" [checked]="this.selectedUser.type === 'Administrator'">
 	    <label for="typeAdmin">Administrator</label>
 	    <input type="radio"  id="typeModerator" name="type" value="Moderator" class="radio-input" [checked]="this.selectedUser.type === 'Moderator'">
 	    <label for="typeModerator">Moderator</label>
@@ -46,7 +46,7 @@
 	</div>
     <br />
     <div class="buttons-area">
-        <button type="button" id="updateButton" disabled>Update User</button>
+        <button type="button" id="updateButton" [disabled]="isUpdateUserButtonDisabled()" (click)="updateUser(this.selectedUser)">Update User</button>
     </div>
 
     @if(this.selectedUser.id !== -1){

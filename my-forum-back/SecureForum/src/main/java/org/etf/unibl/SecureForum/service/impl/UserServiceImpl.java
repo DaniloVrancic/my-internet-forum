@@ -6,7 +6,6 @@ import org.etf.unibl.SecureForum.base.CrudJpaService;
 import org.etf.unibl.SecureForum.exceptions.ConflictException;
 import org.etf.unibl.SecureForum.exceptions.ForbiddenException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
-import org.etf.unibl.SecureForum.model.dto.Permission;
 import org.etf.unibl.SecureForum.model.dto.User;
 import org.etf.unibl.SecureForum.model.entities.CodeVerificationEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
@@ -18,7 +17,6 @@ import org.etf.unibl.SecureForum.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -171,47 +169,14 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
     }
 
     @Override
-    public User changeStatus(ChangeStatusRequest request) {
-        UserEntity userToUpdate = userRepository.findById(request.getId()).orElseThrow(NotFoundException::new);
-        userToUpdate.setStatus(request.getStatus());
-
-        User userToReturn = new User();
-        userToReturn.setUsername(userToUpdate.getUsername());
-        userToReturn.setEmail(userToUpdate.getEmail());
-        userToReturn.setCreateTime(userToUpdate.getCreateTime());
-        userToReturn.setType(userToUpdate.getType());
-        userToReturn.setStatus(userToUpdate.getStatus());
-
-        if(request.getStatus().equals(userToUpdate.getStatus())) //If the status is the same, don't change it
-        {
-            return userToReturn; //but still return all the data as if it changed
-        }
-
-        UserEntity updatedEntity = userRepository.save(userToUpdate);
-
-        return userToReturn;
-    }
-
-    @Override
-    public User changeRole(ChangeTypeRequest request) {
+    public User changePrivileges(UpdateUserPrivilegesRequest request) {
         UserEntity userToUpdate = userRepository.findById(request.getId()).orElseThrow(NotFoundException::new);
         userToUpdate.setType(request.getType());
-
-        User userToReturn = new User();
-        userToReturn.setUsername(userToUpdate.getUsername());
-        userToReturn.setEmail(userToUpdate.getEmail());
-        userToReturn.setCreateTime(userToUpdate.getCreateTime());
-        userToReturn.setType(userToUpdate.getType());
-        userToReturn.setStatus(userToUpdate.getStatus());
-
-        if(request.getType().equals(userToUpdate.getType())) //If the type is the same, don't change it
-        {
-            return userToReturn; //but still return all the data as if it changed
-        }
+        userToUpdate.setStatus(request.getStatus());
 
         UserEntity updatedEntity = userRepository.save(userToUpdate);
 
-        return userToReturn;
+        return mapUserEntityToUser(updatedEntity);
     }
 
     @Override
@@ -254,6 +219,17 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
 
         // Construct a wrapper object to hold both text and HTML content
         return textContent + "|||" + htmlContent;
+    }
+
+    private User mapUserEntityToUser(UserEntity entity){
+        User userToReturn = new User();
+        userToReturn.setId(entity.getId());
+        userToReturn.setUsername(entity.getUsername());
+        userToReturn.setEmail(entity.getEmail());
+        userToReturn.setCreateTime(entity.getCreateTime());
+        userToReturn.setType(entity.getType());
+        userToReturn.setStatus(entity.getStatus());
+        return userToReturn;
     }
 
 }

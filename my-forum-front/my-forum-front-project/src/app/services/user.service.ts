@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from '../../interfaces/user';
 import { VerifyCodeRequest } from '../../verify-code-page/verify-code-request-interface';
 import { environment } from '../../environments/environment';
+import { UserPrivilegeUpdateRequest } from '../../interfaces/requests/user-privilege-update-request';
 
 @Injectable({
   providedIn: 'root',
@@ -44,13 +45,10 @@ export class UserService {
     return this.http.put<any>(`${this.baseUrl}/update`, userData);
   }
 
-  changeTypeUser(request: any): Observable<User> {
-    return this.http.put<User>(`${this.baseUrl}/change-type`, request);
+  changePrivilege(request: UserPrivilegeUpdateRequest): Observable<User> {
+    return this.http.put<User>(`${this.baseUrl}/change-privileges`, request);
   }
 
-  changeStatusUser(request: any): Observable<User> {
-    return this.http.put<User>(`${this.baseUrl}/change-status`, request);
-  }
 
   deleteUserById(id: number): Observable<string> {
     return this.http.delete<string>(`${this.baseUrl}/delete/${id}`);
