@@ -12,6 +12,8 @@ public interface UserService extends CrudService<Integer> {
 
     User signUp(SignUpRequest request);
 
+    User login(LoginRequest request);
+
     User changeStatus(ChangeStatusRequest request);
 
     User changeRole(ChangeTypeRequest request);

@@ -1,8 +1,9 @@
 <nav class="nav" style="background-color: rgba(40, 40, 40, 0.9);">
     <h1 class="form-title" style="text-align: center; font-size: 3rem; padding: 1rem; color: ghostwhite;">MySecure Forum</h1>
     <div class="buttons-area larger-text" style="padding-bottom: 0.3rem;">
-        <button type="button" id="administratorButton">Administrator</button>
-        <button type="button" id="moderatorButton">Moderator</button>
-        <button type="button" id="forumerButton">Forumer</button>
+        <button type="button" id="administratorButton" (click)="navigateToAdminPage()">Administrator</button>
+        <button type="button" id="moderatorButton" (click)="navigateToModeratorPage()">Moderator</button>
+        <button type="button" id="forumerButton" (click)="navigateToForumerPage()">Forumer</button>
+        <button type="button" id="forumerButton" (click)="logoutButton()">Logout</button>
     </div>
 </nav>

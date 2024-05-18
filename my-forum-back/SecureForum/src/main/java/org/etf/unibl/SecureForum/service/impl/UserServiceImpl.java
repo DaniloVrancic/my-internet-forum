@@ -3,7 +3,10 @@ package org.etf.unibl.SecureForum.service.impl;
 import jakarta.transaction.Transactional;
 import org.etf.unibl.SecureForum.additional.email.EmailSender;
 import org.etf.unibl.SecureForum.base.CrudJpaService;
+import org.etf.unibl.SecureForum.exceptions.ConflictException;
+import org.etf.unibl.SecureForum.exceptions.ForbiddenException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
+import org.etf.unibl.SecureForum.model.dto.Permission;
 import org.etf.unibl.SecureForum.model.dto.User;
 import org.etf.unibl.SecureForum.model.entities.CodeVerificationEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
@@ -14,6 +17,8 @@ import org.etf.unibl.SecureForum.repositories.UserRepository;
 import org.etf.unibl.SecureForum.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -63,15 +68,23 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         userForDatabase.setStatus(UserEntity.Status.REQUESTED);
         userForDatabase.setCreateTime(Timestamp.from(Instant.now()));
         userForDatabase.setType(UserType.Forumer);
+        userForDatabase.setOauth_account(false);
         ///////////////////////////////////////////////////////
-
-        UserEntity savedUser = userRepository.save(userForDatabase);
+        UserEntity savedUser = null;
+        try{
+            savedUser = userRepository.save(userForDatabase);
+        }
+        catch(DataIntegrityViolationException ex)
+        {
+            throw new ConflictException();
+        }
 
         if(savedUser.getStatus().equals(UserEntity.Status.REQUESTED))
         {
             generateNewVerificationCode(savedUser);
         }
         ////////    SETTING DATA FOR USER TO RETURN //////////
+        userToReturn.setId(savedUser.getId());
         userToReturn.setUsername(savedUser.getUsername());
         userToReturn.setEmail(savedUser.getEmail());
         userToReturn.setCreateTime(savedUser.getCreateTime());
@@ -79,6 +92,39 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         userToReturn.setStatus(savedUser.getStatus());
         /////////////////////////////////////////////////////
         return userToReturn;
+    }
+
+    public User login(LoginRequest request){
+        UserEntity foundEntity = userRepository.findByUsernameIs(request.getUsername()).orElseThrow(NotFoundException::new);
+        User userToReturn = null;
+
+        if(foundEntity != null){
+            if(getBCryptEncoder().matches(request.getPassword(), foundEntity.getPassword()))
+            {
+                userToReturn = new User();
+                userToReturn.setId(foundEntity.getId());
+                userToReturn.setUsername(foundEntity.getUsername());
+                userToReturn.setEmail(foundEntity.getEmail());
+                userToReturn.setType(foundEntity.getType());
+
+                userToReturn.setStatus(foundEntity.getStatus());
+
+                if(userToReturn.getStatus().equals(UserEntity.Status.BLOCKED))
+                {
+                    throw new ForbiddenException(); //if the user was blocked, don't allow him login
+                }
+
+                userToReturn.setCreateTime(foundEntity.getCreateTime());
+                return userToReturn;
+            }
+            else{ //If user was found but password is incorrect
+                throw new NotFoundException();
+            }
+
+        }
+        else{
+            throw new NotFoundException();
+        }
     }
 
     /**

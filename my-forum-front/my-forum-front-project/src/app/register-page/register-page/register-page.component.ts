@@ -3,24 +3,29 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RegisterRequest } from './registerRequest';
 import { Form } from '@angular/forms';
+import { UserService } from '../../services/user.service';
+import { User } from '../../../interfaces/user';
+
 
 @Component({
   selector: 'app-register-page',
   standalone: true,
-  imports: [ HttpClientModule ],
+  imports: [ ],
   templateUrl: './register-page.component.html',
   styleUrl: './register-page.component.css',
-  providers: [Router]
+  providers: [Router, UserService]
 })
 export class RegisterPageComponent implements OnInit{
 
   private myForm : any;
   public isMyFormValid : boolean = false;
   public errorMessage: string = "";
+  public registerRequest: RegisterRequest = {} as RegisterRequest;
   constructor(private router: Router,
-            private http: HttpClient
-            ){
-              
+            private userService: UserService){
+              this.registerRequest.username = "";
+              this.registerRequest.password = "";
+              this.registerRequest.email = "";
             }
 
   ngOnInit(): void {
@@ -31,16 +36,26 @@ onInput(){
   this.isMyFormValid = this.myForm.checkValidity();
 }
 
+onInputUsername(event: any){
+  this.onInput();
+  this.registerRequest.username = event.target.value;
+}
+
+onInputPassword(event: any){
+  this.onInput();
+  this.registerRequest.password = event.target.value;
+}
+
+onInputEmail(event: any){
+  this.onInput();
+  this.registerRequest.email = event.target.value;
+}
+
 
 
 registerUser() {
   
-  
   const formData = new FormData();
-  
-  let registerRequest : RegisterRequest = {} as RegisterRequest;
-
-  console.log(this.myForm);
 
   if(!this.myForm.checkValidity())
     {
@@ -52,23 +67,37 @@ registerUser() {
       this.errorMessage = "";
     }
 
-  /*
-  formData.append('username', this.username);
-  formData.append('password', this.password);
-  formData.append('email', this.email);
-  
-
-  this.http.post('your-api-endpoint', formData)
+    this.userService.registerUser(this.registerRequest)
     .subscribe(
     {
     next: response => {
-      // Handle success response
+      let user: User = {} as User;
+      console.log(response);
+      user = response;
+      this.userService.setCurrentUser(user);
+      this.errorMessage = ""; // Remove the error message at this point cause everything went alright.
+
+      if(user.status == "REQUESTED")
+        {
+          this.router.navigate(["/verify-page"]); //redirect the user to verification if he hasn't already been verified
+        }
+      else{
+        this.router.navigate(["/main-page"]);
+      }
     }, 
-    error: error => {},
-      // Handle error response
+    error: error => {
+      if(error.status === 409)
+        {
+          this.errorMessage = "Username already taken.";
+        }
+      else{
+          this.errorMessage = "Something went wrong.";
+      }
+      console.error(this.errorMessage);
+    },
     complete: () => {}
     });
-    */
+    
 }
 
 }

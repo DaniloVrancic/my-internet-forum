@@ -21,10 +21,11 @@ CREATE TABLE IF NOT EXISTS `my_secure_forum`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(32) NOT NULL,
   `email` VARCHAR(256) NOT NULL,
-  `password` VARCHAR(512) NOT NULL,
+  `password` VARCHAR(512) NULL,
   `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `type` ENUM('Administrator', 'Moderator', 'Forumer') NOT NULL,
   `status` TINYINT NOT NULL DEFAULT 0,
+  `oauth_account` TINYINT NULL DEFAULT 0,
   UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   PRIMARY KEY (`id`),
@@ -86,12 +87,12 @@ CREATE TABLE IF NOT EXISTS `my_secure_forum`.`comment` (
   CONSTRAINT `fk_comment_forum_post1`
     FOREIGN KEY (`forum_post_id`)
     REFERENCES `my_secure_forum`.`forum_post` (`id`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_comment_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `my_secure_forum`.`user` (`id`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -102,13 +103,20 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `my_secure_forum`.`permissions` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
-  `all_permissions` VARCHAR(512) NULL,
+  `topic_id` INT NOT NULL,
+  `permission` ENUM('Create', 'Read', 'Write', 'Delete') NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_permissions_user1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_permissions_topic1_idx` (`topic_id` ASC) VISIBLE,
   CONSTRAINT `fk_permissions_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `my_secure_forum`.`user` (`id`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_permissions_topic1`
+    FOREIGN KEY (`topic_id`)
+    REFERENCES `my_secure_forum`.`topic` (`id`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -126,24 +134,7 @@ CREATE TABLE IF NOT EXISTS `my_secure_forum`.`access_logs` (
   CONSTRAINT `fk_access_logs_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `my_secure_forum`.`user` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `my_secure_forum`.`oauth_account`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `my_secure_forum`.`oauth_account` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
-  `oauth_provider` VARCHAR(64) NULL,
-  PRIMARY KEY (`id`, `user_id`),
-  INDEX `fk_oauth_account_user1_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_oauth_account_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `my_secure_forum`.`user` (`id`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -161,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `my_secure_forum`.`code_verification` (
   CONSTRAINT `fk_code_verification_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `my_secure_forum`.`user` (`id`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 

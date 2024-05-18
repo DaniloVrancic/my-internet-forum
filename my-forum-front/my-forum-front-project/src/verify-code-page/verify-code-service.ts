@@ -7,7 +7,7 @@ import { User } from '../interfaces/user';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class VerifyService {
   private baseUrl = '/users'; // Assuming your backend is served from the same host
 
 

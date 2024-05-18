@@ -10,11 +10,14 @@ import { environment } from '../../environments/environment';
 })
 export class UserService {
   private baseUrl = environment.apiBaseUrl + '/users';
+  private currentUser: User | null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.currentUser = null;
+  }
 
-  findAll(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl);
+  findAll(): Observable<any> {
+    return this.http.get<any>(this.baseUrl);
   }
 
   findUserById(id: number): Observable<User> {
@@ -23,6 +26,10 @@ export class UserService {
 
   registerUser(request: any): Observable<User> {
     return this.http.post<any>(`${this.baseUrl}/register`, request);
+  }
+
+  loginUser(request: any): Observable<User> {
+    return this.http.post<any>(`${this.baseUrl}/login`, request)
   }
 
   addUser(request: any): Observable<any> {
@@ -63,22 +70,33 @@ export class UserService {
 
   public setCurrentUser(user: User | null)
   {
-    //UserService.currentUser = user;
     if(user == null)
     {
-      if(sessionStorage.getItem(environment.userKeyString) != null)
-      {
-        sessionStorage.removeItem(environment.userKeyString);
-      }
+      this.removeCurrentUser();
     }
     else
     {
       sessionStorage.setItem(environment.userKeyString, JSON.stringify(user));
+      this.currentUser = user; //Makes sure to always update the current user to the latest set User.
     }
+  }
+
+  public removeCurrentUser()
+  {
+    if(sessionStorage.getItem(environment.userKeyString) != null)
+      {
+        sessionStorage.removeItem(environment.userKeyString);
+        this.currentUser = null;
+      }
   }
 
   public getCurrentUser() : User | null
   {
-    return JSON.parse(sessionStorage.getItem(environment.userKeyString) as string);
+    if(this.currentUser == null)
+      {
+        return JSON.parse(sessionStorage.getItem(environment.userKeyString) as string);
+      }
+    else
+      return this.currentUser;
   }
 }

@@ -6,6 +6,7 @@ import { VerifyCodeRequest } from './verify-code-request-interface';
 import { error } from 'console';
 import { User } from '../interfaces/user';
 import { response } from 'express';
+import { UserStatuses } from '../interfaces/user.statuses';
 
 @Component({
   selector: 'app-verify-code-page',
@@ -20,15 +21,24 @@ export class VerifyCodePageComponent implements OnInit{
   private myForm : HTMLFormElement = {} as HTMLFormElement;
   public isMyFormValid : boolean = false;
   public errorMessage: string = "";
+  public usernameForVerify: string;
 
   constructor(private router: Router, public userService : UserService) //THIS PAGE SHOULDN'T BE OPENED WITHOUT A USER BEING LOADED IN THE SESSION STORAGE
   {
-
+    this.usernameForVerify = userService.getCurrentUser()?.username as string;
   }
 
   ngOnInit(): void {
       this.myForm = document.forms[0];
       
+      if(this.userService.getCurrentUser() == null)
+        {
+          this.router.navigate(['']);
+        }
+      else if(this.userService.getCurrentUser()?.status == UserStatuses.active)
+        {
+          this.router.navigate(['main-page']);
+        }
   }
 
 
@@ -46,7 +56,8 @@ submitCode() {
         {
           this.userService.setCurrentUser(response);
           this.errorMessage = "";
-          console.log(response);
+          alert("Successful user verification!");
+          this.router.navigate(['main-page']);
         }
       ),
         (error: any) => {
@@ -54,7 +65,7 @@ submitCode() {
       };
     }
   else{
-    this.errorMessage = "The verification code input incorrectly."
+    this.errorMessage = "The verification code was input incorrectly."
   }
 }
 
@@ -75,12 +86,9 @@ resendCode() {
   }
 }
 
-private setErrorMessage(errorMsg: string)
-{
-  this.errorMessage = errorMsg;
-}
-
-  
-
+  private setErrorMessage(errorMsg: string)
+  {
+    this.errorMessage = errorMsg;
+  }
 
 }

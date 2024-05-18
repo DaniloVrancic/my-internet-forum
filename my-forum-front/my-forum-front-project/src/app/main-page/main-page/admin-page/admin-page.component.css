@@ -1,0 +1,24 @@
+.error-message{
+    color: red;
+    text-align: center;
+}
+
+.table-section{
+    width: 100%;
+    background-color: ghostwhite;
+    border-radius: 0.4rem;
+    padding: 0.4rem;
+}
+
+.table-section table{
+    width: 100%;
+}
+
+.table-section table tr{
+    text-align: center;
+}
+
+.selected-row{
+    color: ghostwhite;
+    background-color: rgba(35, 35, 35,0.9);
+}
