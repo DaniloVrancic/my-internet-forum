@@ -5,6 +5,8 @@ import org.etf.unibl.SecureForum.base.CrudJpaService;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
 import org.etf.unibl.SecureForum.model.dto.Comment;
 import org.etf.unibl.SecureForum.model.entities.CommentEntity;
+import org.etf.unibl.SecureForum.model.entities.ForumPostEntity;
+import org.etf.unibl.SecureForum.model.enums.UserType;
 import org.etf.unibl.SecureForum.model.requests.CreateCommentRequest;
 import org.etf.unibl.SecureForum.model.requests.EditCommentRequest;
 import org.etf.unibl.SecureForum.model.requests.UpdateCommentRequest;
@@ -72,11 +74,18 @@ public class CommentServiceImpl extends CrudJpaService<CommentEntity, Integer> i
         entityToAdd.setReferencedPost(request.getForum_post());
         entityToAdd.setReferencedUser(request.getUser());
 
-        entityToAdd.setStatus(CommentEntity.Status.NEW);
+        entityToAdd.setStatus(CommentEntity.Status.PENDING);
         entityToAdd.setPostedAt(Timestamp.from(Instant.now()));
         entityToAdd.setModifiedAt(Timestamp.from(Instant.now()));
 
         CommentEntity addedEntity = commentRepository.save(entityToAdd);
+
+        //This if checks if the user is an Administrator or a moderator, if he is, his Comment ( or Forum post ) get automatically approved
+        if(addedEntity.getReferencedUser().getType().equals(UserType.Administrator) || addedEntity.getReferencedUser().getType().equals(UserType.Moderator))
+        {
+            addedEntity.setStatus(CommentEntity.Status.APPROVED);
+            addedEntity = commentRepository.save(addedEntity);
+        }
 
         return mapCommentEntityToComment(addedEntity);
     }

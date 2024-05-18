@@ -7,6 +7,7 @@ import org.etf.unibl.SecureForum.model.dto.ForumPost;
 import org.etf.unibl.SecureForum.model.entities.ForumPostEntity;
 import org.etf.unibl.SecureForum.model.entities.PermissionsEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
+import org.etf.unibl.SecureForum.model.enums.UserType;
 import org.etf.unibl.SecureForum.model.requests.CreatePostRequest;
 import org.etf.unibl.SecureForum.model.requests.UpdatePostRequest;
 import org.etf.unibl.SecureForum.repositories.ForumPostRepository;
@@ -46,6 +47,13 @@ public class ForumPostImpl extends CrudJpaService<ForumPostEntity, Integer> impl
 
         ForumPostEntity addedEntity = forumPostRepository.save(entityToAdd);
 
+        //This if checks if the user is an Administrator or a moderator, if he is, his Forum Post ( and comments ) get automatically approved
+        if(addedEntity.getPostCreator().getType().equals(UserType.Administrator) || addedEntity.getPostCreator().getType().equals(UserType.Moderator))
+        {
+            addedEntity.setStatus(ForumPostEntity.Status.APPROVED);
+            addedEntity = forumPostRepository.save(addedEntity);
+        }
+
         return mapForumPostEntityToForumPost(addedEntity);
 
     }
@@ -74,6 +82,15 @@ public class ForumPostImpl extends CrudJpaService<ForumPostEntity, Integer> impl
         return mapForumPostEntityToForumPost(foundEntity);
     }
 
+    @Override
+    public ForumPost changeStatus(Integer post_id, ForumPostEntity.Status status){
+        ForumPostEntity entityToUpdate = forumPostRepository.findById(post_id).orElseThrow(NotFoundException::new);
+        entityToUpdate.setStatus(status);
+
+        ForumPostEntity updatedEntity = forumPostRepository.save(entityToUpdate);
+        return mapForumPostEntityToForumPost(updatedEntity);
+    }
+
     /**
      * For mapping into a proper DTO object to return to front users.
      * @param entity the entity from the database to map
@@ -89,6 +106,7 @@ public class ForumPostImpl extends CrudJpaService<ForumPostEntity, Integer> impl
         forumPost.setCreated_at(entity.getPostedAt());
         forumPost.setModified_at(entity.getModifiedAt());
         forumPost.setUser_creator(entity.getPostCreator().getUsername());
+        forumPost.setStatus(entity.getStatus());
 
         return forumPost;
     }

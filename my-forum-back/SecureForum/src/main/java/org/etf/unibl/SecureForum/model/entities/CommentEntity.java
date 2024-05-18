@@ -24,6 +24,7 @@ public class CommentEntity implements BaseEntity<Integer> {
     private Timestamp modifiedAt;
     @Basic
     @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Status status;
     @ManyToOne
     @JoinColumn(name = "forum_post_id", referencedColumnName = "id", nullable = false)
@@ -103,6 +104,6 @@ public class CommentEntity implements BaseEntity<Integer> {
     }
 
     public enum Status{
-        NEW, APPROVED, REJECTED
+        PENDING, APPROVED, REJECTED
     }
 }

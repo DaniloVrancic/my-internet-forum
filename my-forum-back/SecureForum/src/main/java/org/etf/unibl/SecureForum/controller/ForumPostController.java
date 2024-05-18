@@ -1,7 +1,9 @@
 package org.etf.unibl.SecureForum.controller;
 
 import jakarta.validation.Valid;
+import org.etf.unibl.SecureForum.model.dto.Comment;
 import org.etf.unibl.SecureForum.model.dto.ForumPost;
+import org.etf.unibl.SecureForum.model.entities.CommentEntity;
 import org.etf.unibl.SecureForum.model.entities.ForumPostEntity;
 import org.etf.unibl.SecureForum.model.requests.CreatePostRequest;
 import org.etf.unibl.SecureForum.model.requests.UpdatePostRequest;
@@ -52,6 +54,12 @@ public class ForumPostController {
     @PutMapping("/update")
     public ForumPost editForumPost(@Valid @RequestBody UpdatePostRequest request) {
         return forumPostService.editForumPost(request);
+    }
+
+    @PutMapping("/change_status/{post_id}")
+    public ForumPost changeStatus(@PathVariable("post_id") Integer postId,
+                                @RequestParam("status") ForumPostEntity.Status status) {
+        return forumPostService.changeStatus(postId, status);
     }
 
     @DeleteMapping("/delete/{id}")

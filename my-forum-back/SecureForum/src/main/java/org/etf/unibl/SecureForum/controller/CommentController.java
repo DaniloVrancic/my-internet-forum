@@ -2,6 +2,7 @@ package org.etf.unibl.SecureForum.controller;
 
 import jakarta.validation.Valid;
 import org.etf.unibl.SecureForum.model.dto.Comment;
+import org.etf.unibl.SecureForum.model.entities.CommentEntity;
 import org.etf.unibl.SecureForum.model.requests.CreateCommentRequest;
 import org.etf.unibl.SecureForum.model.requests.EditCommentRequest;
 import org.etf.unibl.SecureForum.model.requests.UpdateCommentRequest;
@@ -57,6 +58,12 @@ public class CommentController {
     @PutMapping("/update")
     public Comment editComment(@Valid @RequestBody UpdateCommentRequest request) {
         return commentService.updateComment(request);
+    }
+
+    @PutMapping("/change_status/{comment_id}")
+    public Comment changeStatus(@PathVariable("comment_id") Integer commentId,
+                                @RequestParam("status") CommentEntity.Status status) {
+        return commentService.changeCommentStatus(commentId, status);
     }
 
     @DeleteMapping("/delete/{id}")

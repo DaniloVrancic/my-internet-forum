@@ -2,6 +2,7 @@ package org.etf.unibl.SecureForum.model.requests;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.etf.unibl.SecureForum.model.entities.ForumPostEntity;
 import org.etf.unibl.SecureForum.model.entities.TopicEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 
@@ -19,6 +20,8 @@ public class UpdatePostRequest {
     private TopicEntity topic;
     @NotNull
     private UserEntity user;
+    @NotNull
+    private ForumPostEntity.Status status;
 
     public String getTitle() {
         return title;
@@ -68,6 +71,14 @@ public class UpdatePostRequest {
 
     public void setId(Integer id){
         this.id = id;
+    }
+
+    public ForumPostEntity.Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(ForumPostEntity.Status status) {
+        this.status = status;
     }
 
 }
