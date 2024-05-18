@@ -13,4 +13,6 @@ public interface PermissionsRepository extends JpaRepository<PermissionsEntity, 
     List<PermissionsEntity> findAllByReferencedUser_Id(Integer userId);
 
     PermissionsEntity findByReferencedUser_IdAndTopic_IdAndAndPermission(Integer userId, Integer topicId, PermissionType type);
+
+    List<PermissionsEntity> findAllByReferencedUser_IdOrderByPermission(Integer userId);
 }

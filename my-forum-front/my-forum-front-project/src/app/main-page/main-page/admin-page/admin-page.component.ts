@@ -124,7 +124,7 @@ export class AdminPageComponent implements OnInit, OnDestroy{
   public getPermissionsForUser(user_id: number){
     this.permissionService.findPermissionsByUserId(user_id).subscribe(
       {next: response => {
-        this.userPermissions = response;
+        this.userPermissions = this.sortPermissionsByTopicName(response);
       },
       error: error => {
         this.userPermissions = [];
@@ -219,7 +219,7 @@ export class AdminPageComponent implements OnInit, OnDestroy{
   addPermission() {
     this.permissionRequest.user_id = this.selectedUser.id;
     this.permissionRequest.topic_id = this.selectedTopic?.id as number;
-    
+
     if(this.permissionRequest.type == null || this.permissionRequest.type == ""){
         return;
         console.error("Can't add non-existent type");
@@ -227,14 +227,14 @@ export class AdminPageComponent implements OnInit, OnDestroy{
     
       let userPermissionToAdd: Permission = {id: -1, topic_id: this.selectedTopic?.id as number, topic_name: this.selectedTopic?.name as string,
       type: this.permissionRequest.type, user_id: this.selectedUser.id
-      };  //TODO: ADD THIS USER TO TABLE OF CURRENT TABLES
+      };
 
 
 
       this.permissionService.addPermission(this.permissionRequest).subscribe({
         next: response => {
-          console.log("ADDED:");
-          console.log(response);
+          this.userPermissions.push(response);
+          this.sortPermissionsByTopicName(this.userPermissions);
         },
         error: error => {console.log(error)},
         complete: () => {}
@@ -249,4 +249,19 @@ export class AdminPageComponent implements OnInit, OnDestroy{
       this.permissionRequest = {user_id: -1, topic_id: -1, type: ""};
     }
 
+    private sortPermissionsByTopicName(myArray: Permission[]) : Permission[] {
+      myArray.sort((a, b) => {
+        const topicNameA = a.topic_name.toUpperCase();
+        const topicNameB = b.topic_name.toUpperCase();
+    
+        if (topicNameA < topicNameB) {
+          return -1;
+        }
+        if (topicNameA > topicNameB) {
+          return 1;
+        }
+        return 0;
+      });
+      return myArray;
+    }
 }
