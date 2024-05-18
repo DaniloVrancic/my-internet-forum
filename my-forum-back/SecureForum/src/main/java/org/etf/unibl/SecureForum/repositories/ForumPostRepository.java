@@ -11,6 +11,8 @@ import java.util.List;
 public interface ForumPostRepository extends JpaRepository<ForumPostEntity, Integer>, JpaSpecificationExecutor<ForumPostEntity> {
 
     List<ForumPostEntity> findAllByPostCreator_Id(Integer id);
+
+    List<ForumPostEntity> findAllByPostTopic_Id(Integer id);
     List<ForumPostEntity> findAllByPostedAtBefore(Timestamp time);
     List<ForumPostEntity> findAllByPostedAtAfter(Timestamp time);
 

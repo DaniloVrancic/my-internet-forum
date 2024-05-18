@@ -1,0 +1,60 @@
+package org.etf.unibl.SecureForum.controller;
+
+import org.etf.unibl.SecureForum.model.dto.ForumPost;
+import org.etf.unibl.SecureForum.model.entities.ForumPostEntity;
+import org.etf.unibl.SecureForum.model.requests.CreatePostRequest;
+import org.etf.unibl.SecureForum.model.requests.UpdatePostRequest;
+import org.etf.unibl.SecureForum.repositories.ForumPostRepository;
+import org.etf.unibl.SecureForum.service.ForumPostService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/forum_post")
+@Validated
+public class ForumPostController {
+    private final ForumPostService forumPostService;
+    private final ForumPostRepository forumPostRepository;
+
+    @Autowired
+    public ForumPostController(ForumPostService forumPostService,
+                               ForumPostRepository forumPostRepository){
+        this.forumPostService = forumPostService;
+        this.forumPostRepository = forumPostRepository;
+    }
+
+    @GetMapping
+    public List<ForumPost> findAllForumPosts() {
+        return forumPostService.findAllForumPosts();
+    }
+
+    @GetMapping("/topic/{topic_id}")
+    public List<ForumPost> findAllByTopicId(@PathVariable("topic_id") Integer topic_id) {
+        return forumPostService.findAllByTopicId(topic_id);
+    }
+
+    @GetMapping("/user/{user_id}")
+    public List<ForumPost> findAllByUserId(@PathVariable("user_id") Integer user_id) {
+        return forumPostService.findAllByUserId(user_id);
+    }
+
+    @PostMapping("/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ForumPost addForumPost(@RequestBody CreatePostRequest request) {
+        return forumPostService.addForumPost(request);
+    }
+
+    @PutMapping("/update")
+    public ForumPost editForumPost(@RequestBody UpdatePostRequest request) {
+        return forumPostService.editForumPost(request);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ForumPost deleteForumPost(@PathVariable("id") Integer id) {
+        return forumPostService.deleteForumPostById(id);
+    }
+}

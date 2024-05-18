@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -89,5 +91,41 @@ public class ForumPostImpl extends CrudJpaService<ForumPostEntity, Integer> impl
         forumPost.setUser_creator(entity.getPostCreator().getUsername());
 
         return forumPost;
+    }
+
+    @Override
+    public List<ForumPost> findAllByUserId(Integer user_id) {
+        List<ForumPostEntity> foundEntities = forumPostRepository.findAllByPostCreator_Id(user_id);
+        List<ForumPost> mappedEntities = new ArrayList<>();
+
+        for(ForumPostEntity foundEntity : foundEntities){
+            mappedEntities.add(mapForumPostEntityToForumPost(foundEntity));
+        }
+
+        return mappedEntities;
+    }
+
+    @Override
+    public List<ForumPost> findAllByTopicId(Integer topic_id) {
+        List<ForumPostEntity> foundEntities = forumPostRepository.findAllByPostTopic_Id(topic_id);
+        List<ForumPost> mappedEntities = new ArrayList<>();
+
+        for(ForumPostEntity foundEntity : foundEntities){
+            mappedEntities.add(mapForumPostEntityToForumPost(foundEntity));
+        }
+
+        return mappedEntities;
+    }
+
+    @Override
+    public List<ForumPost> findAllForumPosts() {
+        List<ForumPostEntity> foundEntities = forumPostRepository.findAll();
+        List<ForumPost> mappedEntities = new ArrayList<>();
+
+        for(ForumPostEntity foundEntity : foundEntities){
+            mappedEntities.add(mapForumPostEntityToForumPost(foundEntity));
+        }
+
+        return mappedEntities;
     }
 }
