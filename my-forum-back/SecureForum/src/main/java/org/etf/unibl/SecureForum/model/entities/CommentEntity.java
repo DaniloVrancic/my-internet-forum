@@ -94,6 +94,14 @@ public class CommentEntity implements BaseEntity<Integer> {
         this.referencedPost = referencedPost;
     }
 
+    public UserEntity getReferencedUser() {
+        return referencedUser;
+    }
+
+    public void setReferencedUser(UserEntity referencedUser) {
+        this.referencedUser = referencedUser;
+    }
+
     public enum Status{
         NEW, APPROVED, REJECTED
     }

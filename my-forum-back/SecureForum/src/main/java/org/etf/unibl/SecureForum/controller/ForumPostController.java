@@ -1,5 +1,6 @@
 package org.etf.unibl.SecureForum.controller;
 
+import jakarta.validation.Valid;
 import org.etf.unibl.SecureForum.model.dto.ForumPost;
 import org.etf.unibl.SecureForum.model.entities.ForumPostEntity;
 import org.etf.unibl.SecureForum.model.requests.CreatePostRequest;
@@ -44,12 +45,12 @@ public class ForumPostController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public ForumPost addForumPost(@RequestBody CreatePostRequest request) {
+    public ForumPost addForumPost(@Valid @RequestBody CreatePostRequest request) {
         return forumPostService.addForumPost(request);
     }
 
     @PutMapping("/update")
-    public ForumPost editForumPost(@RequestBody UpdatePostRequest request) {
+    public ForumPost editForumPost(@Valid @RequestBody UpdatePostRequest request) {
         return forumPostService.editForumPost(request);
     }
 
