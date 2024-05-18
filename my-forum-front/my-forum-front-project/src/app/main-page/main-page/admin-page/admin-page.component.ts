@@ -267,7 +267,6 @@ export class AdminPageComponent implements OnInit, OnDestroy{
 
     updateUser(selectedUser: User) {  //Maybe needs a fix
         let myForm = document.forms[0];
-        let changeHappenedFlag: boolean = false;
 
         
         let selectedStatus = myForm["status"].value;
@@ -285,17 +284,16 @@ export class AdminPageComponent implements OnInit, OnDestroy{
         if(this.selectedUser.status !== selectedStatus || this.selectedUser.type !== selectedType)
           {
             this.userService.changePrivilege({id: this.selectedUser.id, status: selectedStatus, type: selectedType}).subscribe({
-              next: response => {this.selectedUser = response; changeHappenedFlag = true},
+              next: response => {this.selectedUser = response;
+                let userToUpdate = this.allUsers.find(user => user.id === this.selectedUser.id);
+                  if (userToUpdate) {
+                    userToUpdate.status = this.selectedUser.status;
+                    userToUpdate.type = this.selectedUser.type;
+                    }
+                  alert(`Updated user: ${response.username}\nStatus: ${response.status}\nType: ${response.type}`);
+              },
               error: error => {console.error(error);}
             })
-          }
-
-        if (changeHappenedFlag) {
-            let userToUpdate = this.allUsers.find(user => user.id === this.selectedUser.id);
-            if (userToUpdate) {
-                  userToUpdate.status = this.selectedUser.status;
-                  userToUpdate.type = this.selectedUser.type;
-            }
           }
       }
 
