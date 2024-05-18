@@ -65,11 +65,11 @@ public class CommentEntity implements BaseEntity<Integer> {
         this.modifiedAt = modifiedAt;
     }
 
-    public Status getApproved() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setApproved(Status status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
