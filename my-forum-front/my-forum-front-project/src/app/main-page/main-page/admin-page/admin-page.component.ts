@@ -297,7 +297,7 @@ export class AdminPageComponent implements OnInit, OnDestroy{
           }
       }
 
-    isUpdateUserButtonDisabled(){
+    isUpdateUserButtonDisabled(){ //Determines if the update button will stay disabled or not
       let myForm = document.forms[0];
       if(this.selectedUser.type === 'Administrator' || 
           myForm["status"].value == null || myForm["status"].value.length == 0 || 
