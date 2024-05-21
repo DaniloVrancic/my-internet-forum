@@ -1,12 +1,20 @@
 <app-navigation-bar></app-navigation-bar>
 
-<table>
-    <thead></thead>
-    <tbody>
-        @for(foundTopic of this.allTopics; track foundTopic){
-            <tr (click)="setTopicIdAndRedirect(foundTopic.id)">
-                <td>{{foundTopic.name}}</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<section class="side-bar" style="overflow-y: auto;">
+    <table>
+        <thead></thead>
+        <tbody>
+            @for(foundTopic of this.allTopics; track foundTopic){
+                <tr class="topic-row" (click)="setTopicIdAndRedirect(foundTopic.id)">
+                    <td>
+                        <span class="material-symbols-outlined">topic</span><br />
+                        {{foundTopic.name}}
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+<section>
+
+</section>

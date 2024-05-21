@@ -20,7 +20,7 @@ export class ForumerPageService {
     }
   }
 
-  setSelectedTopicId(value: number){
+  setSelectedTopicId(value: number | null){
     this.selectedTopicId = value;
   }
 }

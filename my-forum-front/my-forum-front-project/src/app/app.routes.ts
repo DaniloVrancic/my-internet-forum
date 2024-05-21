@@ -7,7 +7,7 @@ import { VerifyCodePageComponent } from '../verify-code-page/verify-code-page.co
 import { AdminPageComponent } from './main-page/main-page/admin-page/admin-page.component';
 import { ModeratorPageComponent } from './main-page/main-page/moderator-page/moderator-page.component';
 import { ForumerPageComponent } from './main-page/main-page/forumer-page/forumer-page.component';
-import { SelectedTopicComponent } from './main-page/main-page/forumer-page/selected-topic/selected-topic.component';
+import { SelectedPostComponent } from './main-page/main-page/forumer-page/selected-post/selected-post.component';
 
 export const routes: Routes = [
     { path: 'start-page', component: StartPageComponent},
@@ -18,6 +18,6 @@ export const routes: Routes = [
     { path: 'admin-page', component: AdminPageComponent},
     { path: 'moderator-page', component: ModeratorPageComponent},
     { path: 'forumer-page', component: ForumerPageComponent},
-    { path: 'selected-topic', component: SelectedTopicComponent},
+    { path: 'selected-post', component: SelectedPostComponent},
     { path: '',   redirectTo: '/start-page', pathMatch: 'full' }
 ];

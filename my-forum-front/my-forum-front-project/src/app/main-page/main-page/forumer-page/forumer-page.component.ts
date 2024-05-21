@@ -21,6 +21,7 @@ export class ForumerPageComponent implements OnInit{
   constructor(private forumerPageService: ForumerPageService, private topicService: TopicService,
               private router: Router
   ){
+    this.forumerPageService.setSelectedTopicId(null);
     this.allTopics = [];
   }
 
@@ -34,7 +35,7 @@ export class ForumerPageComponent implements OnInit{
 
   setTopicIdAndRedirect(numberForSet: number) {
     this.forumerPageService.setSelectedTopicId(numberForSet);
-    this.router.navigate(["/selected-topic"]);
+    this.router.navigate(["/selected-post"]);
     }
 
 
