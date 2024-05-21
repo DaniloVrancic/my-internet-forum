@@ -4,6 +4,7 @@ import { ForumerPageService } from '../../../services/forumer-page.service';
 import { TopicService } from '../../../services/topic.service';
 import { Topic } from '../../../../interfaces/topic';
 import { Router } from '@angular/router';
+import { ForumPost } from '../../../../interfaces/forum-post';
 
 @Component({
   selector: 'app-forumer-page',
@@ -17,25 +18,31 @@ export class ForumerPageComponent implements OnInit{
 
 
   allTopics: Topic[];
+  allPosts: ForumPost[];
+
 
   constructor(private forumerPageService: ForumerPageService, private topicService: TopicService,
               private router: Router
   ){
     this.forumerPageService.setSelectedTopicId(null);
     this.allTopics = [];
+    this.allPosts  = [];
   }
 
   ngOnInit(): void {
       this.topicService.findAllTopics().subscribe({
-        next: response => {this.allTopics = response; console.log(response)
+        next: response => {this.allTopics = response;},
         error: (error:any) => {console.error(error);}
         }
-      })
+      )
   }
 
-  setTopicIdAndRedirect(numberForSet: number) {
+  setTopicIdAndUpdatePosts(numberForSet: number) {
     this.forumerPageService.setSelectedTopicId(numberForSet);
-    this.router.navigate(["/selected-post"]);
+    this.forumerPageService.findAllByTopicId(numberForSet).subscribe({
+      next: response => this.allPosts = response,
+      error: errorObj => console.error(errorObj)
+    })
     }
 
 

@@ -1,11 +1,12 @@
 <app-navigation-bar></app-navigation-bar>
 
+<div class="full-page">
 <section class="side-bar" style="overflow-y: auto;">
     <table>
         <thead></thead>
         <tbody>
             @for(foundTopic of this.allTopics; track foundTopic){
-                <tr class="topic-row" (click)="setTopicIdAndRedirect(foundTopic.id)">
+                <tr class="topic-row" (click)="setTopicIdAndUpdatePosts(foundTopic.id)">
                     <td>
                         <span class="material-symbols-outlined">topic</span><br />
                         {{foundTopic.name}}
@@ -15,6 +16,38 @@
         </tbody>
     </table>
 </section>
-<section>
-
+<section class="forum-posts">
+    <table>
+        <thead>
+            <th>
+                <!--Space for the materials-icon of the post -->
+            </th>
+            <th> Title </th>
+            <th> Description </th>
+            <th> Posted on Date </th>
+            <th> Created By </th>
+        </thead>
+        <tbody>
+            @for(foundPost of this.allPosts; track foundPost){
+                <tr>
+                    <td>
+                    <!--TODO: appropriate materials-icon here -->
+                    </td>
+                    <td>
+                        {{foundPost.title}}
+                    </td>
+                    <td>
+                        {{foundPost.content}}
+                    </td>
+                    <td>
+                        {{foundPost.created_at}}
+                    </td>
+                    <td>
+                        {{foundPost.user_creator}}
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </section>
+</div>
