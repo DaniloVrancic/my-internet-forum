@@ -11,21 +11,19 @@ import { Router } from '@angular/router';
 export class NavigationBarComponent{
 constructor(private router: Router){}
 
-
-
 navigateToForumerPage() {
   this.router.navigate(['forumer-page']);
-}
+  }
 navigateToModeratorPage() {
   this.router.navigate(['moderator-page']);
-}
+  }
 navigateToAdminPage() {
   this.router.navigate(['admin-page']);
-}
+  }
 
 logoutButton(){
   sessionStorage.clear();
   this.router.navigate(['']);
-}
+  }
 
 }

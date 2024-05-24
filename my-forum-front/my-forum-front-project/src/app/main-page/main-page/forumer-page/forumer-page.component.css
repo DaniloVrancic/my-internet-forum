@@ -30,3 +30,8 @@
 .forum-posts{
 
 }
+
+.add-new-post-btn{
+    color: ghostwhite;
+    background-color: rgb(20, 120, 120);
+}

@@ -45,6 +45,10 @@ export class ForumerPageComponent implements OnInit{
     })
     }
 
+  addNewForumPost() {
+      throw new Error('Method not implemented.');
+      }
+
 
 
 }
