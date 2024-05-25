@@ -16,4 +16,6 @@ public interface ForumPostRepository extends JpaRepository<ForumPostEntity, Inte
     List<ForumPostEntity> findAllByPostedAtBefore(Timestamp time);
     List<ForumPostEntity> findAllByPostedAtAfter(Timestamp time);
 
+    List<ForumPostEntity> findAllByStatusAndPostTopic_Id(ForumPostEntity.Status status, Integer id);
+
 }

@@ -22,13 +22,10 @@ import java.util.List;
 @Validated
 public class ForumPostController {
     private final ForumPostService forumPostService;
-    private final ForumPostRepository forumPostRepository;
 
     @Autowired
-    public ForumPostController(ForumPostService forumPostService,
-                               ForumPostRepository forumPostRepository){
+    public ForumPostController(ForumPostService forumPostService){
         this.forumPostService = forumPostService;
-        this.forumPostRepository = forumPostRepository;
     }
 
     @GetMapping
@@ -39,6 +36,11 @@ public class ForumPostController {
     @GetMapping("/topic/{topic_id}")
     public List<ForumPost> findAllByTopicId(@PathVariable("topic_id") Integer topic_id) {
         return forumPostService.findAllByTopicId(topic_id);
+    }
+
+    @GetMapping("/topic_approved/{topic_id}")
+    public List<ForumPost> findAllApprovedByTopicId(@PathVariable("topic_id") Integer topic_id){
+        return forumPostService.findAllApprovedByTopicId(topic_id);
     }
 
     @GetMapping("/user/{user_id}")

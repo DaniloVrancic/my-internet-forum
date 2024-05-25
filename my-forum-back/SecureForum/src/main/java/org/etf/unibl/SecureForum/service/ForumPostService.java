@@ -18,5 +18,7 @@ public interface ForumPostService extends CrudService<Integer> {
     List<ForumPost> findAllByUserId(Integer user_id);
     List<ForumPost> findAllByTopicId(Integer topic_id);
 
+    List<ForumPost> findAllApprovedByTopicId(Integer topic_id);
+
     List<ForumPost> findAllForumPosts();
 }

@@ -25,6 +25,10 @@ export class ForumerPageService {
     return this.http.get<ForumPost[]>(`${this.baseUrl}/topic/${topic_id}`);
   }
 
+  findAllApprovedByTopicId(topic_id: number): Observable<ForumPost[]>{
+    return this.http.get<ForumPost[]>(`${this.baseUrl}/topic_approved/${topic_id}`);
+  }
+
   findAllByUserId(user_id: number): Observable<ForumPost[]>{
     return this.http.get<ForumPost[]>(`${this.baseUrl}/user/${user_id}`);
   }
