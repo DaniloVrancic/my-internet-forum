@@ -11,6 +11,7 @@ import org.etf.unibl.SecureForum.repositories.ForumPostRepository;
 import org.etf.unibl.SecureForum.service.ForumPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +46,8 @@ public class ForumPostController {
         return forumPostService.findAllByUserId(user_id);
     }
 
-    @PostMapping("/add")
+
+    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ForumPost addForumPost(@Valid @RequestBody CreatePostRequest request) {
         return forumPostService.addForumPost(request);
