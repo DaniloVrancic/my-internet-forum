@@ -7,7 +7,7 @@
         <label for="content" class="input-field-descriptor"><b>Content:</b></label>
         <textarea name="content" id="content" placeholder=" " class="input-field" rows="40" style="min-height: 368px; padding-top: 1rem;" [(ngModel)]="this.inputContent"></textarea>
         <div class="buttons-area">
-            <button type="button" name="addNewPostButton" id="addNewPostButton">Add New Post</button>
+            <button type="button" name="addNewPostButton" id="addNewPostButton" [disabled]="this.inputContent.length == 0 || this.inputTitle.length == 0" (click)="addNewPost()">Add New Post</button>
         </div>
     </form>
 </section>

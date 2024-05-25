@@ -3,13 +3,15 @@ import { ForumPost } from '../../../../../interfaces/forum-post';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ForumerPageService } from '../../../../services/forumer-page.service';
 
 @Component({
   selector: 'app-new-forum-page',
   standalone: true,
   imports: [FormsModule],
   templateUrl: './new-forum-page.component.html',
-  styleUrl: './new-forum-page.component.css'
+  styleUrl: './new-forum-page.component.css',
+  providers: [ForumerPageService]
 })
 export class NewForumPageComponent {
 
@@ -28,6 +30,14 @@ export class NewForumPageComponent {
     this.router.navigate(["/forumer-page"]).then(() => {
       this.dialogRef.close();
     });;
+    }
+
+    addNewPost() {
+      if(this.inputTitle.length == 0 || this.inputContent.length == 0){
+        return;
+      }
+
+
     }
 
 }
