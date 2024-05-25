@@ -41,6 +41,7 @@ public class ForumPostImpl extends CrudJpaService<ForumPostEntity, Integer> impl
         entityToAdd.setContent(request.getContent());
         entityToAdd.setPostCreator(request.getUser());
         entityToAdd.setPostTopic(request.getTopic());
+        entityToAdd.setStatus(ForumPostEntity.Status.PENDING);
 
         entityToAdd.setPostedAt(Timestamp.from(Instant.now()));
         entityToAdd.setModifiedAt(Timestamp.from(Instant.now()));

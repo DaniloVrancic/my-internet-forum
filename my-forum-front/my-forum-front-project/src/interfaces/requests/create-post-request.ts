@@ -1,6 +1,6 @@
 export interface CreatePostRequest{
-    title: string;
-    content: string;
-    topic: number;
+    title: string,
+    content: string,
+    topic: number,
     user: number
 }

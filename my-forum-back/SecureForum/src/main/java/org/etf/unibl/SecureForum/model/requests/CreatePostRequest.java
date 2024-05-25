@@ -38,9 +38,6 @@ public class CreatePostRequest {
         return topic;
     }
 
-    public void setTopic(TopicEntity topic) {
-        this.topic = topic;
-    }
 
     public void setTopic(Integer topic_id){
         this.topic = new TopicEntity();
@@ -49,10 +46,6 @@ public class CreatePostRequest {
 
     public UserEntity getUser() {
         return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
     }
 
     public void setUser(Integer user_id){

@@ -14,7 +14,7 @@ export class ForumerPageService {
   private baseUrl = environment.apiBaseUrl + '/forum_post';
 
   constructor(private http: HttpClient) { 
-    this.selectedTopicId = null;
+      this.selectedTopicId = null;
   }
 
   findAllForumPosts(): Observable<ForumPost[]> {
@@ -50,16 +50,12 @@ export class ForumerPageService {
   }
 
   getSelectedTopicId(){
-    if(this.getSelectedTopicId == null || this.selectedTopicId as number < 0){
-      return null;
-    }
-    else{
-      return this.selectedTopicId;
-    }
+      return JSON.parse(sessionStorage.getItem(environment.selectedTopicString) as string);
   }
 
   setSelectedTopicId(value: number | null){
     this.selectedTopicId = value;
+    sessionStorage.setItem(environment.selectedTopicString, JSON.stringify(this.selectedTopicId));
   }
 
 

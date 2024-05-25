@@ -30,7 +30,7 @@ export class NewForumPageComponent {
 
   }
 
-  routeToPurchasePage() {
+  routeToForumerPage() {
     this.router.navigate(["/forumer-page"]).then(() => {
       this.dialogRef.close();
     });;
@@ -44,7 +44,9 @@ export class NewForumPageComponent {
       let newForumPost : CreatePostRequest = {title: this.inputTitle, content: this.inputContent, 
         topic: this.forumerService.getSelectedTopicId() as number, user: this.userService.getCurrentUser()?.id as number};
 
-      this.forumerService.addForumPost(newForumPost).subscribe({next: result => {this.allPosts.push(result); console.log(result);},
+        console.log(newForumPost);
+
+      this.forumerService.addForumPost(newForumPost).subscribe({next: result => {this.allPosts.push(result); console.log(result); this.routeToForumerPage()},
       error: (error:any) => {console.log(error);}});
 
 

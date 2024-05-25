@@ -72,7 +72,6 @@ registerUser() {
     {
     next: response => {
       let user: User = {} as User;
-      console.log(response);
       user = response;
       this.userService.setCurrentUser(user);
       this.errorMessage = ""; // Remove the error message at this point cause everything went alright.
