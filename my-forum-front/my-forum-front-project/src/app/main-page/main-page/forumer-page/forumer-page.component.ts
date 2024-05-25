@@ -4,7 +4,9 @@ import { ForumerPageService } from '../../../services/forumer-page.service';
 import { TopicService } from '../../../services/topic.service';
 import { Topic } from '../../../../interfaces/topic';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { ForumPost } from '../../../../interfaces/forum-post';
+import { NewForumPageComponent } from './new-forum-page/new-forum-page.component';
 
 @Component({
   selector: 'app-forumer-page',
@@ -20,9 +22,11 @@ export class ForumerPageComponent implements OnInit{
   allTopics: Topic[];
   allPosts: ForumPost[];
 
+  
+
 
   constructor(private forumerPageService: ForumerPageService, private topicService: TopicService,
-              private router: Router
+              private router: Router, private dialog: MatDialog
   ){
     this.forumerPageService.setSelectedTopicId(null);
     this.allTopics = [];
@@ -46,8 +50,18 @@ export class ForumerPageComponent implements OnInit{
     }
 
   addNewForumPost() {
-      throw new Error('Method not implemented.');
+      this.openDialog();
       }
+
+  openDialog(){
+
+    const dialogRef = this.dialog.open(NewForumPageComponent, {
+      width: '70%',
+      data: this.allPosts
+    });
+
+    dialogRef.afterClosed().subscribe(result => {console.log(result)}).unsubscribe()
+  }
 
 
 
