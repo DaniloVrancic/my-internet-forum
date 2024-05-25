@@ -8,11 +8,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { ForumPost } from '../../../../interfaces/forum-post';
 import { NewForumPageComponent } from './new-forum-page/new-forum-page.component';
 import { UserService } from '../../../services/user.service';
+import { MatIconModule} from '@angular/material/icon';
+import { SelectedPostComponent } from './selected-post/selected-post.component';
 
 @Component({
   selector: 'app-forumer-page',
   standalone: true,
-  imports: [NavigationBarComponent],
+  imports: [NavigationBarComponent, MatIconModule],
   templateUrl: './forumer-page.component.html',
   styleUrl: './forumer-page.component.css',
   providers: [ForumerPageService, TopicService, UserService]
@@ -61,6 +63,15 @@ export class ForumerPageComponent implements OnInit{
     const dialogRef = this.dialog.open(NewForumPageComponent, {
       width: '70%',
       data: this.allPosts
+    });
+
+    dialogRef.afterClosed().subscribe(result => {console.log(result)}).unsubscribe()
+  }
+
+  openPost(caughtPost: ForumPost){
+    const dialogRef = this.dialog.open(SelectedPostComponent, {
+      width: '70%',
+      data: caughtPost
     });
 
     dialogRef.afterClosed().subscribe(result => {console.log(result)}).unsubscribe()

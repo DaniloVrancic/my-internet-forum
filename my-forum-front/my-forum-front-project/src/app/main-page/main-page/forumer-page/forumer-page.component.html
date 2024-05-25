@@ -17,42 +17,48 @@
     </table>
 </section>
 <section class="forum-posts">
-    <table>
-        <thead>
-            <th>
-                <!--Space for the materials-icon of the post -->
-                <!--Find a good icon to use at this position -->
-            </th>
-            <th> Title </th>
-            <th> Description </th>
-            <th> Posted on Date </th>
-            <th> Created By </th>
-        </thead>
-        <tbody>
+    @if(this.topicIsSelected() == true){
+
+    
+    <section>
+        <button class="add-new-post-btn" (click)="addNewForumPost()" [disabled]="!(this.userIsLoggedIn() && this.topicIsSelected())">Add New Post</button>
+    </section>
+    <br/>
+    @if(this.allPosts.length == 0){
+        <div class="warning-message">No posts found for this category</div>
+    }
+    @else {
+
+    
             @for(foundPost of this.allPosts; track foundPost){
-                <tr>
-                    <td>
-                    <!--TODO: appropriate materials-icon here -->
-                    <!--TODO: delete these comments later -->
-                    </td>
-                    <td>
+                <div class="post-container" (click)="openPost(foundPost)">
+                    <div class="title-container">
                         {{foundPost.title}}
-                    </td>
-                    <td>
-                        {{foundPost.content}}
-                    </td>
-                    <td>
-                        {{foundPost.created_at}}
-                    </td>
-                    <td>
-                        {{foundPost.user_creator == null ? "You" : foundPost.user_creator}}
-                    </td>
-                </tr>
+                    </div><br />
+                    <div class="details-container">
+                        
+                        <div class="icon-container">
+                            <mat-icon>forum</mat-icon>
+                        </div>
+                        <div class="content-container">
+                            {{foundPost.content}}
+                        </div>
+                        <div class="created-at-container">
+                            <span>Posted at:</span><br />
+                            {{foundPost.created_at}}
+                        </div>
+                        <div class="user-creator-container">
+                            <span>Created by:</span><br />
+                            {{foundPost.user_creator == null ? "You" : foundPost.user_creator}}
+                        </div>
+                    </div>
+                </div>
             }
-        </tbody>
-    </table>
-</section>
-<section>
-    <button class="add-new-post-btn" (click)="addNewForumPost()" [disabled]="!(this.userIsLoggedIn() && this.topicIsSelected())">Add New Post</button>
+        }
+    }
+    @else {
+        <div class="warning-message" style="padding: 6rem; font-size: 5.5rem; text-wrap: wrap; word-spacing: 1rem;">No topic selected!</div>
+    }
+        
 </section>
 </div>
