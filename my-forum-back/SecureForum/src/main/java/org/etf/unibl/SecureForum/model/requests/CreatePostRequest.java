@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.etf.unibl.SecureForum.model.entities.TopicEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
+import org.etf.unibl.SecureForum.model.enums.UserType;
 
 public class CreatePostRequest {
 
@@ -16,7 +17,10 @@ public class CreatePostRequest {
     @NotNull
     private TopicEntity topic;
     @NotNull
+    private UserType user_type;
+    @NotNull
     private UserEntity user;
+
 
     public String getTitle() {
         return title;
@@ -51,6 +55,15 @@ public class CreatePostRequest {
     public void setUser(Integer user_id){
         this.user = new UserEntity();
         this.user.setId(user_id);
+        this.user.setType(getUser_type());
+    }
+
+    public UserType getUser_type() {
+        return user_type;
+    }
+
+    public void setUser_type(UserType user_type) {
+        this.user_type = user_type;
     }
 
 

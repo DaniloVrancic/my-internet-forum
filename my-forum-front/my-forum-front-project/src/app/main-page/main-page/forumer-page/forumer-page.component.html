@@ -45,7 +45,7 @@
                         {{foundPost.created_at}}
                     </td>
                     <td>
-                        {{foundPost.user_creator}}
+                        {{foundPost.user_creator == null ? "You" : foundPost.user_creator}}
                     </td>
                 </tr>
             }
@@ -53,6 +53,6 @@
     </table>
 </section>
 <section>
-    <button class="add-new-post-btn" (click)="addNewForumPost()">Add New Post</button>
+    <button class="add-new-post-btn" (click)="addNewForumPost()" [disabled]="!(this.userIsLoggedIn() && this.topicIsSelected())">Add New Post</button>
 </section>
 </div>

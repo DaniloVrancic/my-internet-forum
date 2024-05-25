@@ -11,6 +11,7 @@ import org.etf.unibl.SecureForum.model.enums.UserType;
 import org.etf.unibl.SecureForum.model.requests.CreatePostRequest;
 import org.etf.unibl.SecureForum.model.requests.UpdatePostRequest;
 import org.etf.unibl.SecureForum.repositories.ForumPostRepository;
+import org.etf.unibl.SecureForum.repositories.UserRepository;
 import org.etf.unibl.SecureForum.service.ForumPostService;
 import org.etf.unibl.SecureForum.service.PermissionsService;
 import org.modelmapper.ModelMapper;
@@ -26,14 +27,18 @@ import java.util.List;
 public class ForumPostImpl extends CrudJpaService<ForumPostEntity, Integer> implements ForumPostService {
     private final ForumPostRepository forumPostRepository;
     private final ModelMapper modelMapper;
+    private final UserRepository userRepository;
 
-    public ForumPostImpl(ForumPostRepository forumPostRepository, ModelMapper modelMapper){
+    public ForumPostImpl(ForumPostRepository forumPostRepository, ModelMapper modelMapper,
+                         UserRepository userRepository){
         super(forumPostRepository, modelMapper, ForumPostEntity.class);
         this.modelMapper = modelMapper;
         this.forumPostRepository = forumPostRepository;
+        this.userRepository = userRepository;
     }
 
 
+    @Transactional
     @Override
     public ForumPost addForumPost(CreatePostRequest request) {
         ForumPostEntity entityToAdd = new ForumPostEntity();
@@ -42,21 +47,17 @@ public class ForumPostImpl extends CrudJpaService<ForumPostEntity, Integer> impl
         entityToAdd.setPostCreator(request.getUser());
         entityToAdd.setPostTopic(request.getTopic());
         entityToAdd.setStatus(ForumPostEntity.Status.PENDING);
-
         entityToAdd.setPostedAt(Timestamp.from(Instant.now()));
         entityToAdd.setModifiedAt(Timestamp.from(Instant.now()));
 
-        ForumPostEntity addedEntity = forumPostRepository.save(entityToAdd);
-
-        //This if checks if the user is an Administrator or a moderator, if he is, his Forum Post ( and comments ) get automatically approved
-        if(addedEntity.getPostCreator().getType().equals(UserType.Administrator) || addedEntity.getPostCreator().getType().equals(UserType.Moderator))
-        {
-            addedEntity.setStatus(ForumPostEntity.Status.APPROVED);
-            addedEntity = forumPostRepository.save(addedEntity);
+        // Check if the user is an administrator or moderator before saving
+        UserEntity userWhoAdded = request.getUser();
+        if (userWhoAdded != null && (userWhoAdded.getType().equals(UserType.Administrator) || userWhoAdded.getType().equals(UserType.Moderator))) {
+            entityToAdd.setStatus(ForumPostEntity.Status.APPROVED);
         }
 
+        ForumPostEntity addedEntity = forumPostRepository.save(entityToAdd);
         return mapForumPostEntityToForumPost(addedEntity);
-
     }
 
     @Override

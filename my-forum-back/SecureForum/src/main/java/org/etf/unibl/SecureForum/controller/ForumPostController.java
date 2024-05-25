@@ -50,8 +50,6 @@ public class ForumPostController {
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ForumPost addForumPost(@Valid @RequestBody CreatePostRequest request) {
-        System.out.println("REQUEST ITEMS:");
-        //TODO: DEBUG AND CHECK IF THE REQUEST STUFF IS SENT HERE PROPERLY
         return forumPostService.addForumPost(request);
     }
 

@@ -42,11 +42,16 @@ export class NewForumPageComponent {
       }
 
       let newForumPost : CreatePostRequest = {title: this.inputTitle, content: this.inputContent, 
-        topic: this.forumerService.getSelectedTopicId() as number, user: this.userService.getCurrentUser()?.id as number};
+        topic: this.forumerService.getSelectedTopicId() as number, user_type: this.userService.getCurrentUser()?.type as string, user: this.userService.getCurrentUser()?.id as number};
 
         console.log(newForumPost);
 
-      this.forumerService.addForumPost(newForumPost).subscribe({next: result => {this.allPosts.push(result); console.log(result); this.routeToForumerPage()},
+      this.forumerService.addForumPost(newForumPost).subscribe({next: result => {
+        let forumPostToPush = result; 
+        if(forumPostToPush.user_creator == null){
+          forumPostToPush.user_creator = this.userService.getCurrentUser()?.username as string;
+        }
+        this.allPosts.push(forumPostToPush); this.routeToForumerPage()},
       error: (error:any) => {console.log(error);}});
 
 

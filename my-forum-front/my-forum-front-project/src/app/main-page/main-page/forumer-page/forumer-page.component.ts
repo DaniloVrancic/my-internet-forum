@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ForumPost } from '../../../../interfaces/forum-post';
 import { NewForumPageComponent } from './new-forum-page/new-forum-page.component';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-forumer-page',
@@ -14,7 +15,7 @@ import { NewForumPageComponent } from './new-forum-page/new-forum-page.component
   imports: [NavigationBarComponent],
   templateUrl: './forumer-page.component.html',
   styleUrl: './forumer-page.component.css',
-  providers: [ForumerPageService, TopicService]
+  providers: [ForumerPageService, TopicService, UserService]
 })
 export class ForumerPageComponent implements OnInit{
 
@@ -26,6 +27,7 @@ export class ForumerPageComponent implements OnInit{
 
 
   constructor(private forumerPageService: ForumerPageService, private topicService: TopicService,
+              private userService: UserService,
               private router: Router, private dialog: MatDialog
   ){
     this.forumerPageService.setSelectedTopicId(null);
@@ -62,6 +64,17 @@ export class ForumerPageComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {console.log(result)}).unsubscribe()
+  }
+
+  userIsLoggedIn() : boolean{
+    let currentUser = this.userService.getCurrentUser()?.username;
+    return currentUser != null && currentUser != undefined;
+  }
+
+  topicIsSelected(): boolean{
+    let currentTopic = this.forumerPageService.getSelectedTopicId();
+
+    return currentTopic != null && currentTopic != undefined;
   }
 
 
