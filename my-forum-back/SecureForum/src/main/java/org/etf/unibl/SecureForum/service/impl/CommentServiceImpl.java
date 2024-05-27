@@ -79,24 +79,25 @@ public class CommentServiceImpl extends CrudJpaService<CommentEntity, Integer> i
         return listToReturn;
     }
 
-    public Comment addComment(CreateCommentRequest request){
+    public Comment addComment(CreateCommentRequest request) {
         CommentEntity entityToAdd = new CommentEntity();
         entityToAdd.setContent(request.getContent());
         entityToAdd.setReferencedPost(request.getForum_post());
         entityToAdd.setReferencedUser(request.getUser());
 
-        entityToAdd.setStatus(CommentEntity.Status.PENDING);
+        // Check if the user is an Administrator or a Moderator
+        if (entityToAdd.getReferencedUser().getType().equals(UserType.Administrator) ||
+                entityToAdd.getReferencedUser().getType().equals(UserType.Moderator)) {
+            entityToAdd.setStatus(CommentEntity.Status.APPROVED);
+        } else {
+            entityToAdd.setStatus(CommentEntity.Status.PENDING);
+        }
+
         entityToAdd.setPostedAt(Timestamp.from(Instant.now()));
         entityToAdd.setModifiedAt(Timestamp.from(Instant.now()));
 
+        // Save the entity once
         CommentEntity addedEntity = commentRepository.save(entityToAdd);
-
-        //This if checks if the user is an Administrator or a moderator, if he is, his Comment ( or Forum post ) get automatically approved
-        if(addedEntity.getReferencedUser().getType().equals(UserType.Administrator) || addedEntity.getReferencedUser().getType().equals(UserType.Moderator))
-        {
-            addedEntity.setStatus(CommentEntity.Status.APPROVED);
-            addedEntity = commentRepository.save(addedEntity);
-        }
 
         return mapCommentEntityToComment(addedEntity);
     }
