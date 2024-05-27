@@ -25,9 +25,6 @@ export class ForumerPageComponent implements OnInit{
   allTopics: Topic[];
   allPosts: ForumPost[];
 
-  
-
-
   constructor(private forumerPageService: ForumerPageService, private topicService: TopicService,
               private userService: UserService,
               private router: Router, private dialog: MatDialog
@@ -87,7 +84,5 @@ export class ForumerPageComponent implements OnInit{
 
     return currentTopic != null && currentTopic != undefined;
   }
-
-
 
 }
