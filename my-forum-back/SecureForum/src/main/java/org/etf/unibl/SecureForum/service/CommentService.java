@@ -14,6 +14,8 @@ public interface CommentService extends CrudService<Integer> {
     List<Comment> findAllComments();
     List<Comment> findAllCommentsByForumPostId(Integer forum_post_id);
     List<Comment> findAllCommentsByUserId(Integer user_id);
+
+    List<Comment> findAllCommentsByForumPostAndStatus(Integer forum_post_id, CommentEntity.Status status);
     Comment addComment(CreateCommentRequest request);
     Comment editComment(EditCommentRequest request);
     Comment changeCommentStatus(Integer comment_id, CommentEntity.Status status);

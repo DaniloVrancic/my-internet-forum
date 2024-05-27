@@ -39,6 +39,12 @@ public class CommentController {
         return commentService.findAllCommentsByForumPostId(postId);
     }
 
+    @GetMapping("/find_approved/{post_id}")
+    public List<Comment> findAllApprovedCommentsForPostId(@PathVariable("post_id") Integer postId) {
+        return commentService.findAllCommentsByForumPostAndStatus(postId, CommentEntity.Status.APPROVED);
+    }
+
+
     @GetMapping("/user/{user_id}")
     public List<Comment> findAllByUserId(@PathVariable("user_id") Integer userId) {
         return commentService.findAllCommentsByUserId(userId);

@@ -57,6 +57,17 @@ public class CommentServiceImpl extends CrudJpaService<CommentEntity, Integer> i
         return listToReturn;
     }
 
+    public List<Comment> findAllCommentsByForumPostAndStatus(Integer forum_post_id, CommentEntity.Status status){
+        List<CommentEntity> allEntities = commentRepository.findAllByReferencedPost_IdAndStatus(forum_post_id, status);
+        List<Comment> listToReturn = new ArrayList<>();
+
+        for(CommentEntity commentEntity : allEntities){
+            listToReturn.add(mapCommentEntityToComment(commentEntity));
+        }
+
+        return listToReturn;
+    }
+
     public List<Comment> findAllCommentsByUserId(Integer user_id){
         List<CommentEntity> allEntities = commentRepository.findAllByReferencedUser_id(user_id);
         List<Comment> listToReturn = new ArrayList<>();
