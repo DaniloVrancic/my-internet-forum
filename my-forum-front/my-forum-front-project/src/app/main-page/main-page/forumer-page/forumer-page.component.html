@@ -28,8 +28,6 @@
         <div class="warning-message">No posts found for this category</div>
     }
     @else {
-
-    
             @for(foundPost of this.allPosts; track foundPost){
                 <div class="post-container" (click)="openPost(foundPost)">
                     <div class="title-container">

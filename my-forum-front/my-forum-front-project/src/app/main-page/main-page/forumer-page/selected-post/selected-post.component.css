@@ -29,16 +29,16 @@
 }
 
 .comment-input-field {
-    width: 100%; /* Make the container full width */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    width: 90%;
+    box-sizing: border-box;
 }
 
 #comment-text-area {
-    width: 100%; /* Make the textarea full width */
-    display: block; /* Ensure it behaves as a block element */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-    margin-top: 1rem; /* Optional: Add spacing above the textarea */
-    margin-bottom: 1rem; /* Optional: Add spacing below the textarea */
+    width: 90%;
+    display: block;
+    box-sizing: border-box;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     height: 7rem;
     padding: 0.5rem;
 }

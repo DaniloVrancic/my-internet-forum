@@ -67,7 +67,7 @@ export class ForumerPageComponent implements OnInit{
 
   openPost(caughtPost: ForumPost){
     const dialogRef = this.dialog.open(SelectedPostComponent, {
-      width: '80%',
+      width: '85%',
       data: caughtPost
     });
 
