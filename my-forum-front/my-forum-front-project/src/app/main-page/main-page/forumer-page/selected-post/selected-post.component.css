@@ -4,3 +4,27 @@
     margin: 1rem;
     overflow-y: auto;
 }
+
+.title-container{
+    font-size: 2.25rem;
+    font-weight: 700;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    line-height: 2.5rem;
+}
+
+.content-container{
+    padding: 1.5rem;
+    margin: auto;
+    padding-right: 3rem;
+}
+
+.author-container{
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.topic-container{
+    font-size: 1.2rem;
+    font-weight: 600;
+}
