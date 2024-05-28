@@ -11,6 +11,7 @@ import org.etf.unibl.SecureForum.model.requests.CreateCommentRequest;
 import org.etf.unibl.SecureForum.model.requests.EditCommentRequest;
 import org.etf.unibl.SecureForum.model.requests.UpdateCommentRequest;
 import org.etf.unibl.SecureForum.repositories.CommentRepository;
+import org.etf.unibl.SecureForum.repositories.UserRepository;
 import org.etf.unibl.SecureForum.service.CommentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,16 @@ import java.util.List;
 public class CommentServiceImpl extends CrudJpaService<CommentEntity, Integer> implements CommentService {
 
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public CommentServiceImpl(CommentRepository commentRepository, ModelMapper modelMapper){
+    public CommentServiceImpl(CommentRepository commentRepository,
+                              UserRepository userRepository,
+                              ModelMapper modelMapper){
         super(commentRepository,modelMapper,CommentEntity.class);
         this.commentRepository = commentRepository;
+        this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -83,11 +88,11 @@ public class CommentServiceImpl extends CrudJpaService<CommentEntity, Integer> i
         CommentEntity entityToAdd = new CommentEntity();
         entityToAdd.setContent(request.getContent());
         entityToAdd.setReferencedPost(request.getForum_post());
-        entityToAdd.setReferencedUser(request.getUser());
-
+        entityToAdd.setReferencedUser(userRepository.findById(request.getUser().getId()).orElseThrow(NotFoundException::new));
+        
         // Check if the user is an Administrator or a Moderator
-        if (entityToAdd.getReferencedUser().getType().equals(UserType.Administrator) ||
-                entityToAdd.getReferencedUser().getType().equals(UserType.Moderator)) {
+        if (UserType.Administrator.equals(entityToAdd.getReferencedUser().getType()) ||
+                UserType.Moderator.equals(entityToAdd.getReferencedUser().getType())) {
             entityToAdd.setStatus(CommentEntity.Status.APPROVED);
         } else {
             entityToAdd.setStatus(CommentEntity.Status.PENDING);

@@ -27,10 +27,6 @@ public class CreateCommentRequest {
         return forum_post;
     }
 
-    public void setForum_post(ForumPostEntity forum_post) {
-        this.forum_post = forum_post;
-    }
-
     public void setForum_post(Integer forum_post_id){
         this.forum_post = new ForumPostEntity();
         this.forum_post.setId(forum_post_id);
@@ -40,9 +36,6 @@ public class CreateCommentRequest {
         return user;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
 
     public void setUser(Integer user_id){
         this.user = new UserEntity();

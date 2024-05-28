@@ -25,9 +25,9 @@
         @for(comment of this.commentsOnProgram; track comment)
         {
             <div class="comment-field">
-                <div class="comment-user"><p>{{comment.username}} at {{comment.postedAt}} {{(comment.modifiedAt.length > 0) ? (" (Last edited at: " + comment.modifiedAt + ")") : ""}}</p></div>
+                <div class="comment-user"><p>{{comment.username}} at {{comment.postedAt}} {{(comment.modifiedAt != comment.postedAt) ? (" (Last edited at: " + comment.modifiedAt + ")") : ""}}</p></div>
                 <div class="comment-content"><p>{{comment.content}}</p></div>
-                <hr>
+                <hr />
             </div>
         }
     </div>

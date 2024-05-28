@@ -57,12 +57,12 @@ public class CommentController {
         return commentService.addComment(request);
     }
 
-    @PutMapping("/edit")
+    @PutMapping(value = "/edit", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Comment editComment(@Valid @RequestBody EditCommentRequest request) {
         return commentService.editComment(request);
     }
 
-    @PutMapping("/update")
+    @PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Comment editComment(@Valid @RequestBody UpdateCommentRequest request) {
         return commentService.updateComment(request);
     }
