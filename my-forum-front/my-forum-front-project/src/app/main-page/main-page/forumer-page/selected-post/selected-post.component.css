@@ -2,7 +2,6 @@
     width: 100%;
     padding: 1rem;
     margin: 1rem;
-    overflow-y: auto;
 }
 
 .title-container{
@@ -27,4 +26,42 @@
 .topic-container{
     font-size: 1.2rem;
     font-weight: 600;
+}
+
+.comment-input-field {
+    width: 100%; /* Make the container full width */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+#comment-text-area {
+    width: 100%; /* Make the textarea full width */
+    display: block; /* Ensure it behaves as a block element */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    margin-top: 1rem; /* Optional: Add spacing above the textarea */
+    margin-bottom: 1rem; /* Optional: Add spacing below the textarea */
+    height: 7rem;
+    padding: 0.5rem;
+}
+
+.comment-input-field textarea{
+    width: auto;
+    max-height: 15rem;
+}
+
+.description-container{
+    display: flex;
+    justify-content: space-around;
+}
+
+#comment-text-area{
+    
+}
+
+.main-content-div{
+
+}
+.write-comment-section{
+    display: flex;
+    flex-direction: column;
+
 }

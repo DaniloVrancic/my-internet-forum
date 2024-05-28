@@ -10,6 +10,7 @@ import org.etf.unibl.SecureForum.repositories.CommentRepository;
 import org.etf.unibl.SecureForum.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +51,7 @@ public class CommentController {
         return commentService.findAllCommentsByUserId(userId);
     }
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public Comment addComment(@Valid @RequestBody CreateCommentRequest request) {
         return commentService.addComment(request);

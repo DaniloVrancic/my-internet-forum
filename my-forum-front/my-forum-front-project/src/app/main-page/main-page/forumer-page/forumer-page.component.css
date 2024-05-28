@@ -66,6 +66,7 @@
 .title-container {
     text-align: left;
     padding-left: 5rem;
+    line-height: 2.25rem;
     font-size: xx-large;
     font-weight: 700;
 }

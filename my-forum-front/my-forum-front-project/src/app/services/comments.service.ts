@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Comment } from '../../interfaces/comment';
 
@@ -10,6 +10,7 @@ import { Comment } from '../../interfaces/comment';
 export class CommentsService {
 
   private baseUrl = environment.apiBaseUrl + '/comment';
+  private jsonHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
   constructor(private http: HttpClient) { }
 
@@ -29,16 +30,22 @@ export class CommentsService {
     return this.http.get<Comment[]>(`${this.baseUrl}/user/${user_id}`);
   }
 
-  addComment(commentRequest: any): Observable<Comment> {
-    return this.http.post<any>(`${this.baseUrl}/add`, commentRequest);
+  addComment(commentRequest: Comment): Observable<Comment> {
+    return this.http.post<Comment>(`${this.baseUrl}/add`, commentRequest, {
+      headers: this.jsonHeaders
+    });
   }
 
-  editComment(commentRequest: any): Observable<Comment> {
-    return this.http.put<Comment>(`${this.baseUrl}/edit`, commentRequest);
+  editComment(commentRequest: Comment): Observable<Comment> {
+    return this.http.put<Comment>(`${this.baseUrl}/edit`, commentRequest, {
+      headers: this.jsonHeaders
+    });
   }
 
-  updateComment(commentRequest: any): Observable<Comment> {
-    return this.http.put<Comment>(`${this.baseUrl}/update`, commentRequest);
+  updateComment(commentRequest: Comment): Observable<Comment> {
+    return this.http.put<Comment>(`${this.baseUrl}/update`, commentRequest, {
+      headers: this.jsonHeaders
+    });
   }
 
   changeStatus(commentId: number, status: string): Observable<Comment> {

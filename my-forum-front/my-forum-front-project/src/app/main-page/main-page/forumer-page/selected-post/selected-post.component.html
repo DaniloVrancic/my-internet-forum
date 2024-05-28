@@ -3,21 +3,23 @@
     <div class="title-container">
         {{caughtPost.title}}
     </div>
-    <p>Topic: <span class="topic-container">{{caughtPost.topic}}</span></p>
-    <p>Author: <span class="author-container">{{caughtPost.user_creator}}</span></p>
+    <div class="description-container">
+        <p>Topic: <span class="topic-container">{{caughtPost.topic}}</span></p>
+        <p>Author: <span class="author-container">{{caughtPost.user_creator}}</span></p>
+    </div>
     <div class="content-container">
         {{caughtPost.content}}
     </div>
 
-    <div class="card-comment-section">
+
         <div class="write-comment-section">
-            <mat-form-field class="comment-input-field">
-                <mat-label>Leave a comment</mat-label>
-                <textarea matInput [(ngModel)]="this.commentToPost" id="comment-text-area"></textarea>
-              </mat-form-field>
-              <button mat-raised-button color="primary" style="scale: 1.3;" (click)="postComment($event)" [disabled]="(this.commentToPost.length == 0)">Post Comment</button>
+                <article class="comment-input-field">
+                    <mat-label>Leave a comment</mat-label><br />
+                    <textarea matInput [(ngModel)]="this.commentToPost" id="comment-text-area" style="display: block; width: 90%;"></textarea><br />
+                    <button mat-raised-button color="primary" style="scale: 1.3;" (click)="postComment($event)" [disabled]="(this.commentToPost.length == 0)">Post Comment</button>
+                </article>
         </div>
-    @if(this.commentsOnProgram != null)
+    @if(this.commentsOnProgram != null && this.commentsOnProgram.length > 0)
     {   
     <div class="read-comment-section">
         @for(comment of this.commentsOnProgram; track comment)
@@ -33,5 +35,4 @@
     @else {
         <div>No comments on this post yet!</div>
     }
-    </div>
 </section>
