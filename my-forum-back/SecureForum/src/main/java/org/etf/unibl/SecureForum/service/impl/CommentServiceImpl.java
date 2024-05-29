@@ -89,7 +89,7 @@ public class CommentServiceImpl extends CrudJpaService<CommentEntity, Integer> i
         entityToAdd.setContent(request.getContent());
         entityToAdd.setReferencedPost(request.getForum_post());
         entityToAdd.setReferencedUser(userRepository.findById(request.getUser().getId()).orElseThrow(NotFoundException::new));
-        
+
         // Check if the user is an Administrator or a Moderator
         if (UserType.Administrator.equals(entityToAdd.getReferencedUser().getType()) ||
                 UserType.Moderator.equals(entityToAdd.getReferencedUser().getType())) {
