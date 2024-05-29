@@ -13,8 +13,8 @@ import { ModeratorPageService } from '../../../../services/moderator-page.servic
 })
 export class EditAndUpdateForumPostComponent {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public caughtPost: ForumPost, 
-  private moderatorPageService: ModeratorPageService){
+  constructor(@Inject(MAT_DIALOG_DATA) private caughtPost: ForumPost, 
+                                       private moderatorPageService: ModeratorPageService){
     
   }
 
