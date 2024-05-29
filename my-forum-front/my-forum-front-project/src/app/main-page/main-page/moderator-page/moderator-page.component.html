@@ -3,7 +3,7 @@
     <section class="forumpost-section">
         <h2 class="section-title">Forum Posts</h2>
         @for(forum_post of this.pendingPosts; track forum_post){
-            <div class="forumpost-section-post">
+            <div class="forumpost-section-post" (click)="this.openForumPostDialogue(forum_post)">
                 <div class="post-row row-dark-header">
                     <div>Posted by:<br/>{{forum_post.user_creator}}</div>
                     <div>Title:<br/>{{forum_post.title}}</div>
@@ -20,7 +20,7 @@
     <section class="comment-section">
         <h2 class="section-title">Post Comments</h2>
         @for(forum_comment of this.pendingComments; track forum_comment){
-            <div class="comment-section-post">
+            <div class="comment-section-post" (click)="this.openCommentDialogue(forum_comment)">
                 <div class="post-row row-dark-header">
                     <div>Posted by:<br/>{{forum_comment.username}}</div>
                     <div>Created at:<br/>{{forum_comment.postedAt}}</div>

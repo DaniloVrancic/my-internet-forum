@@ -30,7 +30,6 @@ export class ModeratorPageComponent implements OnInit{
       this.moderatorPageService.findAllForumPosts().subscribe({
         next: response => {this.allForumPosts = response;
                           this.pendingPosts = this.allForumPosts.filter(post => post.status === "PENDING");
-                          console.log(this.pendingPosts)
                         },
         error: errorObj => console.error(errorObj)
       });
@@ -38,11 +37,17 @@ export class ModeratorPageComponent implements OnInit{
       this.moderatorPageService.findAllComments().subscribe({
         next: (response: any) => {this.allComments = response; 
                            this.pendingComments = this.allComments.filter(comment => comment.status === "PENDING");
-                          console.log(this.pendingComments)},
+                          },
         error: errorObj => console.error(errorObj)
       });
+  }
 
-      
+  openCommentDialogue(selectedComment: Comment){
+    console.log(selectedComment);
+  }
+
+  openForumPostDialogue(selectedForumPost: ForumPost){
+    console.log(selectedForumPost);
   }
 
 }
