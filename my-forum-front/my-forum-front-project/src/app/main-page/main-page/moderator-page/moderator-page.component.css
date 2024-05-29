@@ -36,7 +36,8 @@
     border: 1px solid black;
     border-radius: 0.5rem;
     margin-bottom: 0.4rem;
-    padding-bottom: 0.5rem
+    padding-bottom: 0.5rem;
+    cursor: pointer;
 }
 
 .forumpost-section-post .post-row{
@@ -44,6 +45,7 @@
     flex-direction: row;
     margin-bottom: 0.3rem;
     text-align: center;
+    cursor: pointer;
 }
 
 .forumpost-section-post .post-row div{
