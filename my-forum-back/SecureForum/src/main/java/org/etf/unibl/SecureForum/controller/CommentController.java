@@ -47,8 +47,8 @@ public class CommentController {
         return commentService.findAllCommentsByForumPostAndStatus(postId, CommentEntity.Status.APPROVED);
     }
 
-    @GetMapping("/status")
-    public List<Comment> findAllByStatus(){
+    @GetMapping("/status_pending")
+    public List<Comment> findAllByStatusPending(){
         return commentService.findAllByStatus(CommentEntity.Status.PENDING);
     }
 

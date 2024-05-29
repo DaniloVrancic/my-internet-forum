@@ -43,7 +43,7 @@ public class ForumPostController {
         return forumPostService.findAllApprovedByTopicId(topic_id);
     }
 
-    @GetMapping("/status")
+    @GetMapping("/status_pending")
     public List<ForumPost> findAllByStatus(){
         return forumPostService.findAllByStatus(ForumPostEntity.Status.PENDING);
     }
