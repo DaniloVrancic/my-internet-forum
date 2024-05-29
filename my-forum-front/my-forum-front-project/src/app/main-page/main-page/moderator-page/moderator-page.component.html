@@ -10,7 +10,7 @@
                     <div>Created at:<br/>{{forum_post.created_at}}</div>
                     <div>Status:<br/>{{forum_post.status}}</div>
                 </div>
-                <div class="post-row">
+                <div class="post-row" style="background-color: ghostwhite;">
                     <div class="forumpost-content">{{forum_post.content}}</div>
                 </div>
             </div>
@@ -21,6 +21,14 @@
         <h2 class="section-title">Post Comments</h2>
         @for(forum_comment of this.pendingComments; track forum_comment){
             <div class="comment-section-post">
+                <div class="post-row row-dark-header">
+                    <div>Posted by:<br/>{{forum_comment.username}}</div>
+                    <div>Created at:<br/>{{forum_comment.postedAt}}</div>
+                    <div>Status:<br/>{{forum_comment.status}}</div>
+                </div>
+                <div class="post-row" style="background-color: ghostwhite;">
+                    <div class="comment-content">{{forum_comment.content}}</div>
+                </div>
             </div>
         }
     </section>
