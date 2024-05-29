@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import Comment from '../../../../../interfaces/comment';
+import { ModeratorPageService } from '../../../../services/moderator-page.service';
 
 @Component({
   selector: 'app-edit-and-update-comment',
@@ -9,4 +12,9 @@ import { Component } from '@angular/core';
 })
 export class EditAndUpdateCommentComponent {
 
+  constructor(@Inject(MAT_DIALOG_DATA) private caughtPost: Comment, 
+                                       private moderatorPageService: ModeratorPageService){
+  }
+
+  
 }

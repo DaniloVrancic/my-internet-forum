@@ -4,6 +4,9 @@ import { NavigationBarComponent } from '../../../partials/nav/navigation-bar/nav
 import { CommentsService } from '../../../services/comments.service';
 import { ForumPost } from '../../../../interfaces/forum-post';
 import { ModeratorPageService } from '../../../services/moderator-page.service';
+import { MatDialog } from '@angular/material/dialog';
+import { EditAndUpdateCommentComponent } from './edit-and-update-comment/edit-and-update-comment.component';
+import { EditAndUpdateForumPostComponent } from './edit-and-update-forum-post/edit-and-update-forum-post.component';
 
 @Component({
   selector: 'app-moderator-page',
@@ -19,7 +22,9 @@ export class ModeratorPageComponent implements OnInit{
   allForumPosts: ForumPost[];
   pendingPosts: ForumPost[];
 
-  constructor(private commentsService: CommentsService, private moderatorPageService: ModeratorPageService){
+  constructor(private commentsService: CommentsService, private moderatorPageService: ModeratorPageService,
+        private dialog: MatDialog
+  ){
     this.allComments      = [];
     this.pendingComments  = [];
     this.allForumPosts    = [];
@@ -43,11 +48,23 @@ export class ModeratorPageComponent implements OnInit{
   }
 
   openCommentDialogue(selectedComment: Comment){
-    console.log(selectedComment);
+    const dialogRef = this.dialog.open(EditAndUpdateCommentComponent, {
+      width: '70%',
+      maxHeight: '90vh',
+      data: selectedComment
+    });
+
+    dialogRef.afterClosed().subscribe(result => {console.log(result)}).unsubscribe()
   }
 
   openForumPostDialogue(selectedForumPost: ForumPost){
-    console.log(selectedForumPost);
+    const dialogRef = this.dialog.open(EditAndUpdateForumPostComponent, {
+      width: '70%',
+      maxHeight: '90vh',
+      data: selectedForumPost
+    });
+
+    dialogRef.afterClosed().subscribe(result => {console.log(result)}).unsubscribe()
   }
 
 }
