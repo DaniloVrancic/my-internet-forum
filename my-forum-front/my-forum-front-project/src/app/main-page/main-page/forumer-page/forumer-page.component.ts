@@ -59,6 +59,7 @@ export class ForumerPageComponent implements OnInit{
 
     const dialogRef = this.dialog.open(NewForumPageComponent, {
       width: '70%',
+      maxHeight: '90vh',
       data: this.allPosts
     });
 
@@ -68,6 +69,8 @@ export class ForumerPageComponent implements OnInit{
   openPost(caughtPost: ForumPost){
     const dialogRef = this.dialog.open(SelectedPostComponent, {
       width: '85%',
+      autoFocus: false,
+      maxHeight: '90vh',
       data: caughtPost
     });
 

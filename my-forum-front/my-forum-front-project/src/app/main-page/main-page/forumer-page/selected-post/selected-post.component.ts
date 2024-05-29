@@ -32,17 +32,17 @@ export class SelectedPostComponent implements OnInit{
   }
 
   ngOnInit(): void {
-      this.commentService.findAllApprovedByPostId(this.forumerPageService.getSelectedTopicId())
+      this.commentService.findAllApprovedByPostId(this.caughtPost.id)
       .subscribe({
         next: response => {this.commentsOnProgram = response}
       });
   }
 
   postComment($event: MouseEvent) {
-    let commentRequest: CommentRequest = {content: this.commentToPost, forum_post: this.forumerPageService.getSelectedTopicId(), user: this.userService.getCurrentUser()?.id as number}
+    let commentRequest: CommentRequest = {content: this.commentToPost, forum_post: this.caughtPost.id, user: this.userService.getCurrentUser()?.id as number}
     this.commentService.addComment(commentRequest).subscribe({
       next: response => { 
-        if(this.userService.getCurrentUser()?.type == "ADMINISTRATOR" || this.userService.getCurrentUser()?.type == "MODERATOR")
+        if(this.userService.getCurrentUser()?.type == "Administrator" || this.userService.getCurrentUser()?.type == "Moderator")
         this.commentsOnProgram?.push(response); 
         alert("Comment successfully added.")},
       error: errorResponse => {alert("An error occured!");}  
