@@ -21,4 +21,6 @@ public interface ForumPostService extends CrudService<Integer> {
     List<ForumPost> findAllApprovedByTopicId(Integer topic_id);
 
     List<ForumPost> findAllForumPosts();
+
+    List<ForumPost> findAllByStatus(ForumPostEntity.Status status);
 }

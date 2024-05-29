@@ -2,7 +2,9 @@ package org.etf.unibl.SecureForum.controller;
 
 import jakarta.validation.Valid;
 import org.etf.unibl.SecureForum.model.dto.Comment;
+import org.etf.unibl.SecureForum.model.dto.ForumPost;
 import org.etf.unibl.SecureForum.model.entities.CommentEntity;
+import org.etf.unibl.SecureForum.model.entities.ForumPostEntity;
 import org.etf.unibl.SecureForum.model.requests.CreateCommentRequest;
 import org.etf.unibl.SecureForum.model.requests.EditCommentRequest;
 import org.etf.unibl.SecureForum.model.requests.UpdateCommentRequest;
@@ -43,6 +45,11 @@ public class CommentController {
     @GetMapping("/find_approved/{post_id}")
     public List<Comment> findAllApprovedCommentsForPostId(@PathVariable("post_id") Integer postId) {
         return commentService.findAllCommentsByForumPostAndStatus(postId, CommentEntity.Status.APPROVED);
+    }
+
+    @GetMapping("/status")
+    public List<Comment> findAllByStatus(){
+        return commentService.findAllByStatus(CommentEntity.Status.PENDING);
     }
 
 

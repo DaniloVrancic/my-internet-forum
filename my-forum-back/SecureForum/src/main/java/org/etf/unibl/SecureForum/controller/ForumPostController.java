@@ -43,6 +43,11 @@ public class ForumPostController {
         return forumPostService.findAllApprovedByTopicId(topic_id);
     }
 
+    @GetMapping("/status")
+    public List<ForumPost> findAllByStatus(){
+        return forumPostService.findAllByStatus(ForumPostEntity.Status.PENDING);
+    }
+
     @GetMapping("/user/{user_id}")
     public List<ForumPost> findAllByUserId(@PathVariable("user_id") Integer user_id) {
         return forumPostService.findAllByUserId(user_id);

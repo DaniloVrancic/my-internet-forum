@@ -13,4 +13,7 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Integer>
     List<CommentEntity> findAllByReferencedPost_Id(Integer postId);
 
     List<CommentEntity> findAllByReferencedPost_IdAndStatus(Integer postId, CommentEntity.Status status);
+
+
+    List<CommentEntity> findAllByStatusIs(CommentEntity.Status status);
 }

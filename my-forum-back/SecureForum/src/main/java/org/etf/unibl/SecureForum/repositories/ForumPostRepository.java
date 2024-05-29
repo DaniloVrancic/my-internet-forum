@@ -18,4 +18,6 @@ public interface ForumPostRepository extends JpaRepository<ForumPostEntity, Inte
 
     List<ForumPostEntity> findAllByStatusAndPostTopic_Id(ForumPostEntity.Status status, Integer id);
 
+    List<ForumPostEntity> findAllByStatusIs(ForumPostEntity.Status status);
+
 }
