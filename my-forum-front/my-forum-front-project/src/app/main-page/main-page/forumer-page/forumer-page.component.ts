@@ -6,6 +6,7 @@ import { Topic } from '../../../../interfaces/topic';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ForumPost } from '../../../../interfaces/forum-post';
+
 import { NewForumPageComponent } from './new-forum-page/new-forum-page.component';
 import { UserService } from '../../../services/user.service';
 import { MatIconModule} from '@angular/material/icon';

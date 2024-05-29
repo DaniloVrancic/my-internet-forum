@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { NavigationBarComponent } from '../../../../partials/nav/navigation-bar/navigation-bar.component';
 import { ForumPost } from '../../../../../interfaces/forum-post';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Comment } from '../../../../../interfaces/comment';
+import Comment from '../../../../../interfaces/comment';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { CommentsService } from '../../../../services/comments.service';

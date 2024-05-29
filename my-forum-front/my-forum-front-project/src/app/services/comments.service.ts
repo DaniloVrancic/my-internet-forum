@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import  Comment from '../../interfaces/comment';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Comment } from '../../interfaces/comment';
 import { CommentRequest } from '../../interfaces/requests/comment-request';
 
 @Injectable({

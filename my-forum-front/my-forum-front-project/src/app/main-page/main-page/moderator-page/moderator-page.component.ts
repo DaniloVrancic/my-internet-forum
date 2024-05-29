@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import Comment from '../../../../interfaces/comment'
 import { NavigationBarComponent } from '../../../partials/nav/navigation-bar/navigation-bar.component';
 import { CommentsService } from '../../../services/comments.service';
 import { ForumPost } from '../../../../interfaces/forum-post';
 import { ModeratorPageService } from '../../../services/moderator-page.service';
-import { Comment } from '../../../../interfaces/comment';
 
 @Component({
   selector: 'app-moderator-page',
@@ -30,12 +30,13 @@ export class ModeratorPageComponent implements OnInit{
       this.moderatorPageService.findAllForumPosts().subscribe({
         next: response => {this.allForumPosts = response;
                           this.pendingPosts = this.allForumPosts.filter(post => post.status === "PENDING");
-        },
+                          console.log(this.pendingPosts)
+                        },
         error: errorObj => console.error(errorObj)
       });
 
       this.moderatorPageService.findAllComments().subscribe({
-        next: response => {this.allComments = response; 
+        next: (response: any) => {this.allComments = response; 
                            this.pendingComments = this.allComments.filter(comment => comment.status === "PENDING");
                           console.log(this.pendingComments)},
         error: errorObj => console.error(errorObj)
