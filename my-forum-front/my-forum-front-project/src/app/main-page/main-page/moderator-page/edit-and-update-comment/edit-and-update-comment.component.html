@@ -8,6 +8,8 @@
             }
         <label for="text-content" class="input-field-descriptor" style="margin-top: 1rem; margin-bottom: 1rem;">Content:</label>
         <textarea id="text-content" class="input-field" placeholder=" " style="margin-bottom: 2rem; padding: 0.7rem; max-height: 32vh; min-height: 20vh; height: 22vh; max-width: 99%;">{{this.caughtPost.content}}</textarea>
-        <button type="button" class="dialog-button" (click)="updatePostClick()">Update Post</button>
+        <div class="buttons-area">
+            <button type="button" class="dialog-button" (click)="updatePostClick()">Update Post</button>
+        </div>
     </div>
 </section>

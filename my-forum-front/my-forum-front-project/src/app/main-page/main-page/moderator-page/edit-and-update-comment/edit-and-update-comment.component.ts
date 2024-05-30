@@ -14,9 +14,17 @@ import { environment } from '../../../../../environments/environment';
 export class EditAndUpdateCommentComponent implements OnInit{
 
   public possibleStatuses: string[] = environment.possibleStatuses;
+  public isPostChanged: boolean = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public caughtPost: Comment, 
                                        private moderatorPageService: ModeratorPageService){
+  }
+
+  private updateIsPostChanged(){
+    let contentTextArea = document.getElementById("text-content");
+
+    //TODO: Finish toggling the isPostChanged value to true if the values don't match the starting values of the fields in the radio button and the text area
+
   }
 
   ngOnInit(): void {
