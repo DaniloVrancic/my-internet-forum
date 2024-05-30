@@ -1,1 +1,9 @@
+
 <p>edit-and-update-comment works!</p>
+<div class="input-field" style="margin:0.4rem">
+    @for(statusString of this.possibleStatuses; track statusString)
+    {
+        <input type="radio" id=`permissionName{{statusString}}` name="permissionName" value=`{{statusString}}` class="radio-input" (input)="selectStatusName(statusString)">
+        <label for=`permissionName{{statusString}}`>{{statusString}}</label>
+    }
+</div>
