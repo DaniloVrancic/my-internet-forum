@@ -50,6 +50,7 @@ export class ModeratorPageComponent implements OnInit{
   openCommentDialogue(selectedComment: Comment){
     const dialogRef = this.dialog.open(EditAndUpdateCommentComponent, {
       width: '70%',
+      height: '70vh',
       maxHeight: '90vh',
       data: selectedComment
     });
@@ -60,6 +61,7 @@ export class ModeratorPageComponent implements OnInit{
   openForumPostDialogue(selectedForumPost: ForumPost){
     const dialogRef = this.dialog.open(EditAndUpdateForumPostComponent, {
       width: '70%',
+      height: '70vh',
       maxHeight: '90vh',
       data: selectedForumPost
     });

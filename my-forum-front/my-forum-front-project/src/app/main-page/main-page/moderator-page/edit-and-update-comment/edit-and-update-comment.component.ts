@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Comment from '../../../../../interfaces/comment';
 import { ModeratorPageService } from '../../../../services/moderator-page.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-edit-and-update-comment',
@@ -12,9 +13,9 @@ import { ModeratorPageService } from '../../../../services/moderator-page.servic
 })
 export class EditAndUpdateCommentComponent implements OnInit{
 
-  public possibleStatuses: any[] = [];
+  public possibleStatuses: string[] = environment.possibleStatuses;
 
-  constructor(@Inject(MAT_DIALOG_DATA) private caughtPost: Comment, 
+  constructor(@Inject(MAT_DIALOG_DATA) public caughtPost: Comment, 
                                        private moderatorPageService: ModeratorPageService){
   }
 
@@ -26,5 +27,8 @@ export class EditAndUpdateCommentComponent implements OnInit{
     throw new Error('Method not implemented.');
     }
 
+  updatePostClick() {
+    throw new Error('Method not implemented.');
+    }
   
 }
