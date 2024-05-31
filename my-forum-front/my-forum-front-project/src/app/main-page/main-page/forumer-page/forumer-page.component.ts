@@ -46,7 +46,7 @@ export class ForumerPageComponent implements OnInit{
   setTopicIdAndUpdatePosts(numberForSet: number) {
     this.forumerPageService.setSelectedTopicId(numberForSet);
     console.log(this.forumerPageService.getSelectedTopicId());
-    this.forumerPageService.findAllApprovedByTopicId(numberForSet).subscribe({
+    this.forumerPageService.findTop20ApprovedByTopicId(numberForSet).subscribe({
       next: response => {this.allPosts = response},
       error: errorObj => console.error(errorObj)
     })

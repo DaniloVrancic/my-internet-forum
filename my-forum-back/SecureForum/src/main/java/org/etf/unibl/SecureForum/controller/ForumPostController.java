@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/forum_post")
@@ -38,9 +39,19 @@ public class ForumPostController {
         return forumPostService.findAllByTopicId(topic_id);
     }
 
+    @GetMapping("/topic_top20/{topic_id}")
+    public List<ForumPost> findAllByTopicIdTop20(@PathVariable("topic_id") Integer topic_id) {
+        return forumPostService.findAllByTopicId(topic_id).stream().limit(20).collect(Collectors.toList());
+    }
+
     @GetMapping("/topic_approved/{topic_id}")
     public List<ForumPost> findAllApprovedByTopicId(@PathVariable("topic_id") Integer topic_id){
         return forumPostService.findAllApprovedByTopicId(topic_id);
+    }
+
+    @GetMapping("/topic_approved_top20/{topic_id}")
+    public List<ForumPost> findAllApprovedByTopicIdTop20(@PathVariable("topic_id") Integer topic_id){
+        return forumPostService.findAllApprovedByTopicId(topic_id).stream().limit(20).collect(Collectors.toList());
     }
 
     @GetMapping("/status_pending")

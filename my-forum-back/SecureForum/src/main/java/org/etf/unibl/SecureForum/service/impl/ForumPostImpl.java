@@ -142,7 +142,7 @@ public class ForumPostImpl extends CrudJpaService<ForumPostEntity, Integer> impl
 
     @Override
     public List<ForumPost> findAllByTopicId(Integer topic_id) {
-        List<ForumPostEntity> foundEntities = forumPostRepository.findAllByPostTopic_Id(topic_id);
+        List<ForumPostEntity> foundEntities = forumPostRepository.findAllByPostTopic_IdOrderByPostedAtDesc(topic_id);
         List<ForumPost> mappedEntities = new ArrayList<>();
 
         for(ForumPostEntity foundEntity : foundEntities){

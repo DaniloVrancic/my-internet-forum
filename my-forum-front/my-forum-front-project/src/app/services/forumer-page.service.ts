@@ -25,8 +25,16 @@ export class ForumerPageService {
     return this.http.get<ForumPost[]>(`${this.baseUrl}/topic/${topic_id}`);
   }
 
+  findTop20ByTopicId(topic_id: number): Observable<ForumPost[]>{
+    return this.http.get<ForumPost[]>(`${this.baseUrl}/topic_top20/${topic_id}`);
+  }
+
   findAllApprovedByTopicId(topic_id: number): Observable<ForumPost[]>{
     return this.http.get<ForumPost[]>(`${this.baseUrl}/topic_approved/${topic_id}`);
+  }
+
+  findTop20ApprovedByTopicId(topic_id: number): Observable<ForumPost[]>{
+    return this.http.get<ForumPost[]>(`${this.baseUrl}/topic_approved_top20/${topic_id}`);
   }
 
   findAllByUserId(user_id: number): Observable<ForumPost[]>{

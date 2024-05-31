@@ -13,6 +13,8 @@ public interface ForumPostRepository extends JpaRepository<ForumPostEntity, Inte
     List<ForumPostEntity> findAllByPostCreator_Id(Integer id);
 
     List<ForumPostEntity> findAllByPostTopic_Id(Integer id);
+
+    List<ForumPostEntity> findAllByPostTopic_IdOrderByPostedAtDesc(Integer id);
     List<ForumPostEntity> findAllByPostedAtBefore(Timestamp time);
     List<ForumPostEntity> findAllByPostedAtAfter(Timestamp time);
 

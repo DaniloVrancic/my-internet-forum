@@ -68,3 +68,8 @@
 .read-comment-section{
     margin-top: 2rem;
 }
+
+.post-comment-button{
+    background-color: rgba(4, 4, 4, 0.8);
+    color: gold;
+}
