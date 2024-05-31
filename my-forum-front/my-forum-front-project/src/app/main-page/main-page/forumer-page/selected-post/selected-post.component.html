@@ -14,9 +14,11 @@
 
         <div class="write-comment-section">
                 <article class="comment-input-field">
-                    <mat-label>Leave a comment</mat-label><br />
+                    <label for="comment-text-area">Leave a comment:</label>
                     <textarea matInput [(ngModel)]="this.commentToPost" id="comment-text-area" style="display: block; width: 90%;"></textarea><br />
-                    <button mat-raised-button color="primary" style="scale: 1.3; text-align: center;" (click)="postComment($event)" [disabled]="(this.commentToPost.length == 0)">Post Comment</button>
+                    <div class="buttons-area">
+                        <button mat-raised-button color="primary" style="scale: 1.3; text-align: center;" (click)="postComment($event)" [disabled]="(this.commentToPost.length == 0)">Post Comment</button>
+                    </div>
                 </article>
         </div>
     @if(this.commentsOnProgram != null && this.commentsOnProgram.length > 0)

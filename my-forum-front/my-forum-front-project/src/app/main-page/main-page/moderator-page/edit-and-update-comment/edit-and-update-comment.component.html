@@ -3,11 +3,11 @@
     <div class="input-field">
             @for(statusString of this.possibleStatuses; track statusString)
             {
-                <input type="radio" id=`permissionName{{statusString}}` name="permissionName" value=`{{statusString}}` class="radio-input" (input)="selectStatusName(statusString); updateIsPostChanged()" [checked]="this.caughtPost.status === statusString">
+                <input type="radio" id=`permissionName{{statusString}}` name="permissionName" value=`{{statusString}}` class="radio-input" (input)="selectStatusName(statusString); updateIsPostChanged();" [checked]="this.caughtPost.status === statusString">
                 <label for=`permissionName{{statusString}}`>{{statusString}}</label>
             }   
         <label for="text-content" class="input-field-descriptor" style="margin-top: 1rem; margin-bottom: 1rem;">Content:</label>
-        <textarea (input)="updateIsPostChanged()" id="text-content" class="input-field" placeholder=" " style="margin-bottom: 2rem; padding: 0.7rem; max-height: 32vh; min-height: 20vh; height: 22vh; max-width: 99%;">{{this.caughtPost.content}}</textarea>
+        <textarea (input)="updateIsPostChanged();" id="text-content" class="input-field" placeholder=" " style="margin-bottom: 2rem; padding: 0.7rem; max-height: 32vh; min-height: 20vh; height: 22vh; max-width: 99%;">{{this.caughtPost.content}}</textarea>
         <div class="buttons-area">
             <button type="button" class="dialog-button" (click)="updatePostClick()" [disabled]="!this.isPostChanged">Update Post</button>
         </div>

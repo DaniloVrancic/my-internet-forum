@@ -88,3 +88,8 @@
     flex: 1;
     padding: 0.4rem;
 }
+
+.show-all-button:hover {
+    background-color: lime;
+    border-radius: 1rem;
+}

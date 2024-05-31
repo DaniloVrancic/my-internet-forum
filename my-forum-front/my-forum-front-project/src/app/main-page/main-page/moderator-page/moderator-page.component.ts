@@ -21,6 +21,7 @@ export class ModeratorPageComponent implements OnInit{
   pendingComments: Comment[];
   allForumPosts: ForumPost[];
   pendingPosts: ForumPost[];
+  isPendingDisplaySelected : boolean = true;
 
   constructor(private commentsService: CommentsService, private moderatorPageService: ModeratorPageService,
         private dialog: MatDialog
@@ -67,6 +68,10 @@ export class ModeratorPageComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {console.log(result)}).unsubscribe()
+  }
+
+  toggleDisplaySelected(){
+    this.isPendingDisplaySelected = !this.isPendingDisplaySelected;
   }
 
 }

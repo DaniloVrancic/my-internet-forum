@@ -20,7 +20,7 @@ export class EditAndUpdateCommentComponent implements OnInit{
   public isPostChanged: boolean = false;
   public selectedStatusName: string;
 
-  private contentTextArea = document.getElementById("text-content") as any;
+  private contentTextArea = {} as any;
 
   constructor(@Inject(MAT_DIALOG_DATA) public caughtPost: Comment, 
                                        private moderatorPageService: ModeratorPageService,
@@ -41,7 +41,7 @@ export class EditAndUpdateCommentComponent implements OnInit{
   }
 
   ngOnInit(): void {
-      
+      this.contentTextArea = document.getElementById("text-content") as any;
   }
 
   selectStatusName(statusName: string) {
@@ -50,7 +50,8 @@ export class EditAndUpdateCommentComponent implements OnInit{
 
   updatePostClick() {
     this.commentsService.updateComment({id: this.caughtPost.id, content: this.contentTextArea.value as string, status: this.selectedStatusName})
-    .subscribe({next: response => console.log(response)});
+    .subscribe({next: response => {alert("Updated element ID: " + response.id)}
+  });
     }
   
 }

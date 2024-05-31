@@ -1,7 +1,11 @@
 <app-navigation-bar></app-navigation-bar>
+<div class="buttons-area show-all-button">
+    <button type="button" style="background-color: rgba(0,0,0,0.82); color: ghostwhite; font-weight: 600;" (click)="toggleDisplaySelected()">Show: {{isPendingDisplaySelected == true ? "Pending" : "All"}}</button>
+</div>
 <div class="page-container" style="display: flex;">
     <section class="forumpost-section">
         <h2 class="section-title">Forum Posts</h2>
+    @if(isPendingDisplaySelected){
         @for(forum_post of this.pendingPosts; track forum_post){
             <div class="forumpost-section-post" (click)="this.openForumPostDialogue(forum_post)">
                 <div class="post-row row-dark-header">
@@ -15,21 +19,54 @@
                 </div>
             </div>
         }
+    }
+    @else {
+        @for(forum_post of this.allForumPosts; track forum_post){
+            <div class="forumpost-section-post" (click)="this.openForumPostDialogue(forum_post)">
+                <div class="post-row row-dark-header">
+                    <div>Posted by:<br/>{{forum_post.user_creator}}</div>
+                    <div>Title:<br/>{{forum_post.title}}</div>
+                    <div>Created at:<br/>{{forum_post.created_at}}</div>
+                    <div>Status:<br/>{{forum_post.status}}</div>
+                </div>
+                <div class="post-row" style="background-color: ghostwhite;">
+                    <div class="forumpost-content" style="text-align: left; padding-left: 0.7rem;">{{forum_post.content}}</div>
+                </div>
+            </div>
+        }
+    }
     </section>
 
     <section class="comment-section">
         <h2 class="section-title">Post Comments</h2>
-        @for(forum_comment of this.pendingComments; track forum_comment){
-            <div class="comment-section-post" (click)="this.openCommentDialogue(forum_comment)">
-                <div class="post-row row-dark-header">
-                    <div>Posted by:<br/>{{forum_comment.username}}</div>
-                    <div>Created at:<br/>{{forum_comment.postedAt}}</div>
-                    <div>Status:<br/>{{forum_comment.status}}</div>
+        @if(isPendingDisplaySelected){
+            @for(forum_comment of this.pendingComments; track forum_comment.content){
+                <div class="comment-section-post" (click)="this.openCommentDialogue(forum_comment)">
+                    <div class="post-row row-dark-header">
+                        <div>Posted by:<br/>{{forum_comment.username}}</div>
+                        <div>Created at:<br/>{{forum_comment.postedAt}}</div>
+                        <div>Status:<br/>{{forum_comment.status}}</div>
+                    </div>
+                    <div class="post-row" style="background-color: ghostwhite;">
+                        <div class="comment-content" style="text-align: left; padding-left: 0.4rem;">{{forum_comment.content}}</div>
+                    </div>
                 </div>
-                <div class="post-row" style="background-color: ghostwhite;">
-                    <div class="comment-content" style="text-align: left; padding-left: 0.4rem;">{{forum_comment.content}}</div>
+            }
+    }
+        @else {
+            @for(forum_comment of this.allComments; track forum_comment.content){
+                <div class="comment-section-post" (click)="this.openCommentDialogue(forum_comment)">
+                    <div class="post-row row-dark-header">
+                        <div>Posted by:<br/>{{forum_comment.username}}</div>
+                        <div>Created at:<br/>{{forum_comment.postedAt}}</div>
+                        <div>Status:<br/>{{forum_comment.status}}</div>
+                    </div>
+                    <div class="post-row" style="background-color: ghostwhite;">
+                        <div class="comment-content" style="text-align: left; padding-left: 0.4rem;">{{forum_comment.content}}</div>
+                    </div>
                 </div>
-            </div>
         }
+    }
+
     </section>
 </div>
