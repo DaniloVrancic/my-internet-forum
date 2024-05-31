@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CommentRequest } from '../../interfaces/requests/comment-request';
+import { UpdateCommentRequest } from '../../interfaces/requests/update-comment-request';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +44,7 @@ export class CommentsService {
     });
   }
 
-  updateComment(commentRequest: CommentRequest): Observable<Comment> {
+  updateComment(commentRequest: UpdateCommentRequest): Observable<Comment> {
     return this.http.put<any>(`${this.baseUrl}/update`, commentRequest, {
       headers: this.jsonHeaders
     });
