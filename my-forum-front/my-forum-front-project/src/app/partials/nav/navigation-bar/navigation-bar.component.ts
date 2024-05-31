@@ -8,20 +8,27 @@ import { Router } from '@angular/router';
   templateUrl: './navigation-bar.component.html',
   styleUrl: './navigation-bar.component.css'
 })
-export class NavigationBarComponent{
-constructor(private router: Router){}
+export class NavigationBarComponent implements OnInit{
+constructor(private router: Router){
 
-navigateToForumerPage() {
+
+}
+
+ngOnInit(): void {
+    
+}
+
+public navigateToForumerPage() {
   this.router.navigate(['forumer-page']);
   }
-navigateToModeratorPage() {
+public navigateToModeratorPage() {
   this.router.navigate(['moderator-page']);
   }
-navigateToAdminPage() {
-  this.router.navigate(['admin-page']);
+public navigateToAdminPage() {
+  this.router.navigateByUrl('admin-page');
   }
 
-logoutButton(){
+public logoutButton(){
   sessionStorage.clear();
   this.router.navigate(['']);
   }

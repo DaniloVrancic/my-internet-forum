@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavigationBarComponent } from '../../partials/nav/navigation-bar/navigation-bar.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-page',
@@ -8,6 +9,13 @@ import { NavigationBarComponent } from '../../partials/nav/navigation-bar/naviga
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.css'
 })
-export class MainPageComponent {
+export class MainPageComponent implements OnInit{
 
+  constructor(private router: Router){
+
+  }
+
+  ngOnInit(): void {
+      
+  }
 }

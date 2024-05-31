@@ -4,11 +4,12 @@ import { LoginRequest } from '../../../interfaces/requests/login-request';
 import { User } from '../../../interfaces/user';
 import { Router } from '@angular/router';
 import { UserStatuses } from '../../../interfaces/user.statuses';
+import { NavigationBarComponent } from '../../partials/nav/navigation-bar/navigation-bar.component';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [],
+  imports: [NavigationBarComponent],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css',
   providers: [UserService, Router]

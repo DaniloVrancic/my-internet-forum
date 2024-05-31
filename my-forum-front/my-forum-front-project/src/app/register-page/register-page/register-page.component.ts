@@ -5,12 +5,13 @@ import { RegisterRequest } from './registerRequest';
 import { Form } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { User } from '../../../interfaces/user';
+import { NavigationBarComponent } from '../../partials/nav/navigation-bar/navigation-bar.component';
 
 
 @Component({
   selector: 'app-register-page',
   standalone: true,
-  imports: [ ],
+  imports: [NavigationBarComponent],
   templateUrl: './register-page.component.html',
   styleUrl: './register-page.component.css',
   providers: [Router, UserService]
@@ -76,7 +77,7 @@ registerUser() {
       this.userService.setCurrentUser(user);
       this.errorMessage = ""; // Remove the error message at this point cause everything went alright.
 
-      if(user.status == "REQUESTED")
+      if(user.status === "REQUESTED")
         {
           this.router.navigate(["/verify-page"]); //redirect the user to verification if he hasn't already been verified
         }
