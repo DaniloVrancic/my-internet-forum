@@ -25,7 +25,7 @@ public navigateToModeratorPage() {
   this.router.navigate(['moderator-page']);
   }
 public navigateToAdminPage() {
-  this.router.navigateByUrl('admin-page');
+  this.router.navigate(['admin-page']);
   }
 
 public logoutButton(){
