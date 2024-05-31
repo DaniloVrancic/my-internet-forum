@@ -50,6 +50,10 @@
                             {{foundPost.user_creator == null ? "You" : foundPost.user_creator}}
                         </div>
                     </div>
+                    <div class="buttons-area" style="width: 50%; gap: 10px; position: relative; left: 50%;">
+                        <button type="button" (click)="editPost(foundPost, $event)">Edit Post</button>
+                        <button type="button" (click)="deletePost(foundPost, $event)">Delete Post</button>
+                    </div>
                 </div>
             }
         }

@@ -11,6 +11,7 @@ import { NewForumPageComponent } from './new-forum-page/new-forum-page.component
 import { UserService } from '../../../services/user.service';
 import { MatIconModule} from '@angular/material/icon';
 import { SelectedPostComponent } from './selected-post/selected-post.component';
+import { EditPostComponent } from './edit-post/edit-post.component';
 
 @Component({
   selector: 'app-forumer-page',
@@ -87,6 +88,23 @@ export class ForumerPageComponent implements OnInit{
     let currentTopic = this.forumerPageService.getSelectedTopicId();
 
     return currentTopic != null && currentTopic != undefined;
+  }
+
+  editPost(postToEdit: ForumPost, event: Event){
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(EditPostComponent, {
+      width: '85%',
+      autoFocus: false,
+      maxHeight: '90vh',
+      data: postToEdit
+    });
+
+    dialogRef.afterClosed().subscribe(result => {console.log(result)}).unsubscribe()
+  }
+
+  deletePost(postToDelete: ForumPost, event: Event){
+    event.stopPropagation();
+    //TODO: Implement prompt and if prompt is affirmative delete the post.
   }
 
 }
