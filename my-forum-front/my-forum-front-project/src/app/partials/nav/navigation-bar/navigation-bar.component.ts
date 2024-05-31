@@ -15,20 +15,24 @@ constructor(private router: Router){
 }
 
 ngOnInit(): void {
-    
+  
 }
 
 public navigateToForumerPage() {
   this.router.navigate(['forumer-page']);
+  //console.log("Navigate to Forumer Page");
   }
 public navigateToModeratorPage() {
   this.router.navigate(['moderator-page']);
+  //console.log("Navigate to Moderator Page");
   }
 public navigateToAdminPage() {
   this.router.navigate(['admin-page']);
+  //console.log("Navigate to Admin Page");
   }
 
 public logoutButton(){
+  //console.log("Logout Button Clicked");
   sessionStorage.clear();
   this.router.navigate(['']);
   }

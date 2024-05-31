@@ -3,5 +3,6 @@ export const environment = {
     userKeyString: "currentlyLoggedUser",
     possiblePermissions: ["Create", "Update", "Delete"],
     possibleStatuses: ["APPROVED", "REJECTED", "PENDING"],
-    selectedTopicString: "selected_topic_id"
+    selectedTopicString: "selected_topic_id",
+    needsReloadString: "main_page_needs_reload"
 }

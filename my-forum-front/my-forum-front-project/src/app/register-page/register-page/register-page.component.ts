@@ -6,6 +6,7 @@ import { Form } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { User } from '../../../interfaces/user';
 import { NavigationBarComponent } from '../../partials/nav/navigation-bar/navigation-bar.component';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -76,6 +77,8 @@ registerUser() {
       user = response;
       this.userService.setCurrentUser(user);
       this.errorMessage = ""; // Remove the error message at this point cause everything went alright.
+
+      sessionStorage.setItem(environment.needsReloadString, "true");
 
       if(user.status === "REQUESTED")
         {

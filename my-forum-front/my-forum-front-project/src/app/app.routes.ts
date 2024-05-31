@@ -8,6 +8,7 @@ import { AdminPageComponent } from './main-page/main-page/admin-page/admin-page.
 import { ModeratorPageComponent } from './main-page/main-page/moderator-page/moderator-page.component';
 import { ForumerPageComponent } from './main-page/main-page/forumer-page/forumer-page.component';
 import { SelectedPostComponent } from './main-page/main-page/forumer-page/selected-post/selected-post.component';
+import { NavigationBarComponent } from './partials/nav/navigation-bar/navigation-bar.component';
 
 export const routes: Routes = [
     { path: 'start-page', component: StartPageComponent},

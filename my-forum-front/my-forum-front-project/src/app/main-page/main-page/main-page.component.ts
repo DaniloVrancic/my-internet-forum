@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationBarComponent } from '../../partials/nav/navigation-bar/navigation-bar.component';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-main-page',
@@ -16,6 +17,14 @@ export class MainPageComponent implements OnInit{
   }
 
   ngOnInit(): void {
-      
+      let reload = sessionStorage.getItem(environment.needsReloadString);
+      if(reload === "true"){
+        sessionStorage.removeItem(environment.needsReloadString);
+        window.location.reload();
+      }
   }
+
+  testButton() {
+    location.reload();
+    }
 }

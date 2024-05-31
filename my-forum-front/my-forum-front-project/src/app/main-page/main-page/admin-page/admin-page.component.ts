@@ -63,7 +63,7 @@ export class AdminPageComponent implements OnInit, OnDestroy{
     this.findAllSubscription = this.userService.findAll().subscribe(
       {
       next: response => {
-        this.allUsers = response; 
+        this.allUsers = response;
       }, 
       error: error => {
         if(error.status === 403)
