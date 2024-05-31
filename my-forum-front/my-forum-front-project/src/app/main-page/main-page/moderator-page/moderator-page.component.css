@@ -59,6 +59,7 @@
     padding: 0.5rem;
     border-bottom-left-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
+    justify-content: space-evenly;
 }
 
 .comment-section-post{

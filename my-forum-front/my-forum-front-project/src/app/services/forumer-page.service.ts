@@ -37,7 +37,7 @@ export class ForumerPageService {
     return this.http.post<any>(`${this.baseUrl}/add`, forumPostRequest);
   }
 
-  editForumPost(forumPostRequest: any): Observable<ForumPost> {
+  updateForumPost(forumPostRequest: any): Observable<ForumPost> {
     return this.http.put<ForumPost>(`${this.baseUrl}/update`, forumPostRequest);
   }
 

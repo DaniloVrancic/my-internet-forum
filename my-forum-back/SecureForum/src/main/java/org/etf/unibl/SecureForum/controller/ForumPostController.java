@@ -3,11 +3,11 @@ package org.etf.unibl.SecureForum.controller;
 import jakarta.validation.Valid;
 import org.etf.unibl.SecureForum.model.dto.Comment;
 import org.etf.unibl.SecureForum.model.dto.ForumPost;
-import org.etf.unibl.SecureForum.model.entities.CommentEntity;
 import org.etf.unibl.SecureForum.model.entities.ForumPostEntity;
 import org.etf.unibl.SecureForum.model.requests.CreatePostRequest;
+import org.etf.unibl.SecureForum.model.requests.EditPostRequest;
+import org.etf.unibl.SecureForum.model.requests.UpdateCommentRequest;
 import org.etf.unibl.SecureForum.model.requests.UpdatePostRequest;
-import org.etf.unibl.SecureForum.repositories.ForumPostRepository;
 import org.etf.unibl.SecureForum.service.ForumPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,9 +60,14 @@ public class ForumPostController {
         return forumPostService.addForumPost(request);
     }
 
-    @PutMapping("/update")
-    public ForumPost editForumPost(@Valid @RequestBody UpdatePostRequest request) {
+    @PutMapping("/edit")
+    public ForumPost editForumPost(@Valid @RequestBody EditPostRequest request) {
         return forumPostService.editForumPost(request);
+    }
+
+    @PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ForumPost editComment(@Valid @RequestBody UpdatePostRequest request) {
+        return forumPostService.updateForumPost(request);
     }
 
     @PutMapping("/change_status/{post_id}")

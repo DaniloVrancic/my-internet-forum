@@ -3,17 +3,19 @@ package org.etf.unibl.SecureForum.service.impl;
 import jakarta.transaction.Transactional;
 import org.etf.unibl.SecureForum.base.CrudJpaService;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
+import org.etf.unibl.SecureForum.model.dto.Comment;
 import org.etf.unibl.SecureForum.model.dto.ForumPost;
+import org.etf.unibl.SecureForum.model.entities.CommentEntity;
 import org.etf.unibl.SecureForum.model.entities.ForumPostEntity;
-import org.etf.unibl.SecureForum.model.entities.PermissionsEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.enums.UserType;
 import org.etf.unibl.SecureForum.model.requests.CreatePostRequest;
+import org.etf.unibl.SecureForum.model.requests.EditPostRequest;
+import org.etf.unibl.SecureForum.model.requests.UpdateCommentRequest;
 import org.etf.unibl.SecureForum.model.requests.UpdatePostRequest;
 import org.etf.unibl.SecureForum.repositories.ForumPostRepository;
 import org.etf.unibl.SecureForum.repositories.UserRepository;
 import org.etf.unibl.SecureForum.service.ForumPostService;
-import org.etf.unibl.SecureForum.service.PermissionsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -61,7 +63,7 @@ public class ForumPostImpl extends CrudJpaService<ForumPostEntity, Integer> impl
     }
 
     @Override
-    public ForumPost editForumPost(UpdatePostRequest request) {
+    public ForumPost editForumPost(EditPostRequest request) {
 
         ForumPostEntity entityToUpdate = forumPostRepository.findById(request.getId()).orElseThrow(NotFoundException::new);
         entityToUpdate.setTitle(request.getTitle());
@@ -74,6 +76,19 @@ public class ForumPostImpl extends CrudJpaService<ForumPostEntity, Integer> impl
         ForumPostEntity updatedEntity = forumPostRepository.save(entityToUpdate);
 
         return mapForumPostEntityToForumPost(updatedEntity);
+    }
+
+    @Override
+    public ForumPost updateForumPost(UpdatePostRequest request){
+        ForumPostEntity entityToUpdate = forumPostRepository.findById(request.getId()).orElseThrow(NotFoundException::new);
+
+        entityToUpdate.setContent(request.getContent());
+        entityToUpdate.setStatus(request.getStatus());
+        entityToUpdate.setModifiedAt(Timestamp.from(Instant.now())); //Optional, if I don't want to leave a trace of editing with this method I can simply switch it off.
+
+        ForumPostEntity editedComment = forumPostRepository.save(entityToUpdate);
+
+        return mapForumPostEntityToForumPost(editedComment);
     }
 
     @Override
