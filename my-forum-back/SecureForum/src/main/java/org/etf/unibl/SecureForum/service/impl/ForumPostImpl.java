@@ -2,6 +2,7 @@ package org.etf.unibl.SecureForum.service.impl;
 
 import jakarta.transaction.Transactional;
 import org.etf.unibl.SecureForum.base.CrudJpaService;
+import org.etf.unibl.SecureForum.exceptions.BadRequestException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
 import org.etf.unibl.SecureForum.model.dto.Comment;
 import org.etf.unibl.SecureForum.model.dto.ForumPost;
@@ -82,6 +83,11 @@ public class ForumPostImpl extends CrudJpaService<ForumPostEntity, Integer> impl
     public ForumPost updateForumPost(UpdatePostRequest request){
         ForumPostEntity entityToUpdate = forumPostRepository.findById(request.getId()).orElseThrow(NotFoundException::new);
 
+        if(request.getTitle().length() == 0 || request.getContent().length() == 0){
+            throw new BadRequestException("Title or Content can't be blank.");
+        }
+
+        entityToUpdate.setTitle(request.getTitle());
         entityToUpdate.setContent(request.getContent());
         entityToUpdate.setStatus(request.getStatus());
         entityToUpdate.setModifiedAt(Timestamp.from(Instant.now())); //Optional, if I don't want to leave a trace of editing with this method I can simply switch it off.
@@ -150,6 +156,12 @@ public class ForumPostImpl extends CrudJpaService<ForumPostEntity, Integer> impl
         }
 
         return mappedEntities;
+    }
+
+    @Override
+    public ForumPost findByPostId(Integer post_id) {
+        ForumPostEntity foundEntity = forumPostRepository.findById(post_id).orElseThrow(NotFoundException::new);
+        return mapForumPostEntityToForumPost(foundEntity);
     }
 
     @Override

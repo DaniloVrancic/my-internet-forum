@@ -47,6 +47,11 @@ public class CommentController {
         return commentService.findAllCommentsByForumPostAndStatus(postId, CommentEntity.Status.APPROVED);
     }
 
+    @GetMapping("/{id}")
+    public Comment findByPostId(@PathVariable("id") Integer id) {
+        return commentService.findByCommentId(id);
+    }
+
     @GetMapping("/status_pending")
     public List<Comment> findAllByStatusPending(){
         return commentService.findAllByStatus(CommentEntity.Status.PENDING);

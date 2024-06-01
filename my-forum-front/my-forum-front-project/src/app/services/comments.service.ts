@@ -32,6 +32,10 @@ export class CommentsService {
     return this.http.get<Comment[]>(`${this.baseUrl}/user/${user_id}`);
   }
 
+  findByCommentId(comment_id: number): Observable<Comment>{
+    return this.http.get<Comment>(`${this.baseUrl}/${comment_id}`);
+  }
+
   addComment(commentRequest: CommentRequest): Observable<Comment> {
     return this.http.post<any>(`${this.baseUrl}/add`, commentRequest, {
       headers: this.jsonHeaders

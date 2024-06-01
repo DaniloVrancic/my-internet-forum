@@ -34,6 +34,11 @@ public class ForumPostController {
         return forumPostService.findAllForumPosts();
     }
 
+    @GetMapping("/{id}")
+    public ForumPost findByPostId(@PathVariable("id") Integer id) {
+        return forumPostService.findByPostId(id);
+    }
+
     @GetMapping("/topic/{topic_id}")
     public List<ForumPost> findAllByTopicId(@PathVariable("topic_id") Integer topic_id) {
         return forumPostService.findAllByTopicId(topic_id);

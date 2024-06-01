@@ -8,6 +8,9 @@ public class UpdatePostRequest {
 
     @NotNull
     Integer id;
+
+    @NotNull
+    String title;
     @NotNull
     String content;
     @NotNull
@@ -19,6 +22,14 @@ public class UpdatePostRequest {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {

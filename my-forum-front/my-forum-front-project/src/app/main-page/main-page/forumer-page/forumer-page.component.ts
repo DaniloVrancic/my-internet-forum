@@ -99,7 +99,21 @@ export class ForumerPageComponent implements OnInit{
       data: postToEdit
     });
 
-    dialogRef.afterClosed().subscribe(result => {console.log(result)}).unsubscribe()
+    dialogRef.afterClosed().subscribe((result: ForumPost) => {
+     
+      this.forumerPageService.findByPostId(postToEdit.id).subscribe({next: result => {
+        if (result) {
+          const index = this.allPosts.findIndex(post => post.id === result.id);
+          if (index !== -1) {
+            this.allPosts[index] = result;
+          }
+        }
+      },error: errorObj => {console.error(errorObj)}
+      });
+      
+
+      
+    });
   }
 
   deletePost(postToDelete: ForumPost, event: Event){

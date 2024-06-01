@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ForumPost } from '../../interfaces/forum-post';
 import { Observable } from 'rxjs';
+import { UpdateForumPostRequest } from '../../interfaces/requests/update-forum-post-request';
 
 @Injectable({
   providedIn: 'root'
@@ -41,11 +42,15 @@ export class ForumerPageService {
     return this.http.get<ForumPost[]>(`${this.baseUrl}/user/${user_id}`);
   }
 
+  findByPostId(post_id: number): Observable<ForumPost>{
+    return this.http.get<ForumPost>(`${this.baseUrl}/${post_id}`)
+  }
+
   addForumPost(forumPostRequest: any): Observable<ForumPost> {
     return this.http.post<any>(`${this.baseUrl}/add`, forumPostRequest);
   }
 
-  updateForumPost(forumPostRequest: any): Observable<ForumPost> {
+  updateForumPost(forumPostRequest: UpdateForumPostRequest): Observable<ForumPost> {
     return this.http.put<ForumPost>(`${this.baseUrl}/update`, forumPostRequest);
   }
 

@@ -28,6 +28,12 @@ export class EditPostComponent implements OnInit {
   }
 
   editPost(){
-    //TODO: implement editing post
+    this.forumerPageService.updateForumPost({id: this.caughtPost.id, title: this.inputTitle, content: this.inputContent, status: this.caughtPost.status})
+    .subscribe({
+      next: result => {
+        console.log(result);
+        alert("Successfully edited post.");
+      }
+    });
   }
 }

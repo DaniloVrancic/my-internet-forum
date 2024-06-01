@@ -95,6 +95,12 @@ public class CommentServiceImpl extends CrudJpaService<CommentEntity, Integer> i
         return listToReturn;
     }
 
+    public Comment findByCommentId(Integer comment_id){
+        CommentEntity foundEntity = commentRepository.findById(comment_id).orElseThrow(NotFoundException::new);
+
+        return mapCommentEntityToComment(foundEntity);
+    }
+
     public Comment addComment(CreateCommentRequest request) {
         CommentEntity entityToAdd = new CommentEntity();
         entityToAdd.setContent(request.getContent());

@@ -5,11 +5,12 @@ import { CommentsService } from '../../../../services/comments.service';
 import { ModeratorPageService } from '../../../../services/moderator-page.service';
 import { environment } from '../../../../../environments/environment';
 import { ForumerPageService } from '../../../../services/forumer-page.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-and-update-forum-post',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './edit-and-update-forum-post.component.html',
   styleUrl: './edit-and-update-forum-post.component.css',
   providers:[ForumerPageService]
@@ -20,12 +21,19 @@ export class EditAndUpdateForumPostComponent implements OnInit{
   public isPostChanged: boolean = false;
   public selectedStatusName: string;
 
+  public inputTitle: string;
+  public inputContent: string;
+
+  
+
   private contentTextArea = {} as any;
 
   constructor(@Inject(MAT_DIALOG_DATA) public caughtPost: ForumPost, 
                                        private moderatorPageService: ModeratorPageService,
                                        private forumerPageService: ForumerPageService){
           this.selectedStatusName = caughtPost.status;
+          this.inputTitle = caughtPost.title;
+          this.inputContent = caughtPost.content;
   }
 
   ngOnInit(): void {
@@ -37,7 +45,7 @@ selectStatusName(statusName: string) {
   }
 
 updatePostClick() {
-  this.forumerPageService.updateForumPost({id: this.caughtPost.id, content: this.contentTextArea.value as string, status: this.selectedStatusName})
+  this.forumerPageService.updateForumPost({id: this.caughtPost.id, title: this.inputTitle, content: this.inputContent, status: this.selectedStatusName})
   .subscribe({next: response => {alert("Updated element ID: " + response.id)}
 });
   }
