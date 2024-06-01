@@ -46,7 +46,6 @@ export class ForumerPageComponent implements OnInit{
 
   setTopicIdAndUpdatePosts(numberForSet: number) {
     this.forumerPageService.setSelectedTopicId(numberForSet);
-    console.log(this.forumerPageService.getSelectedTopicId());
     this.forumerPageService.findTop20ApprovedByTopicId(numberForSet).subscribe({
       next: response => {this.allPosts = response},
       error: errorObj => console.error(errorObj)
@@ -65,7 +64,7 @@ export class ForumerPageComponent implements OnInit{
       data: this.allPosts
     });
 
-    dialogRef.afterClosed().subscribe(result => {console.log(result)}).unsubscribe()
+    dialogRef.afterClosed().subscribe(result => {}).unsubscribe()
   }
 
   openPost(caughtPost: ForumPost){
@@ -76,7 +75,7 @@ export class ForumerPageComponent implements OnInit{
       data: caughtPost
     });
 
-    dialogRef.afterClosed().subscribe(result => {console.log(result)}).unsubscribe()
+    dialogRef.afterClosed().subscribe(result => {}).unsubscribe()
   }
 
   userIsLoggedIn() : boolean{
@@ -118,7 +117,20 @@ export class ForumerPageComponent implements OnInit{
 
   deletePost(postToDelete: ForumPost, event: Event){
     event.stopPropagation();
-    //TODO: Implement prompt and if prompt is affirmative delete the post.
+    
+    let acceptedDelete = confirm(`Are you sure you want to delete:\n${postToDelete.title} ?`);
+
+    if(acceptedDelete){
+      this.forumerPageService.deleteForumPost(postToDelete.id).subscribe({
+        next: result => {
+          if(result){
+            this.allPosts = this.allPosts.filter(post => post.id !== postToDelete.id);
+            alert(`Successfully deleted:\n${result.title}`);
+          }
+        },
+        error: errorObj => {console.error(errorObj);}
+      });
+    }
   }
 
 }
