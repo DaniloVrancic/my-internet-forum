@@ -76,10 +76,13 @@ public class ForumPostController {
         return forumPostService.addForumPost(request);
     }
 
+    /*
     @PutMapping("/edit")
     public ForumPost editForumPost(@Valid @RequestBody EditPostRequest request) {
         return forumPostService.editForumPost(request);
     }
+    
+     */
 
     @PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ForumPost editComment(@Valid @RequestBody UpdatePostRequest request) {
