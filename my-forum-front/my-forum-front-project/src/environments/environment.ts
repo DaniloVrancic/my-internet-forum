@@ -1,5 +1,6 @@
 export const environment = {
-    apiBaseUrl: 'http://localhost:8080',
+    production: false,
+    apiBaseUrl: 'https://localhost:8443',
     userKeyString: "currentlyLoggedUser",
     possiblePermissions: ["Create", "Update", "Delete"],
     possibleStatuses: ["APPROVED", "REJECTED", "PENDING"],
