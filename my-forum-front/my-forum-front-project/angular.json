@@ -61,6 +61,11 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "ssl":true,
+            "sslKey": "../ssl/privateKey.pem",
+            "sslCert": "../ssl/certificate.crt"
+          },
           "configurations": {
             "production": {
               "buildTarget": "my-forum-front-project:build:production"
