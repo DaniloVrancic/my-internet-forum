@@ -40,9 +40,9 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf(setting -> setting.disable())
-                .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> {httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(authEntryPoint);})
-                .sessionManagement(httpSecuritySessionManagementConfigurer -> {httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);})
-                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();});
+                .exceptionHandling(handlingConfigurer -> {handlingConfigurer.authenticationEntryPoint(authEntryPoint);})
+                .sessionManagement(sessionManagement -> {sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);})
+                .authorizeHttpRequests(requestMatcherConfigurer -> {requestMatcherConfigurer.anyRequest().permitAll();});
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

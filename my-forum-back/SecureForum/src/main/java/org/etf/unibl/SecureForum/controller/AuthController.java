@@ -47,6 +47,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public User loginUser(@Valid @RequestBody LoginRequest request){
+
+        System.out.println("DOING LOGIN");
         return userService.login(request);
     }
 
