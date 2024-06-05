@@ -17,6 +17,11 @@ import org.etf.unibl.SecureForum.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,7 +33,6 @@ import java.util.Random;
 
 
 @Service
-@Transactional
 public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> implements UserService {
 
     private final ModelMapper modelMapper;
@@ -36,11 +40,15 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
     private final CodeVerificationRepository codeVerificationRepository;
     private final EmailSender emailSender;
 
+    private AuthenticationManager authenticationManager;
+
     @Autowired
-    public UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository,
+    public UserServiceImpl(AuthenticationManager authenticationManager,
+            ModelMapper modelMapper, UserRepository userRepository,
                            CodeVerificationRepository codeVerificationRepository, EmailSender emailSender)
     {
         super(userRepository, modelMapper, UserEntity.class); //For implementing CRUD operations
+        this.authenticationManager = authenticationManager;
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
         this.codeVerificationRepository = codeVerificationRepository;
@@ -93,36 +101,21 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
     }
 
     public User login(LoginRequest request){
-        UserEntity foundEntity = userRepository.findByUsernameIs(request.getUsername()).orElseThrow(NotFoundException::new);
-        User userToReturn = null;
 
-        if(foundEntity != null){
-            if(getBCryptEncoder().matches(request.getPassword(), foundEntity.getPassword()))
-            {
-                userToReturn = new User();
-                userToReturn.setId(foundEntity.getId());
-                userToReturn.setUsername(foundEntity.getUsername());
-                userToReturn.setEmail(foundEntity.getEmail());
-                userToReturn.setType(foundEntity.getType());
+        try {
 
-                userToReturn.setStatus(foundEntity.getStatus());
+            UserEntity foundEntity = userRepository.findByUsernameIs(request.getUsername()).orElseThrow(NotFoundException::new);
+            User userToReturn = mapUserEntityToUser(foundEntity);
 
-                if(userToReturn.getStatus().equals(UserEntity.Status.BLOCKED))
-                {
-                    throw new ForbiddenException(); //if the user was blocked, don't allow him login
-                }
-
-                userToReturn.setCreateTime(foundEntity.getCreateTime());
-                return userToReturn;
-            }
-            else{ //If user was found but password is incorrect
-                throw new NotFoundException();
+            if (userToReturn.getStatus().equals(UserEntity.Status.BLOCKED)) {
+                throw new ForbiddenException(); // If the user was blocked, don't allow login
             }
 
+            return userToReturn;
+        } catch (BadCredentialsException ex) {
+            throw new NotFoundException("User credentials aren't correct"); // If user was not found or password is incorrect
         }
-        else{
-            throw new NotFoundException();
-        }
+
     }
 
     /**
