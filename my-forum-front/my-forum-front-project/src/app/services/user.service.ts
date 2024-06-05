@@ -10,7 +10,8 @@ import { UserPrivilegeUpdateRequest } from '../../interfaces/requests/user-privi
   providedIn: 'root',
 })
 export class UserService {
-  private baseUrl = environment.apiBaseUrl + '/users';
+  private baseUserUrl = environment.apiBaseUrl + '/users';
+  private baseAuthUrl = environment.apiBaseUrl + '/auth';
   private currentUser: User | null;
 
   constructor(private http: HttpClient) { 
@@ -18,52 +19,52 @@ export class UserService {
   }
 
   findAll(): Observable<any> {
-    return this.http.get<any>(this.baseUrl);
+    return this.http.get<any>(this.baseUserUrl);
   }
 
   findUserById(id: number): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/${id}`);
+    return this.http.get<User>(`${this.baseUserUrl}/${id}`);
   }
 
   registerUser(request: any): Observable<User> {
-    return this.http.post<any>(`${this.baseUrl}/register`, request);
+    return this.http.post<any>(`${this.baseAuthUrl}/register`, request);
   }
 
   loginUser(request: any): Observable<User> {
-    return this.http.post<any>(`${this.baseUrl}/login`, request)
+    return this.http.post<any>(`${this.baseAuthUrl}/login`, request)
   }
 
   addUser(request: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/add`, request);
+    return this.http.post<any>(`${this.baseUserUrl}/add`, request);
   }
 
   verifyUser(request: VerifyCodeRequest): Observable<User> {
-    return this.http.post<User>(`${this.baseUrl}/verify`, request);
+    return this.http.post<User>(`${this.baseAuthUrl}/verify`, request);
   }
 
   updateUser(userData: any): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/update`, userData);
+    return this.http.put<any>(`${this.baseUserUrl}/update`, userData);
   }
 
   changePrivilege(request: UserPrivilegeUpdateRequest): Observable<User> {
-    return this.http.put<User>(`${this.baseUrl}/change-privileges`, request);
+    return this.http.put<User>(`${this.baseUserUrl}/change-privileges`, request);
   }
 
 
   deleteUserById(id: number): Observable<string> {
-    return this.http.delete<string>(`${this.baseUrl}/delete/${id}`);
+    return this.http.delete<string>(`${this.baseUserUrl}/delete/${id}`);
   }
 
   deleteUserByUsername(username: string): Observable<string> {
-    return this.http.delete<string>(`${this.baseUrl}/delete-username/${username}`);
+    return this.http.delete<string>(`${this.baseUserUrl}/delete-username/${username}`);
   }
 
   resendVerificationCodeForUserId(id: number): Observable<string> {
-    return this.http.post<string>(`${this.baseUrl}/resend_code/${id}`, null);
+    return this.http.post<string>(`${this.baseAuthUrl}/resend_code/${id}`, null);
   }
 
   resendVerificationCodeForUser(user: User): Observable<string> {
-    return this.http.post<any>(`${this.baseUrl}/resend_code/${user.id}`, null);
+    return this.http.post<any>(`${this.baseAuthUrl}/resend_code/${user.id}`, null);
   }
 
   public setCurrentUser(user: User | null)
