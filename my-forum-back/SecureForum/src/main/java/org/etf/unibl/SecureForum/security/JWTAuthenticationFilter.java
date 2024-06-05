@@ -12,12 +12,9 @@ import java.io.IOException;
 
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
+    @Autowired
     private JWTGenerator tokenGenerator;
 
-    @Autowired
-    public JWTAuthenticationFilter(JWTGenerator tokenGenerator){
-        this.tokenGenerator = tokenGenerator;
-    }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 

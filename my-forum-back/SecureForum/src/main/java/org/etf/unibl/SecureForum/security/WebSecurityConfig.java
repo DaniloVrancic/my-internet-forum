@@ -10,6 +10,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.net.http.HttpRequest;
 
@@ -26,18 +28,23 @@ public class WebSecurityConfig {
 
     private JwtAuthEntryPoint authEntryPoint;
 
+    private CustomUserDetailsService customUserDetailsService;
+
     @Autowired
-    public WebSecurityConfig(JwtAuthEntryPoint authEntryPoint){
+    public WebSecurityConfig(CustomUserDetailsService customUserDetailsService,
+                             JwtAuthEntryPoint authEntryPoint){
+        this.customUserDetailsService = customUserDetailsService;
         this.authEntryPoint = authEntryPoint;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.csrf(setting -> setting.disable()).
-                exceptionHandling(httpSecurityExceptionHandlingConfigurer -> {httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(authEntryPoint);}).
-                sessionManagement(httpSecuritySessionManagementConfigurer -> {httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);}).
-                authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {authorizationManagerRequestMatcherRegistry.anyRequest();});
+        http.csrf(setting -> setting.disable())
+                .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> {httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(authEntryPoint);})
+                .sessionManagement(httpSecuritySessionManagementConfigurer -> {httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);})
+                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();});
 
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -51,6 +58,11 @@ public class WebSecurityConfig {
     @Bean
     public PasswordEncoder getPasswordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public JWTAuthenticationFilter jwtAuthenticationFilter(){
+        return new JWTAuthenticationFilter();
     }
 
 

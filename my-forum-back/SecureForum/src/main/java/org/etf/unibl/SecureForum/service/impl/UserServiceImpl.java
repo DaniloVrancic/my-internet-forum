@@ -111,6 +111,12 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
                 throw new ForbiddenException(); // If the user was blocked, don't allow login
             }
 
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(),
+                            request.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
             return userToReturn;
         } catch (BadCredentialsException ex) {
             throw new NotFoundException("User credentials aren't correct"); // If user was not found or password is incorrect

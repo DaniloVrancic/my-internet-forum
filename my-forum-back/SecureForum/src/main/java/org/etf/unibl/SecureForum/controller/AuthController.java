@@ -12,6 +12,7 @@ import org.etf.unibl.SecureForum.model.requests.SignUpRequest;
 import org.etf.unibl.SecureForum.model.requests.VerifyUserRequest;
 import org.etf.unibl.SecureForum.repositories.CodeVerificationRepository;
 import org.etf.unibl.SecureForum.repositories.UserRepository;
+import org.etf.unibl.SecureForum.security.JWTGenerator;
 import org.etf.unibl.SecureForum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,13 +30,17 @@ public class AuthController {
     private final UserService userService;
     private final UserRepository userRepository;
 
+    private final JWTGenerator jwtGenerator;
+
     private final CodeVerificationRepository codeVerificationRepository;
 
     @Autowired
     public AuthController(UserService userService,
+                          JWTGenerator jwtGenerator,
                           UserRepository userRepository,
                           CodeVerificationRepository codeVerificationRepository) {
         this.userService = userService;
+        this.jwtGenerator = jwtGenerator;
         this.userRepository = userRepository;
         this.codeVerificationRepository = codeVerificationRepository;
     }
