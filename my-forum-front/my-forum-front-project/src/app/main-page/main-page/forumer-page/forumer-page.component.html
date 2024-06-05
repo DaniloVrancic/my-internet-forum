@@ -1,2 +1,63 @@
 <app-navigation-bar></app-navigation-bar>
-<p>forumer-page works!</p>
+
+<div class="full-page">
+<section class="side-bar" style="overflow-y: auto;">
+    <table>
+        <thead></thead>
+        <tbody>
+            @for(foundTopic of this.allTopics; track foundTopic){
+                <tr class="topic-row" (click)="setTopicIdAndUpdatePosts(foundTopic.id)">
+                    <td>
+                        <span class="material-symbols-outlined">topic</span><br />
+                        {{foundTopic.name}}
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+<section class="forum-posts">
+    @if(this.topicIsSelected() == true){
+    <section>
+        <button class="add-new-post-btn" (click)="addNewForumPost()" [disabled]="!(this.userIsLoggedIn() && this.topicIsSelected())">Add New Post</button>
+    </section>
+    <br/>
+    @if(this.allPosts.length == 0){
+        <div class="warning-message">No posts found for this category</div>
+    }
+    @else {
+            @for(foundPost of this.allPosts; track foundPost){
+                <div class="post-container" (click)="openPost(foundPost)">
+                    <div class="title-container">
+                        {{foundPost.title}}
+                    </div><br />
+                    <div class="details-container">
+                        
+                        <div class="icon-container">
+                            <mat-icon>forum</mat-icon>
+                        </div>
+                        <div class="content-container">
+                            {{foundPost.content}}
+                        </div>
+                        <div class="created-at-container">
+                            <span>Posted at:</span><br />
+                            {{foundPost.created_at}}
+                        </div>
+                        <div class="user-creator-container">
+                            <span>Created by:</span><br />
+                            {{foundPost.user_creator == null ? "You" : foundPost.user_creator}}
+                        </div>
+                    </div>
+                    <div class="buttons-area" style="width: 50%; gap: 10px; position: relative; left: 50%;">
+                        <button type="button" (click)="editPost(foundPost, $event)">Edit Post</button>
+                        <button type="button" (click)="deletePost(foundPost, $event)">Delete Post</button>
+                    </div>
+                </div>
+            }
+        }
+    }
+    @else {
+        <div class="warning-message" style="padding: 6rem; font-size: 5.5rem; text-wrap: wrap; word-spacing: 1rem;">No topic selected!</div>
+    }
+</section>
+</div>

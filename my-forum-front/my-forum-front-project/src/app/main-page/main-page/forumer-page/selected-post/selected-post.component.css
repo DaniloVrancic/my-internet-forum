@@ -1,0 +1,75 @@
+.card-full{
+    width: 100%;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.title-container{
+    font-size: 2.25rem;
+    font-weight: 700;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    line-height: 2.5rem;
+}
+
+.content-container{
+    padding: 1.5rem;
+    margin: auto;
+    padding-right: 3rem;
+}
+
+.author-container{
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.topic-container{
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.comment-input-field {
+    width: 90%;
+    box-sizing: border-box;
+}
+
+#comment-text-area {
+    width: 90%;
+    display: block;
+    box-sizing: border-box;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: 7rem;
+    padding: 0.5rem;
+}
+
+.comment-input-field textarea{
+    width: auto;
+    max-height: 15rem;
+}
+
+.description-container{
+    display: flex;
+    justify-content: space-around;
+}
+
+#comment-text-area{
+    
+}
+
+.main-content-div{
+
+}
+.write-comment-section{
+    display: flex;
+    flex-direction: column;
+}
+
+.read-comment-section{
+    margin-top: 2rem;
+}
+
+.post-comment-button{
+    background-color: rgba(4, 4, 4, 0.8);
+    color: gold;
+}

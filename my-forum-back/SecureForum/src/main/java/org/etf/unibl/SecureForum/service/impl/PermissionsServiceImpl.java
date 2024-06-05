@@ -2,12 +2,14 @@ package org.etf.unibl.SecureForum.service.impl;
 
 import jakarta.transaction.Transactional;
 import org.etf.unibl.SecureForum.base.CrudJpaService;
+import org.etf.unibl.SecureForum.exceptions.NotFoundException;
 import org.etf.unibl.SecureForum.model.dto.Permission;
 import org.etf.unibl.SecureForum.model.entities.PermissionsEntity;
 import org.etf.unibl.SecureForum.model.entities.TopicEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.requests.PermissionsRequest;
 import org.etf.unibl.SecureForum.repositories.PermissionsRepository;
+import org.etf.unibl.SecureForum.repositories.TopicRepository;
 import org.etf.unibl.SecureForum.repositories.UserRepository;
 import org.etf.unibl.SecureForum.service.PermissionsService;
 import org.modelmapper.ModelMapper;
@@ -25,16 +27,19 @@ public class PermissionsServiceImpl extends CrudJpaService<PermissionsEntity, In
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
     private final PermissionsRepository permissionsRepository;
+    private final TopicRepository topicRepository;
 
 
     @Autowired
     public PermissionsServiceImpl(PermissionsRepository permissionsRepository, ModelMapper modelMapper,
-                                  UserRepository userRepository) {
+                                  UserRepository userRepository,
+                                  TopicRepository topicRepository) {
         super(permissionsRepository, modelMapper, PermissionsEntity.class);
 
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
         this.permissionsRepository = permissionsRepository;
+        this.topicRepository = topicRepository;
     }
 
     @Transactional
@@ -46,13 +51,7 @@ public class PermissionsServiceImpl extends CrudJpaService<PermissionsEntity, In
 
         for(PermissionsEntity entity : allFoundEntities)
         {
-            Permission mappedEntity = new Permission();
-            mappedEntity.setId(entity.getId());
-            mappedEntity.setUser_id(entity.getReferencedUser().getId());
-            mappedEntity.setTopic_id(entity.getTopic().getId());
-            mappedEntity.setTopic_name(entity.getTopic().getName());
-            mappedEntity.setType(entity.getPermission());
-            allFilteredPermissions.add(mappedEntity);
+            allFilteredPermissions.add(mapPermissionEntityToPermission(entity));
         }
 
         return allFilteredPermissions;
@@ -66,24 +65,23 @@ public class PermissionsServiceImpl extends CrudJpaService<PermissionsEntity, In
         tempUser.setId(request.getUser_id());
         entityToAdd.setReferencedUser(tempUser);
 
-        TopicEntity tempTopic = new TopicEntity();
-        tempTopic.setId(request.getTopic_id());
+        TopicEntity tempTopic = topicRepository.findById(request.getTopic_id()).orElseThrow(NotFoundException::new);
         entityToAdd.setTopic(tempTopic);
 
         entityToAdd.setPermission(request.getType());
 
-        Permission savedPermission = this.insert(entityToAdd,Permission.class);
+        PermissionsEntity savedPermissionEntity = permissionsRepository.save(entityToAdd);
 
 
-        return savedPermission;
+        return mapPermissionEntityToPermission(savedPermissionEntity);
     }
 
     @Transactional
     public Permission deletePermissionById(Integer id)
     {
-        Permission foundPermission = findById(id, Permission.class);
-        this.delete(id);
-        return foundPermission;
+        PermissionsEntity foundPermissionEntity = permissionsRepository.findById(id).orElseThrow(NotFoundException::new);
+        permissionsRepository.deleteById(id);
+        return mapPermissionEntityToPermission(foundPermissionEntity);
     }
 
     @Transactional
@@ -93,16 +91,22 @@ public class PermissionsServiceImpl extends CrudJpaService<PermissionsEntity, In
         List<PermissionsEntity> foundEntities = permissionsRepository.findAllByReferencedUser_Id(id);
 
         foundEntities.forEach(foundEntity -> {
-            Permission newPermission = new Permission();
-            newPermission.setId(foundEntity.getId());
-            newPermission.setType(foundEntity.getPermission());
-            newPermission.setUser_id(id);
-            newPermission.setTopic_id(foundEntity.getTopic().getId());
-            newPermission.setTopic_name(foundEntity.getTopic().getName());
-            foundPermissions.add(newPermission);
-            permissionsRepository.deleteById(foundEntity.getId());
+
+            foundPermissions.add(mapPermissionEntityToPermission(foundEntity));
         });
 
+        permissionsRepository.deleteAll(foundEntities);
         return foundPermissions;
+    }
+
+    private Permission mapPermissionEntityToPermission(PermissionsEntity entity){
+        Permission permissionToReturn = new Permission();
+        permissionToReturn.setId(entity.getId());
+        permissionToReturn.setTopic_id(entity.getId());
+        permissionToReturn.setTopic_name(entity.getTopic().getName());
+        permissionToReturn.setType(entity.getPermission());
+        permissionToReturn.setUser_id(entity.getReferencedUser().getId());
+
+        return permissionToReturn;
     }
 }

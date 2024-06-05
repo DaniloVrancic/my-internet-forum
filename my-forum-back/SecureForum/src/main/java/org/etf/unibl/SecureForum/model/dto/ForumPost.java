@@ -1,5 +1,6 @@
 package org.etf.unibl.SecureForum.model.dto;
 
+import org.etf.unibl.SecureForum.model.entities.ForumPostEntity;
 import org.etf.unibl.SecureForum.model.entities.TopicEntity;
 
 import java.sql.Timestamp;
@@ -13,6 +14,8 @@ public class ForumPost {
     private Timestamp modified_at;
     private String topic;
     private String user_creator;
+    private ForumPostEntity.Status status;
+
     public Integer getId() {
         return id;
     }
@@ -69,6 +72,14 @@ public class ForumPost {
         this.user_creator = user_creator;
     }
 
+    public ForumPostEntity.Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(ForumPostEntity.Status status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "ForumPost{" +
@@ -79,6 +90,7 @@ public class ForumPost {
                 ", modified_at=" + modified_at +
                 ", topic='" + topic + '\'' +
                 ", user_creator='" + user_creator + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

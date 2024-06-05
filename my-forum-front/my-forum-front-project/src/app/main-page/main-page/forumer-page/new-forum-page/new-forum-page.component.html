@@ -1,0 +1,13 @@
+<section class="card-full main-content-div">
+    <form class="centered-form">
+        <h1 class="form-title">Add New Post</h1>
+        <label for="title" class="input-field-descriptor"><b>Title:</b></label>
+        <input type="text" name="title" id="title" placeholder=" " class="input-field" [(ngModel)]="this.inputTitle"/>
+        <br/><br/>
+        <label for="content" class="input-field-descriptor"><b>Content:</b></label>
+        <textarea name="content" id="content" placeholder=" " class="input-field" rows="40" style="min-height: 368px; padding-top: 1rem;" [(ngModel)]="this.inputContent"></textarea>
+        <div class="buttons-area">
+            <button type="button" name="addNewPostButton" id="addNewPostButton" [disabled]="this.inputContent.length == 0 || this.inputTitle.length == 0" (click)="addNewPost()">Add New Post</button>
+        </div>
+    </form>
+</section>

@@ -8,24 +8,33 @@ import { Router } from '@angular/router';
   templateUrl: './navigation-bar.component.html',
   styleUrl: './navigation-bar.component.css'
 })
-export class NavigationBarComponent{
-constructor(private router: Router){}
+export class NavigationBarComponent implements OnInit{
+constructor(private router: Router){
 
 
+}
 
-navigateToForumerPage() {
+ngOnInit(): void {
+  
+}
+
+public navigateToForumerPage() {
   this.router.navigate(['forumer-page']);
-}
-navigateToModeratorPage() {
+  //console.log("Navigate to Forumer Page");
+  }
+public navigateToModeratorPage() {
   this.router.navigate(['moderator-page']);
-}
-navigateToAdminPage() {
+  //console.log("Navigate to Moderator Page");
+  }
+public navigateToAdminPage() {
   this.router.navigate(['admin-page']);
-}
+  //console.log("Navigate to Admin Page");
+  }
 
-logoutButton(){
+public logoutButton(){
+  //console.log("Logout Button Clicked");
   sessionStorage.clear();
   this.router.navigate(['']);
-}
+  }
 
 }

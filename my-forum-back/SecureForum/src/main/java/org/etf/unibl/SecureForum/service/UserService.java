@@ -14,9 +14,7 @@ public interface UserService extends CrudService<Integer> {
 
     User login(LoginRequest request);
 
-    User changeStatus(ChangeStatusRequest request);
-
-    User changeRole(ChangeTypeRequest request);
+    User changePrivileges(UpdateUserPrivilegesRequest request);
 
     List<CodeVerificationEntity> getAllCodesForUser(Integer userId);
 

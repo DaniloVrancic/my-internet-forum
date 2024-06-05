@@ -1,24 +1,28 @@
 package org.etf.unibl.SecureForum.model.requests;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import org.etf.unibl.SecureForum.model.entities.TopicEntity;
-import org.etf.unibl.SecureForum.model.entities.UserEntity;
+import org.etf.unibl.SecureForum.model.entities.CommentEntity;
+import org.etf.unibl.SecureForum.model.entities.ForumPostEntity;
 
 public class UpdatePostRequest {
 
     @NotNull
-    private Integer id;
+    Integer id;
+
     @NotNull
-    @Size(min = 1)
-    private String title;
+    String title;
     @NotNull
-    @Size(min = 1)
-    private String content;
+    String content;
     @NotNull
-    private TopicEntity topic;
-    @NotNull
-    private UserEntity user;
+    ForumPostEntity.Status status;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -36,38 +40,11 @@ public class UpdatePostRequest {
         this.content = content;
     }
 
-    public TopicEntity getTopic() {
-        return topic;
+    public ForumPostEntity.Status getStatus() {
+        return status;
     }
 
-    public void setTopic(TopicEntity topic) {
-        this.topic = topic;
+    public void setStatus(ForumPostEntity.Status status) {
+        this.status = status;
     }
-
-    public void setTopic(Integer topic_id){
-        this.topic = new TopicEntity();
-        this.topic.setId(topic_id);
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
-
-    public void setUser(Integer user_id){
-        this.user = new UserEntity();
-        this.user.setId(user_id);
-    }
-
-    public Integer getId(){
-        return this.id;
-    }
-
-    public void setId(Integer id){
-        this.id = id;
-    }
-
 }

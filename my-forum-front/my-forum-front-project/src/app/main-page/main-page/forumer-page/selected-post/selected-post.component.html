@@ -1,0 +1,41 @@
+<section class="card-full main-content-div" style="overflow-x: hidden;">
+    <br />
+    <div class="title-container">
+        {{caughtPost.title}}
+    </div>
+    <div class="description-container">
+        <p>Topic: <span class="topic-container">{{caughtPost.topic}}</span></p>
+        <p>Author: <span class="author-container">{{caughtPost.user_creator}}</span></p>
+    </div>
+    <div class="content-container">
+        {{caughtPost.content}}
+    </div>
+
+
+        <div class="write-comment-section">
+                <article class="comment-input-field">
+                    <label for="comment-text-area">Leave a comment:</label>
+                    <textarea matInput [(ngModel)]="this.commentToPost" id="comment-text-area" style="display: block; width: 90%;"></textarea><br />
+                    <div class="buttons-area">
+                        <button class="post-comment-button" mat-raised-button color="primary" style="scale: 1.3; text-align: center;" (click)="postComment($event)" [disabled]="(this.commentToPost.length == 0)">Post Comment</button>
+                    </div>
+                </article>
+        </div>
+    @if(this.commentsOnProgram != null && this.commentsOnProgram.length > 0)
+    {   
+    <div class="read-comment-section">
+        @for(comment of this.commentsOnProgram; track comment)
+        {
+            <div class="comment-field">
+                <div class="comment-user"><p>{{comment.username}} at {{comment.postedAt}} {{(comment.modifiedAt != comment.postedAt) ? (" (Last edited at: " + comment.modifiedAt + ")") : ""}}</p></div>
+                <div class="comment-content"><p>{{comment.content}}</p></div>
+                <hr />
+            </div>
+        }
+    </div>
+    }
+    @else {
+        <div style="padding-top: 1rem;">No comments on this post yet!</div>
+    }
+    
+</section>

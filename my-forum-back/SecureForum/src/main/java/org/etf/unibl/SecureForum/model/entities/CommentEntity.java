@@ -24,6 +24,7 @@ public class CommentEntity implements BaseEntity<Integer> {
     private Timestamp modifiedAt;
     @Basic
     @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Status status;
     @ManyToOne
     @JoinColumn(name = "forum_post_id", referencedColumnName = "id", nullable = false)
@@ -65,11 +66,11 @@ public class CommentEntity implements BaseEntity<Integer> {
         this.modifiedAt = modifiedAt;
     }
 
-    public Status getApproved() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setApproved(Status status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -94,7 +95,15 @@ public class CommentEntity implements BaseEntity<Integer> {
         this.referencedPost = referencedPost;
     }
 
+    public UserEntity getReferencedUser() {
+        return referencedUser;
+    }
+
+    public void setReferencedUser(UserEntity referencedUser) {
+        this.referencedUser = referencedUser;
+    }
+
     public enum Status{
-        NEW, APPROVED, REJECTED
+        PENDING, APPROVED, REJECTED
     }
 }

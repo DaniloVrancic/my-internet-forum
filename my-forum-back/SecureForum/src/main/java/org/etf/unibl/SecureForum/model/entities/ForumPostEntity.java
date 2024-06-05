@@ -27,6 +27,12 @@ public class ForumPostEntity implements BaseEntity<Integer> {
     @Basic
     @Column(name = "modified_at", nullable = true)
     private Timestamp modifiedAt;
+
+    @Basic
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
+
     @ManyToOne
     @JoinColumn(name = "topic_id", referencedColumnName = "id", nullable = false)
     private TopicEntity postTopic;
@@ -101,5 +107,17 @@ public class ForumPostEntity implements BaseEntity<Integer> {
 
     public void setPostCreator(UserEntity postCreator) {
         this.postCreator = postCreator;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public enum Status{
+        PENDING, APPROVED, REJECTED
     }
 }

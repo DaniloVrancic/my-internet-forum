@@ -188,43 +188,15 @@ public class UserController {
         return userToReturn;
     }
 
-    @PutMapping("/change-type")
+    @PutMapping("/change-privileges")
     @Transactional
-    public User changeTypeUser(@RequestBody ChangeTypeRequest request) {
-
-        UserEntity foundUser = userRepository.findById(request.getId()).orElseThrow(NotFoundException::new);
-
-        foundUser.setType(request.getType());
-
-
-        User userToReturn = null;
+    public User changeTypeUser(@RequestBody UpdateUserPrivilegesRequest request) {
         try{
-            userToReturn = userService.update(foundUser.getId(), foundUser, User.class);
+            return  userService.changePrivileges(request);
         }
         catch (Exception ex){
             throw new BadRequestException();
         }
-
-        return userToReturn;
-    }
-
-    @PutMapping("/change-status")
-    @Transactional
-    public User changeTypeUser(@RequestBody ChangeStatusRequest request) {
-
-        UserEntity foundUser = userRepository.findById(request.getId()).orElseThrow(NotFoundException::new);
-
-        foundUser.setStatus(request.getStatus());
-
-        User userToReturn = null;
-        try{
-            userToReturn = userService.update(foundUser.getId(), foundUser, User.class);
-        }
-        catch (Exception ex){
-            throw new BadRequestException();
-        }
-
-        return userToReturn;
     }
 
     @DeleteMapping("/delete/{id}")

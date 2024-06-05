@@ -4,11 +4,13 @@ import { LoginRequest } from '../../../interfaces/requests/login-request';
 import { User } from '../../../interfaces/user';
 import { Router } from '@angular/router';
 import { UserStatuses } from '../../../interfaces/user.statuses';
+import { NavigationBarComponent } from '../../partials/nav/navigation-bar/navigation-bar.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [],
+  imports: [NavigationBarComponent],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css',
   providers: [UserService, Router]
@@ -61,6 +63,8 @@ export class LoginPageComponent implements OnInit{
       console.log(response);
       this.userService.setCurrentUser(response);
       this.errorMessage = ""; // Remove the error message at this point cause everything went alright.
+
+      sessionStorage.setItem(environment.needsReloadString, "true");
 
       if(response.status == UserStatuses.requested)
         {

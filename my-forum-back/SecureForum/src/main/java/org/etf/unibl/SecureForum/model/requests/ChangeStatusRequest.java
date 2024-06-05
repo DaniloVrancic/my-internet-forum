@@ -7,8 +7,6 @@ public class ChangeStatusRequest {
 
     @NotBlank
     private Integer id;
-    @NotBlank
-    private String username;
 
     @NotBlank
     private UserEntity.Status status;
@@ -19,14 +17,6 @@ public class ChangeStatusRequest {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public UserEntity.Status getStatus() {

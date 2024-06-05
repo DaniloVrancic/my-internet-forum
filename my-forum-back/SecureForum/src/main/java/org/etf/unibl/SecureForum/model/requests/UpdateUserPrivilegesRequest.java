@@ -1,17 +1,18 @@
 package org.etf.unibl.SecureForum.model.requests;
 
 import jakarta.validation.constraints.NotBlank;
+import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.enums.UserType;
 
-public class ChangeTypeRequest {
+public class UpdateUserPrivilegesRequest {
 
     @NotBlank
     private Integer id;
     @NotBlank
-    private String username;
+    private UserType type;
 
     @NotBlank
-    private UserType type;
+    private UserEntity.Status status;
 
     public Integer getId() {
         return id;
@@ -21,19 +22,19 @@ public class ChangeTypeRequest {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public UserType getType() {
         return type;
     }
 
     public void setType(UserType type) {
         this.type = type;
+    }
+
+    public UserEntity.Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserEntity.Status status) {
+        this.status = status;
     }
 }

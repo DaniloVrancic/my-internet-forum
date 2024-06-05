@@ -1,0 +1,96 @@
+.page-container{
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.section-title{
+    text-align: center;
+    padding: 0.4rem;
+}
+
+.forumpost-section{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid black;
+    padding-right: 0.3rem;
+}
+
+.comment-section{
+    flex: 1;
+    flex-direction: column;
+    border-left: 1px solid black;
+    padding-left: 0.3rem;
+}
+
+.forumpost-section-post{
+    background-color: ghostwhite;
+    display: flex;
+    flex-direction: column;
+    max-height: 15rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    margin-bottom: 0.4rem;
+    padding-bottom: 0.5rem;
+    cursor: pointer;
+}
+
+.forumpost-section-post .post-row{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.3rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+.forumpost-section-post .post-row div{
+    padding: 0.4rem;
+}
+
+.row-dark-header{
+    background-color: rgba(30, 60, 90, 0.8);
+    color: ghostwhite;
+    font-weight: 500;
+    padding: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    justify-content: space-evenly;
+}
+
+.comment-section-post{
+    background-color: ghostwhite;
+    display: flex;
+    flex-direction: column;
+    max-height: 15rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    margin-bottom: 0.4rem;
+    padding-bottom: 0.5rem;
+    cursor: pointer;
+}
+
+.comment-section-post .post-row{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.3rem;
+    text-align: center;
+    padding-left: 0.2rem;
+}
+
+.comment-section-post .post-row div{
+    flex: 1;
+    padding: 0.4rem;
+}
+
+.show-all-button:hover {
+    background-color: lime;
+    border-radius: 1rem;
+}
