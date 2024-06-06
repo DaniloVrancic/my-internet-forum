@@ -101,14 +101,14 @@ export class UserService {
   }
 
   public setJwtToken(token : string){
-    sessionStorage.setItem(environment.tokenStorageKey, JSON.stringify(token));
+    localStorage.setItem(environment.tokenStorageKey, JSON.stringify(token));
   }
 
   public getJwtToken(): string{
-    return JSON.parse(sessionStorage.getItem(environment.tokenStorageKey) as string);
+    return JSON.parse(localStorage.getItem(environment.tokenStorageKey) as string);
   }
 
   public deleteJwtToken(){
-    sessionStorage.removeItem(environment.tokenStorageKey);
+    localStorage.removeItem(environment.tokenStorageKey);
   }
 }

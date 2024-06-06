@@ -6,21 +6,26 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.enums.UserType;
 
 import java.sql.Timestamp;
 
 public class SignUpRequest {
-
-
-
+    
     @NotBlank
+    @NotNull
+    @Size(min = 5, max = 32)
     private String username;
     @NotBlank
+    @NotNull
     @Email
     private String email;
     @NotBlank
+    @NotNull
+    @Size(min = 5, max = 32)
     private String password;
 
 
