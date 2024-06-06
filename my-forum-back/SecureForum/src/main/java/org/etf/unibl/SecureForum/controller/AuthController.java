@@ -3,7 +3,9 @@ package org.etf.unibl.SecureForum.controller;
 import com.nimbusds.openid.connect.sdk.AuthenticationResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.etf.unibl.SecureForum.exceptions.ForbiddenException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
+import org.etf.unibl.SecureForum.exceptions.UnauthorizedException;
 import org.etf.unibl.SecureForum.model.dto.AuthResponse;
 import org.etf.unibl.SecureForum.model.dto.User;
 import org.etf.unibl.SecureForum.model.dto.UserWithAuthenticationTokenResponse;
@@ -20,6 +22,7 @@ import org.etf.unibl.SecureForum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -56,6 +59,9 @@ public class AuthController {
     @PostMapping("/login")
     public UserWithAuthenticationTokenResponse loginUser(@Valid @RequestBody LoginRequest request){
 
+        try{
+
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                        request.getUsername(),
@@ -65,6 +71,10 @@ public class AuthController {
         UserWithAuthenticationTokenResponse authResponse = userService.login(request);
 
         return authResponse;
+        }
+        catch(LockedException ex){
+            throw new ForbiddenException("User has been blocked from forum");
+        }
     }
 
     @PostMapping("/verify")
