@@ -5,14 +5,13 @@ import { UserService } from '../user.service';
 import { inject } from '@angular/core';
 
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
-  console.log("INTERCEPTING");
   const userService = inject(UserService);
   const token = userService.getJwtToken();
 
   if (token) {
     const cloned = req.clone({
       headers: req.headers.set(
-        'Authorization', 'Bearer ' + token)
+        'Authorization', `Bearer ${token}`)
       
     });
     return next(cloned);
