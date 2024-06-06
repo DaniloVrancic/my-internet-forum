@@ -135,7 +135,7 @@ public class UserEntity implements BaseEntity<Integer>, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(type.name()));
+        return List.of(new SimpleGrantedAuthority(this.getType().getValue()));
     }
 
     @Override

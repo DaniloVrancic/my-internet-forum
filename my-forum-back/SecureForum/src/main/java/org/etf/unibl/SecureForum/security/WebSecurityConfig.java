@@ -1,6 +1,7 @@
 package org.etf.unibl.SecureForum.security;
 
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
+import org.etf.unibl.SecureForum.model.enums.UserType;
 import org.etf.unibl.SecureForum.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,11 +34,16 @@ public class WebSecurityConfig {
     private final JwtAuthEntryPoint authEntryPoint;
     private final AuthenticationProvider authenticationProvider;
 
+    private final String ADMIN_ROLE = UserType.Administrator.getValue();
+    private final String MODERATOR_ROLE = UserType.Moderator.getValue();
+    private final String FORUMER_ROLE = UserType.Forumer.getValue();
+
     @Autowired
     public WebSecurityConfig(AuthenticationProvider authenticationProvider,
                              JwtAuthEntryPoint authEntryPoint){
         this.authenticationProvider = authenticationProvider;
         this.authEntryPoint = authEntryPoint;
+
     }
 
     @Bean
@@ -45,7 +51,9 @@ public class WebSecurityConfig {
         http.csrf(setting -> setting.disable())
                 .exceptionHandling(handlingConfigurer -> {handlingConfigurer.authenticationEntryPoint(authEntryPoint);})
                 .sessionManagement(sessionManagement -> {sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);})
-                .authorizeHttpRequests(requestMatcherConfigurer -> {requestMatcherConfigurer.anyRequest().permitAll();})
+                .authorizeHttpRequests(requestMatcherConfigurer -> {requestMatcherConfigurer.requestMatchers("/auth/**").permitAll();
+                                                                    requestMatcherConfigurer.anyRequest().fullyAuthenticated(); //Only those who have logged in and have a token are allowed to do requests
+                })
                 .authenticationProvider(authenticationProvider);
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

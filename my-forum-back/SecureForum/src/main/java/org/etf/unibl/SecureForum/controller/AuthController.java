@@ -3,6 +3,7 @@ package org.etf.unibl.SecureForum.controller;
 import com.nimbusds.openid.connect.sdk.AuthenticationResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.etf.unibl.SecureForum.exceptions.BadRequestException;
 import org.etf.unibl.SecureForum.exceptions.ForbiddenException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
 import org.etf.unibl.SecureForum.exceptions.UnauthorizedException;
@@ -22,6 +23,7 @@ import org.etf.unibl.SecureForum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,6 +33,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Has endpoints:
+ * /auth/login
+ * /auth/register
+ * /auth/verify
+ * /auth/resend_code/{id}
+ */
 @RestController
 @RequestMapping("/auth")
 @Validated
@@ -72,9 +81,10 @@ public class AuthController {
 
         return authResponse;
         }
-        catch(LockedException ex){
+        catch(LockedException ex){ //In case that the user has been blocked from the forum will occur
             throw new ForbiddenException("User has been blocked from forum");
         }
+
     }
 
     @PostMapping("/verify")
