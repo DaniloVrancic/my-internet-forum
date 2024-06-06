@@ -1,8 +1,10 @@
 package org.etf.unibl.SecureForum.controller;
 
+import com.nimbusds.openid.connect.sdk.AuthenticationResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
+import org.etf.unibl.SecureForum.model.dto.AuthResponse;
 import org.etf.unibl.SecureForum.model.dto.User;
 import org.etf.unibl.SecureForum.model.dto.VerificationCodeEmailMessage;
 import org.etf.unibl.SecureForum.model.entities.CodeVerificationEntity;
@@ -51,20 +53,17 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public User loginUser(@Valid @RequestBody LoginRequest request){
+    public AuthResponse loginUser(@Valid @RequestBody LoginRequest request){
 
-        User returnedUser = userService.login(request);
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                        request.getUsername(),
                         request.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        //TODO: NEED TO BUILD THE USERS NOW PROPERLY WHEN I AM IMPLEMENTING UserDetails CLASS
-       // String token = jwtGenerator.generateToken(authentication);
-       // System.out.println(token);
+        AuthResponse authResponse = userService.login(request);
 
-        return returnedUser;
+        return authResponse;
     }
 
     @PostMapping("/verify")
@@ -88,6 +87,10 @@ public class AuthController {
             userToVerify.setStatus(UserEntity.Status.ACTIVE);
             User savedUser = userService.update(userToVerify.getId(), userToVerify, User.class);
             codeVerificationRepository.deleteCodeVerificationEntitiesByReferencedUserId(request.getUser_id()); //deletes the codes created for this user (multiple just in case if more were created)
+
+            String jwtToken = jwtGenerator.generateToken(userToVerify);
+
+
             return savedUser;
         }
         else{
@@ -111,10 +114,7 @@ public class AuthController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public User registerUser(@Valid @RequestBody SignUpRequest request){
-
-
         User newUser = userService.signUp(request);
-
 
         return newUser;
     }

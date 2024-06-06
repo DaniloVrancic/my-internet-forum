@@ -6,6 +6,7 @@ import org.etf.unibl.SecureForum.base.CrudJpaService;
 import org.etf.unibl.SecureForum.exceptions.ConflictException;
 import org.etf.unibl.SecureForum.exceptions.ForbiddenException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
+import org.etf.unibl.SecureForum.model.dto.AuthResponse;
 import org.etf.unibl.SecureForum.model.dto.User;
 import org.etf.unibl.SecureForum.model.entities.CodeVerificationEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
@@ -13,6 +14,7 @@ import org.etf.unibl.SecureForum.model.enums.UserType;
 import org.etf.unibl.SecureForum.model.requests.*;
 import org.etf.unibl.SecureForum.repositories.CodeVerificationRepository;
 import org.etf.unibl.SecureForum.repositories.UserRepository;
+import org.etf.unibl.SecureForum.security.JWTGenerator;
 import org.etf.unibl.SecureForum.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +41,18 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
     private final UserRepository userRepository;
     private final CodeVerificationRepository codeVerificationRepository;
     private final EmailSender emailSender;
+    private final PasswordEncoder passwordEncoder;
 
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final JWTGenerator jwtGenerator;
 
     @Autowired
     public UserServiceImpl(AuthenticationManager authenticationManager,
             ModelMapper modelMapper, UserRepository userRepository,
-                           CodeVerificationRepository codeVerificationRepository, EmailSender emailSender)
+                           PasswordEncoder passwordEncoder,
+                           JWTGenerator jwtGenerator,
+                           CodeVerificationRepository codeVerificationRepository,
+                           EmailSender emailSender)
     {
         super(userRepository, modelMapper, UserEntity.class); //For implementing CRUD operations
         this.authenticationManager = authenticationManager;
@@ -53,6 +60,8 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         this.userRepository = userRepository;
         this.codeVerificationRepository = codeVerificationRepository;
         this.emailSender = emailSender;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtGenerator = jwtGenerator;
     }
     
     
@@ -87,22 +96,24 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
 
         if(savedUser.getStatus().equals(UserEntity.Status.REQUESTED))
         {
-            generateNewVerificationCode(savedUser);
+            generateNewVerificationCode(savedUser); //Code to send to email for verification
         }
         ////////    SETTING DATA FOR USER TO RETURN //////////
-        userToReturn.setId(savedUser.getId());
-        userToReturn.setUsername(savedUser.getUsername());
-        userToReturn.setEmail(savedUser.getEmail());
-        userToReturn.setCreateTime(savedUser.getCreateTime());
-        userToReturn.setType(savedUser.getType());
-        userToReturn.setStatus(savedUser.getStatus());
+        userToReturn = mapUserEntityToUser(savedUser);
         /////////////////////////////////////////////////////
+
+
         return userToReturn;
     }
 
-    public User login(LoginRequest request){
+    public AuthResponse login(LoginRequest request){
 
         try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(),
+                            request.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
             UserEntity foundEntity = userRepository.findByUsernameIs(request.getUsername()).orElseThrow(NotFoundException::new);
             User userToReturn = mapUserEntityToUser(foundEntity);
@@ -110,14 +121,12 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
             if (userToReturn.getStatus().equals(UserEntity.Status.BLOCKED)) {
                 throw new ForbiddenException(); // If the user was blocked, don't allow login
             }
+            AuthResponse authResponse = new AuthResponse();
 
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getUsername(),
-                            request.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtGenerator.generateToken(foundEntity);
+            authResponse.setToken(token);
 
-            return userToReturn;
+            return authResponse;
         } catch (BadCredentialsException ex) {
             throw new NotFoundException("User credentials aren't correct"); // If user was not found or password is incorrect
         }

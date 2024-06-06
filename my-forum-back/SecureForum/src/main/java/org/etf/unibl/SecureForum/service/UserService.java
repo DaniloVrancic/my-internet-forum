@@ -1,6 +1,7 @@
 package org.etf.unibl.SecureForum.service;
 
 import org.etf.unibl.SecureForum.base.CrudService;
+import org.etf.unibl.SecureForum.model.dto.AuthResponse;
 import org.etf.unibl.SecureForum.model.dto.User;
 import org.etf.unibl.SecureForum.model.entities.CodeVerificationEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
@@ -12,7 +13,7 @@ public interface UserService extends CrudService<Integer> {
 
     User signUp(SignUpRequest request);
 
-    User login(LoginRequest request);
+    AuthResponse login(LoginRequest request);
 
     User changePrivileges(UpdateUserPrivilegesRequest request);
 
