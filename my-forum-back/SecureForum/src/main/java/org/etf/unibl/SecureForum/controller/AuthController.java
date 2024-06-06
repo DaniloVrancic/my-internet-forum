@@ -90,7 +90,7 @@ public class AuthController {
             codeVerificationRepository.deleteCodeVerificationEntitiesByReferencedUserId(request.getUser_id()); //deletes the codes created for this user (multiple just in case if more were created)
 
             String jwtToken = jwtGenerator.generateToken(userToVerify);
-            
+
             return new UserWithAuthenticationTokenResponse(savedUser, jwtToken);
         }
         else{

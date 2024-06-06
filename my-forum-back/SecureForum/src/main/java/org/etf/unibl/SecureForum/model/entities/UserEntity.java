@@ -140,7 +140,7 @@ public class UserEntity implements BaseEntity<Integer>, UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
