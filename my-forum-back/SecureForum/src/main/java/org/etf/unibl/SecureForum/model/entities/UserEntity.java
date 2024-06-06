@@ -5,7 +5,9 @@ import org.etf.unibl.SecureForum.base.BaseEntity;
 import org.etf.unibl.SecureForum.model.enums.UserType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -135,8 +137,9 @@ public class UserEntity implements BaseEntity<Integer>, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(this.getType().getValue()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.getType().getValue()));
     }
+
 
     @Override
     public boolean isAccountNonExpired() {
