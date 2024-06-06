@@ -64,7 +64,8 @@
           "options": {
             "ssl": true,
             "sslKey": "ssl/cert-key.pem",
-            "sslCert": "ssl/fullchain.pem"
+            "sslCert": "ssl/fullchain.pem",
+            "proxyConfig": "ssl/proxy.conf.json"
           },
           "configurations": {
             "production": {
