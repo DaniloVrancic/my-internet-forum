@@ -8,6 +8,7 @@ import org.etf.unibl.SecureForum.exceptions.ForbiddenException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
 import org.etf.unibl.SecureForum.model.dto.AuthResponse;
 import org.etf.unibl.SecureForum.model.dto.User;
+import org.etf.unibl.SecureForum.model.dto.UserWithAuthenticationTokenResponse;
 import org.etf.unibl.SecureForum.model.entities.CodeVerificationEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.enums.UserType;
@@ -106,7 +107,7 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         return userToReturn;
     }
 
-    public AuthResponse login(LoginRequest request){
+    public UserWithAuthenticationTokenResponse login(LoginRequest request){
 
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -121,12 +122,11 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
             if (userToReturn.getStatus().equals(UserEntity.Status.BLOCKED)) {
                 throw new ForbiddenException(); // If the user was blocked, don't allow login
             }
-            AuthResponse authResponse = new AuthResponse();
 
             String token = jwtGenerator.generateToken(foundEntity);
-            authResponse.setToken(token);
 
-            return authResponse;
+
+            return new UserWithAuthenticationTokenResponse(userToReturn, token);
         } catch (BadCredentialsException ex) {
             throw new NotFoundException("User credentials aren't correct"); // If user was not found or password is incorrect
         }

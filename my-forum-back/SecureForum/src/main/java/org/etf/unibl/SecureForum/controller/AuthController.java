@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
 import org.etf.unibl.SecureForum.model.dto.AuthResponse;
 import org.etf.unibl.SecureForum.model.dto.User;
+import org.etf.unibl.SecureForum.model.dto.UserWithAuthenticationTokenResponse;
 import org.etf.unibl.SecureForum.model.dto.VerificationCodeEmailMessage;
 import org.etf.unibl.SecureForum.model.entities.CodeVerificationEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
@@ -53,7 +54,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public AuthResponse loginUser(@Valid @RequestBody LoginRequest request){
+    public UserWithAuthenticationTokenResponse loginUser(@Valid @RequestBody LoginRequest request){
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -61,14 +62,14 @@ public class AuthController {
                         request.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        AuthResponse authResponse = userService.login(request);
+        UserWithAuthenticationTokenResponse authResponse = userService.login(request);
 
         return authResponse;
     }
 
     @PostMapping("/verify")
     @Transactional
-    public User verifyUser(@RequestBody VerifyUserRequest request)
+    public UserWithAuthenticationTokenResponse verifyUser(@RequestBody VerifyUserRequest request)
     {
 
         List<CodeVerificationEntity> listOfCodes = userService.getAllCodesForUser(request.getUser_id());
@@ -89,9 +90,8 @@ public class AuthController {
             codeVerificationRepository.deleteCodeVerificationEntitiesByReferencedUserId(request.getUser_id()); //deletes the codes created for this user (multiple just in case if more were created)
 
             String jwtToken = jwtGenerator.generateToken(userToVerify);
-
-
-            return savedUser;
+            
+            return new UserWithAuthenticationTokenResponse(savedUser, jwtToken);
         }
         else{
             throw new NotFoundException();
