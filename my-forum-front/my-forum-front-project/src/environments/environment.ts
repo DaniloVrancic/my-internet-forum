@@ -5,5 +5,6 @@ export const environment = {
     possiblePermissions: ["Create", "Update", "Delete"],
     possibleStatuses: ["APPROVED", "REJECTED", "PENDING"],
     selectedTopicString: "selected_topic_id",
-    needsReloadString: "main_page_needs_reload"
+    needsReloadString: "main_page_needs_reload",
+    tokenStorageKey: "JWT_token"
 }

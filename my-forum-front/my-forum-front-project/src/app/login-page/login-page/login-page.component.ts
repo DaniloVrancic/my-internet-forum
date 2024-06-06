@@ -60,8 +60,13 @@ export class LoginPageComponent implements OnInit{
     .subscribe(
     {
     next: response => {
-      console.log(response);
-      this.userService.setCurrentUser(response);
+      let caughtToken : string = response.token;
+      let userToSet: User = {id: response.id, username: response.username,
+                            email: response.email, createTime: response.createTime,
+                            status: response.status, type: response.type
+      }
+      this.userService.setCurrentUser(userToSet);
+      this.userService.setJwtToken(caughtToken);
       this.errorMessage = ""; // Remove the error message at this point cause everything went alright.
 
       sessionStorage.setItem(environment.needsReloadString, "true");

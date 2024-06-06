@@ -5,6 +5,7 @@ import { User } from '../../interfaces/user';
 import { VerifyCodeRequest } from '../../verify-code-page/verify-code-request-interface';
 import { environment } from '../../environments/environment';
 import { UserPrivilegeUpdateRequest } from '../../interfaces/requests/user-privilege-update-request';
+import { UserWithToken } from '../../interfaces/user-with-token';
 
 @Injectable({
   providedIn: 'root',
@@ -30,16 +31,16 @@ export class UserService {
     return this.http.post<any>(`${this.baseAuthUrl}/register`, request);
   }
 
-  loginUser(request: any): Observable<User> {
-    return this.http.post<any>(`${this.baseAuthUrl}/login`, request)
+  loginUser(request: any): Observable<UserWithToken> {
+    return this.http.post<UserWithToken>(`${this.baseAuthUrl}/login`, request)
   }
 
   addUser(request: any): Observable<any> {
     return this.http.post<any>(`${this.baseUserUrl}/add`, request);
   }
 
-  verifyUser(request: VerifyCodeRequest): Observable<User> {
-    return this.http.post<User>(`${this.baseAuthUrl}/verify`, request);
+  verifyUser(request: VerifyCodeRequest): Observable<UserWithToken> {
+    return this.http.post<UserWithToken>(`${this.baseAuthUrl}/verify`, request);
   }
 
   updateUser(userData: any): Observable<any> {
@@ -97,5 +98,17 @@ export class UserService {
       }
     else
       return this.currentUser;
+  }
+
+  public setJwtToken(token : string){
+    sessionStorage.setItem(environment.tokenStorageKey, JSON.stringify(token));
+  }
+
+  public getJwtToken(): string{
+    return JSON.parse(sessionStorage.getItem(environment.tokenStorageKey) as string);
+  }
+
+  public deleteJwtToken(){
+    sessionStorage.removeItem(environment.tokenStorageKey);
   }
 }
