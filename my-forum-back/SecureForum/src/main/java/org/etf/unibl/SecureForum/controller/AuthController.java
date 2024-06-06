@@ -17,6 +17,9 @@ import org.etf.unibl.SecureForum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,18 +30,20 @@ import java.util.List;
 @Validated
 public class AuthController {
 
+    private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final UserRepository userRepository;
-
     private final JWTGenerator jwtGenerator;
 
     private final CodeVerificationRepository codeVerificationRepository;
 
     @Autowired
-    public AuthController(UserService userService,
+    public AuthController(AuthenticationManager authenticationManager,
+                          UserService userService,
                           JWTGenerator jwtGenerator,
                           UserRepository userRepository,
                           CodeVerificationRepository codeVerificationRepository) {
+        this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.jwtGenerator = jwtGenerator;
         this.userRepository = userRepository;
@@ -48,8 +53,18 @@ public class AuthController {
     @PostMapping("/login")
     public User loginUser(@Valid @RequestBody LoginRequest request){
 
-        System.out.println("DOING LOGIN");
-        return userService.login(request);
+        User returnedUser = userService.login(request);
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                       request.getUsername(),
+                        request.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        //TODO: NEED TO BUILD THE USERS NOW PROPERLY WHEN I AM IMPLEMENTING UserDetails CLASS
+       // String token = jwtGenerator.generateToken(authentication);
+       // System.out.println(token);
+
+        return returnedUser;
     }
 
     @PostMapping("/verify")

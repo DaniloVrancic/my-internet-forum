@@ -1,10 +1,22 @@
 package org.etf.unibl.SecureForum.model.dto;
 
 public class AuthResponse {
-    private String accessToken;
-    private String tokenType;
+
+    private String token;
 
     public AuthResponse(String accessToken){
-        this.accessToken = accessToken;
+        this.token = accessToken;
     }
+    public AuthResponse() {this.token = "";}
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+
+
 }
