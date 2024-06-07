@@ -34,7 +34,8 @@ export class SelectedPostComponent implements OnInit{
   ngOnInit(): void {
       this.commentService.findAllApprovedByPostId(this.caughtPost.id)
       .subscribe({
-        next: response => {this.commentsOnProgram = response}
+        next: response => {this.commentsOnProgram = response},
+        error: errorObj => {console.error(errorObj);}
       });
   }
 

@@ -75,7 +75,6 @@ export class ForumerPageComponent implements OnInit{
       data: caughtPost
     });
 
-    dialogRef.afterClosed().subscribe(result => {}).unsubscribe()
   }
 
   userIsLoggedIn() : boolean{

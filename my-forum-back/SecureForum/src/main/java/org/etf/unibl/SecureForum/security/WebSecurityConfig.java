@@ -54,15 +54,25 @@ public class WebSecurityConfig{
                 .sessionManagement(sessionManagement -> {sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);})
                 .authorizeHttpRequests(requestMatcherConfigurer -> {requestMatcherConfigurer.requestMatchers("/users/**").hasRole(ADMIN_ROLE); //Only administrator can manipulate with users
 
+                                                                    requestMatcherConfigurer.requestMatchers(HttpMethod.POST, "/forum_post/add").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE,FORUMER_ROLE);
+                                                                    requestMatcherConfigurer.requestMatchers(HttpMethod.PUT, "/forum_post/update").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE,FORUMER_ROLE);
+                                                                    requestMatcherConfigurer.requestMatchers(HttpMethod.DELETE, "/forum_post/delete/**").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE,FORUMER_ROLE);
+
                                                                     requestMatcherConfigurer.requestMatchers(HttpMethod.GET, "/forum_post").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE);
                                                                     requestMatcherConfigurer.requestMatchers(HttpMethod.POST,"/forum_post/**").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE);
                                                                     requestMatcherConfigurer.requestMatchers(HttpMethod.PUT,"/forum_post/**").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE);
                                                                     requestMatcherConfigurer.requestMatchers(HttpMethod.DELETE,"/forum_post/**").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE);
 
+                                                                    requestMatcherConfigurer.requestMatchers(HttpMethod.GET, "/comment/find_approved/**").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE,FORUMER_ROLE);
+                                                                    requestMatcherConfigurer.requestMatchers(HttpMethod.POST, "/comment/add").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE,FORUMER_ROLE);
+                                                                    requestMatcherConfigurer.requestMatchers(HttpMethod.PUT, "/comment/update").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE,FORUMER_ROLE);
+                                                                    requestMatcherConfigurer.requestMatchers(HttpMethod.DELETE, "/comment/delete/**").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE,FORUMER_ROLE);
+
                                                                     requestMatcherConfigurer.requestMatchers(HttpMethod.GET, "/comment/**").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE);
                                                                     requestMatcherConfigurer.requestMatchers(HttpMethod.POST,"/comment/**").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE);
                                                                     requestMatcherConfigurer.requestMatchers(HttpMethod.PUT,"/comment/**").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE);
                                                                     requestMatcherConfigurer.requestMatchers(HttpMethod.DELETE,"/comment/**").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE);
+
 
                                                                     requestMatcherConfigurer.requestMatchers("/auth/**").permitAll();
                                                                     requestMatcherConfigurer.anyRequest().fullyAuthenticated(); //Only those who have logged in and have a token are allowed to do requests
