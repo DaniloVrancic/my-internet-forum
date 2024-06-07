@@ -11,6 +11,7 @@ import { SelectedPostComponent } from './main-page/main-page/forumer-page/select
 import { authGuard } from './services/guard/auth.guard';
 import { loggedUserGuard } from './services/guard/logged-user.guard';
 import { moderatorGuard } from './services/guard/moderator.guard';
+import { administratorGuard } from './services/guard/administrator.guard';
 
 export const routes: Routes = [
     { path: 'start-page', component: StartPageComponent},
@@ -18,7 +19,7 @@ export const routes: Routes = [
     { path: 'login-page', component: LoginPageComponent},
     { path: 'main-page', component: MainPageComponent, canActivate: [authGuard]},
     { path: 'verify-page', component: VerifyCodePageComponent, canActivate: [loggedUserGuard]},
-    { path: 'admin-page', component: AdminPageComponent, canActivate: [authGuard, loggedUserGuard]},
+    { path: 'admin-page', component: AdminPageComponent, canActivate: [authGuard, loggedUserGuard, administratorGuard]},
     { path: 'moderator-page', component: ModeratorPageComponent, canActivate: [authGuard, loggedUserGuard, moderatorGuard]},
     { path: 'forumer-page', component: ForumerPageComponent, canActivate: [authGuard, loggedUserGuard]},
     { path: 'selected-post', component: SelectedPostComponent, canActivate: [authGuard, loggedUserGuard]},

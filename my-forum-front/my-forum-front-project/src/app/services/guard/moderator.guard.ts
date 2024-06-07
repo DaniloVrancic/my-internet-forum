@@ -24,11 +24,13 @@ export const moderatorGuard: CanActivateFn = (route, state) => {
     return true;
   }
   else{
-    if(localToken != null)
-    router.navigate(['main-page']);
-    else
-    router.navigate(['']);
-
-    return false;
+      if(localToken != null)
+        {
+          router.navigate(['main-page']);
+        }
+      else{
+        router.navigate(['']);
+      }
+      return false;
   }
 };
