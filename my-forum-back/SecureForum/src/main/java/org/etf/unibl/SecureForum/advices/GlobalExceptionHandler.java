@@ -3,10 +3,10 @@ package org.etf.unibl.SecureForum.advices;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.etf.unibl.SecureForum.exceptions.HttpException;
-import org.etf.unibl.SecureForum.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.HandlerMethod;
@@ -17,6 +17,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public final ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException e, HandlerMethod handlerMethod){
+        LoggingUtil.logException(e, getLog(handlerMethod));
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 

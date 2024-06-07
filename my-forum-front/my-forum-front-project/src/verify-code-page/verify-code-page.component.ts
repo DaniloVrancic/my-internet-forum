@@ -54,7 +54,13 @@ submitCode() {
 
       this.userService.verifyUser(requestToSend).subscribe(response =>
         {
-          this.userService.setCurrentUser(response);
+          let caughtToken : string = response.token;
+          let userToSet: User = {id: response.id, username: response.username,
+                            email: response.email, createTime: response.createTime,
+                            status: response.status, type: response.type
+      }
+      this.userService.setCurrentUser(userToSet);
+      this.userService.setJwtToken(caughtToken);
           this.errorMessage = "";
           alert("Successful user verification!");
           this.router.navigate(['main-page']);

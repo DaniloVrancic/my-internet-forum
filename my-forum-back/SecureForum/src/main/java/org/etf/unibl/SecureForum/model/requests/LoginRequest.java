@@ -2,11 +2,13 @@ package org.etf.unibl.SecureForum.model.requests;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class LoginRequest {
 
     @NotNull(message = "Username is required")
+    @Size(max = 32)
     private String username;
 
     @NotNull(message = "Password is required")

@@ -2,7 +2,7 @@ package org.etf.unibl.SecureForum.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public class ForbiddenException extends  HttpException{
+public class ForbiddenException extends HttpException{
 
     public ForbiddenException() {
         super(HttpStatus.FORBIDDEN, null);

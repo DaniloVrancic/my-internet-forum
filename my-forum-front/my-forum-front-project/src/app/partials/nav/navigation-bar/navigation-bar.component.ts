@@ -34,6 +34,7 @@ public navigateToAdminPage() {
 public logoutButton(){
   //console.log("Logout Button Clicked");
   sessionStorage.clear();
+  localStorage.clear();
   this.router.navigate(['']);
   }
 

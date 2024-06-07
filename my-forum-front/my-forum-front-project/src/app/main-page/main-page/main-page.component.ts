@@ -17,11 +17,17 @@ export class MainPageComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    if(typeof sessionStorage !== "undefined"){
       let reload = sessionStorage.getItem(environment.needsReloadString);
       if(reload === "true"){
         sessionStorage.removeItem(environment.needsReloadString);
         window.location.reload();
       }
+    }
+    else{
+      console.warn("sessionStorage is not available.");
+    }
+      
   }
 
   testButton() {

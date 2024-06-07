@@ -41,7 +41,7 @@ export class ForumerPageComponent implements OnInit{
         next: response => {this.allTopics = response;},
         error: (error:any) => {console.error(error);}
         }
-      )
+      );
   }
 
   setTopicIdAndUpdatePosts(numberForSet: number) {

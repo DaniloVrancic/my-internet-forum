@@ -3,13 +3,20 @@ package org.etf.unibl.SecureForum.model.entities;
 import jakarta.persistence.*;
 import org.etf.unibl.SecureForum.base.BaseEntity;
 import org.etf.unibl.SecureForum.model.enums.UserType;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "user", schema = "my_secure_forum", catalog = "")
-public class UserEntity implements BaseEntity<Integer> {
+public class UserEntity implements BaseEntity<Integer>, UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
@@ -27,7 +34,7 @@ public class UserEntity implements BaseEntity<Integer> {
     @Column(name = "create_time", nullable = false)
     private Timestamp createTime;
     @Basic
-    @Enumerated(EnumType.STRING) //Maybe unnecessary
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private UserType type;
 
@@ -48,9 +55,6 @@ public class UserEntity implements BaseEntity<Integer> {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -64,9 +68,6 @@ public class UserEntity implements BaseEntity<Integer> {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -120,5 +121,43 @@ public class UserEntity implements BaseEntity<Integer> {
 
     public void setOauth_account(Boolean oauth_account) {
         this.oauth_account = oauth_account;
+    }
+
+
+    //OVERRIDEN USER DETAILS:
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.getType().getValue()));
+    }
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !Status.BLOCKED.equals(this.status);
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
