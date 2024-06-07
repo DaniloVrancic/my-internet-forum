@@ -14,7 +14,7 @@ import org.etf.unibl.SecureForum.model.enums.UserType;
 import java.sql.Timestamp;
 
 public class SignUpRequest {
-    
+
     @NotBlank
     @NotNull
     @Size(min = 5, max = 32)
