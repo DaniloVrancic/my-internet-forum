@@ -76,16 +76,16 @@ export class UserService {
     }
     else
     {
-      sessionStorage.setItem(environment.userKeyString, JSON.stringify(user));
+      localStorage.setItem(environment.userKeyString, JSON.stringify(user));
       this.currentUser = user; //Makes sure to always update the current user to the latest set User.
     }
   }
 
   public removeCurrentUser()
   {
-    if(sessionStorage.getItem(environment.userKeyString) != null)
+    if(localStorage.getItem(environment.userKeyString) != null)
       {
-        sessionStorage.removeItem(environment.userKeyString);
+        localStorage.removeItem(environment.userKeyString);
         this.currentUser = null;
       }
   }
@@ -94,7 +94,7 @@ export class UserService {
   {
     if(this.currentUser == null)
       {
-        return JSON.parse(sessionStorage.getItem(environment.userKeyString) as string);
+        return JSON.parse(localStorage.getItem(environment.userKeyString) as string);
       }
     else
       return this.currentUser;
