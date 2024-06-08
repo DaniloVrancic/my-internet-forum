@@ -9,7 +9,9 @@ import org.etf.unibl.SecureForum.security.xss_filter.XSSFilterConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -25,6 +27,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -94,9 +97,16 @@ public class WebSecurityConfig{
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
 
-        //http.formLogin(Customizer.withDefaults());
-        //http.oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()));
+       // http.formLogin(Customizer.withDefaults());
+       // http.oauth2ResourceServer(oauth2 -> oauth2.jwt(
+       //         jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(customJwtConverter())
+       // ));
         return http.build();
+    }
+
+    @Bean
+    public Converter<Jwt,CustomJwt> customJwtConverter() {
+        return new CustomJwtConverter();
     }
 
     @Bean
