@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `my_secure_forum`.`comment` (
   CONSTRAINT `fk_comment_forum_post1`
     FOREIGN KEY (`forum_post_id`)
     REFERENCES `my_secure_forum`.`forum_post` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_comment_user1`
     FOREIGN KEY (`user_id`)

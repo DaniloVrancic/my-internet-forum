@@ -8,7 +8,6 @@ public class UpdatePostRequest {
 
     @NotNull
     Integer id;
-
     @NotNull
     String title;
     @NotNull
