@@ -3,6 +3,7 @@ package org.etf.unibl.SecureForum.security;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.enums.UserType;
 import org.etf.unibl.SecureForum.repositories.UserRepository;
+import org.etf.unibl.SecureForum.security.config.GoogleOpaqueTokenIntrospector;
 import org.etf.unibl.SecureForum.security.xss_filter.XSSFilter;
 import org.etf.unibl.SecureForum.security.xss_filter.XSSFilterConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.net.http.HttpRequest;
 
@@ -41,11 +44,15 @@ public class WebSecurityConfig{
     private final String MODERATOR_ROLE = UserType.Moderator.getValue();
     private final String FORUMER_ROLE = UserType.Forumer.getValue();
 
+    private final WebClient userInfoClient;
+
     @Autowired
     public WebSecurityConfig(AuthenticationProvider authenticationProvider,
-                             JwtAuthEntryPoint authEntryPoint){
+                             JwtAuthEntryPoint authEntryPoint,
+                            WebClient userInfoClient){
         this.authenticationProvider = authenticationProvider;
         this.authEntryPoint = authEntryPoint;
+        this.userInfoClient = userInfoClient;
 
     }
 
@@ -54,7 +61,9 @@ public class WebSecurityConfig{
         http.csrf(setting -> setting.disable())
                 .exceptionHandling(handlingConfigurer -> {handlingConfigurer.authenticationEntryPoint(authEntryPoint);})
                 .sessionManagement(sessionManagement -> {sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);})
-                .authorizeHttpRequests(requestMatcherConfigurer -> {requestMatcherConfigurer.requestMatchers("/users/**").hasRole(ADMIN_ROLE); //Only administrator can manipulate with users
+                .authorizeHttpRequests(requestMatcherConfigurer -> {requestMatcherConfigurer.requestMatchers("/auth/**").permitAll();
+
+                                                                    requestMatcherConfigurer.requestMatchers("/users/**").hasRole(ADMIN_ROLE); //Only administrator can manipulate with users
 
                                                                     requestMatcherConfigurer.requestMatchers(HttpMethod.POST, "/forum_post/add").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE,FORUMER_ROLE);
                                                                     requestMatcherConfigurer.requestMatchers(HttpMethod.PUT, "/forum_post/update").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE,FORUMER_ROLE);
@@ -76,7 +85,7 @@ public class WebSecurityConfig{
                                                                     requestMatcherConfigurer.requestMatchers(HttpMethod.DELETE,"/comment/**").hasAnyRole(ADMIN_ROLE, MODERATOR_ROLE);
 
 
-                                                                    requestMatcherConfigurer.requestMatchers("/auth/**").permitAll();
+
                                                                     requestMatcherConfigurer.anyRequest().fullyAuthenticated(); //Only those who have logged in and have a token are allowed to do requests
                 })
                 .authenticationProvider(authenticationProvider);
@@ -84,7 +93,7 @@ public class WebSecurityConfig{
         http.addFilterBefore(xssFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        http.oauth2Login(settings -> {settings.loginPage("/login").defaultSuccessUrl("/main-page");});
+        http.oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()));
         http.formLogin(Customizer.withDefaults());
         return http.build();
     }
@@ -96,6 +105,11 @@ public class WebSecurityConfig{
 
     @Bean
     public XSSFilter xssFilter(){ return new XSSFilter();}
+
+    @Bean
+    public OpaqueTokenIntrospector introspector(){
+        return new GoogleOpaqueTokenIntrospector(userInfoClient);
+    }
 
 
 }

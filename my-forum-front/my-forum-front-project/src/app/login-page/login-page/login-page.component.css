@@ -12,3 +12,21 @@ form {
 	color: red;
 	padding: 1rem;
 }
+
+.buttons-area a{
+	display: block;
+	width: 100%;
+	margin: 0;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid black;
+	border-radius: 0.4rem;
+	height: 2rem;
+	text-decoration: none;
+	color: black;
+	font-size: large;
+	font-weight: 600;
+	padding-top: 1rem;
+	background-color: lightgray;
+}

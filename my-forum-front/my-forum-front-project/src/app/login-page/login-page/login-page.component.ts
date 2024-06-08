@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { UserStatuses } from '../../../interfaces/user.statuses';
 import { NavigationBarComponent } from '../../partials/nav/navigation-bar/navigation-bar.component';
 import { environment } from '../../../environments/environment';
+import { OauthGoogleService } from '../../services/oauth-google.service';
 
 @Component({
   selector: 'app-login-page',
@@ -21,14 +22,22 @@ export class LoginPageComponent implements OnInit{
   public isMyFormValid : boolean = false;
   public errorMessage: string = "";
   public loginRequest: LoginRequest;
+
+  public foundUrl: string;
+
   constructor(private userService: UserService,
-              private router: Router)
+              private router: Router,
+              private oAuthService: OauthGoogleService)
   {
     this.loginRequest = {} as LoginRequest;
+    this.foundUrl = "";
   }
 
   ngOnInit(): void {
       this.myForm = document.forms[0];
+      this.oAuthService.get("/auth/oauth2").subscribe((data: any) => {
+        this.foundUrl = data.url;
+      });
   }
 
   onInput(){
@@ -97,5 +106,9 @@ export class LoginPageComponent implements OnInit{
     });
 
   }
+
+  loginUserGithub() {
+    
+    }
 
 }
