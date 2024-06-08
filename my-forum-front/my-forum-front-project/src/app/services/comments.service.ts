@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CommentRequest } from '../../interfaces/requests/comment-request';
 import { UpdateCommentRequest } from '../../interfaces/requests/update-comment-request';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class CommentsService {
   private baseUrl = environment.apiBaseUrl + '/comment';
   private jsonHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer) { 
+  }
 
   findAllComments(): Observable<Comment[]> {
     return this.http.get<Comment[]>(this.baseUrl);

@@ -3,6 +3,8 @@ package org.etf.unibl.SecureForum.security;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.enums.UserType;
 import org.etf.unibl.SecureForum.repositories.UserRepository;
+import org.etf.unibl.SecureForum.security.xss_filter.XSSFilter;
+import org.etf.unibl.SecureForum.security.xss_filter.XSSFilterConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -79,6 +81,7 @@ public class WebSecurityConfig{
                 })
                 .authenticationProvider(authenticationProvider);
 
+        http.addFilterBefore(xssFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -88,6 +91,9 @@ public class WebSecurityConfig{
     public JWTAuthenticationFilter jwtAuthenticationFilter(){
         return new JWTAuthenticationFilter();
     }
+
+    @Bean
+    public XSSFilter xssFilter(){ return new XSSFilter();}
 
 
 }
