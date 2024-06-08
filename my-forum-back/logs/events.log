@@ -1,0 +1,318 @@
+04:05:38.885 [restartedMain] ERROR      o.s.boot.SpringApplication ----- Application run failed 
+java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in ch.qos.logback.core.rolling.RollingFileAppender[myFileAppender] - File property must be set before any triggeringPolicy or rollingPolicy properties
+ERROR in ch.qos.logback.core.rolling.RollingFileAppender[myFileAppender] - For more information, please visit http://logback.qos.ch/codes.html#rfa_file_after
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:347)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initialize(LoggingApplicationListener.java:298)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEnvironmentPreparedEvent(LoggingApplicationListener.java:246)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEvent(LoggingApplicationListener.java:223)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:185)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:178)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:156)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:138)
+	at org.springframework.boot.context.event.EventPublishingRunListener.multicastInitialEvent(EventPublishingRunListener.java:136)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:81)
+	at org.springframework.boot.SpringApplicationRunListeners.lambda$environmentPrepared$2(SpringApplicationRunListeners.java:64)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:118)
+	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:112)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:63)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:369)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:329)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at org.etf.unibl.SecureForum.SecureForumApplication.main(SecureForumApplication.java:18)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in ch.qos.logback.core.rolling.RollingFileAppender[myFileAppender] - File property must be set before any triggeringPolicy or rollingPolicy properties
+ERROR in ch.qos.logback.core.rolling.RollingFileAppender[myFileAppender] - For more information, please visit http://logback.qos.ch/codes.html#rfa_file_after
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.reportConfigurationErrorsIfNecessary(LogbackLoggingSystem.java:277)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:255)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.reinitialize(LogbackLoggingSystem.java:334)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initializeWithConventions(AbstractLoggingSystem.java:74)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initialize(AbstractLoggingSystem.java:61)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:189)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:332)
+	... 24 common frames omitted
+04:07:34.166 [restartedMain] ERROR      o.s.boot.SpringApplication ----- Application run failed 
+java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in ch.qos.logback.core.rolling.RollingFileAppender[myRollingFileAppender] - File property must be set before any triggeringPolicy or rollingPolicy properties
+ERROR in ch.qos.logback.core.rolling.RollingFileAppender[myRollingFileAppender] - For more information, please visit http://logback.qos.ch/codes.html#rfa_file_after
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:347)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initialize(LoggingApplicationListener.java:298)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEnvironmentPreparedEvent(LoggingApplicationListener.java:246)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEvent(LoggingApplicationListener.java:223)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:185)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:178)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:156)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:138)
+	at org.springframework.boot.context.event.EventPublishingRunListener.multicastInitialEvent(EventPublishingRunListener.java:136)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:81)
+	at org.springframework.boot.SpringApplicationRunListeners.lambda$environmentPrepared$2(SpringApplicationRunListeners.java:64)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:118)
+	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:112)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:63)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:369)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:329)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at org.etf.unibl.SecureForum.SecureForumApplication.main(SecureForumApplication.java:18)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in ch.qos.logback.core.rolling.RollingFileAppender[myRollingFileAppender] - File property must be set before any triggeringPolicy or rollingPolicy properties
+ERROR in ch.qos.logback.core.rolling.RollingFileAppender[myRollingFileAppender] - For more information, please visit http://logback.qos.ch/codes.html#rfa_file_after
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.reportConfigurationErrorsIfNecessary(LogbackLoggingSystem.java:277)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:255)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.reinitialize(LogbackLoggingSystem.java:334)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initializeWithConventions(AbstractLoggingSystem.java:74)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initialize(AbstractLoggingSystem.java:61)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:189)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:332)
+	... 24 common frames omitted
+04:09:23.325 [restartedMain] ERROR      o.s.boot.SpringApplication ----- Application run failed 
+java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in ch.qos.logback.core.rolling.RollingFileAppender[FILE-ROLLING] - File property must be set before any triggeringPolicy or rollingPolicy properties
+ERROR in ch.qos.logback.core.rolling.RollingFileAppender[FILE-ROLLING] - For more information, please visit http://logback.qos.ch/codes.html#rfa_file_after
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:347)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initialize(LoggingApplicationListener.java:298)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEnvironmentPreparedEvent(LoggingApplicationListener.java:246)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEvent(LoggingApplicationListener.java:223)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:185)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:178)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:156)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:138)
+	at org.springframework.boot.context.event.EventPublishingRunListener.multicastInitialEvent(EventPublishingRunListener.java:136)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:81)
+	at org.springframework.boot.SpringApplicationRunListeners.lambda$environmentPrepared$2(SpringApplicationRunListeners.java:64)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:118)
+	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:112)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:63)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:369)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:329)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at org.etf.unibl.SecureForum.SecureForumApplication.main(SecureForumApplication.java:18)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in ch.qos.logback.core.rolling.RollingFileAppender[FILE-ROLLING] - File property must be set before any triggeringPolicy or rollingPolicy properties
+ERROR in ch.qos.logback.core.rolling.RollingFileAppender[FILE-ROLLING] - For more information, please visit http://logback.qos.ch/codes.html#rfa_file_after
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.reportConfigurationErrorsIfNecessary(LogbackLoggingSystem.java:277)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:255)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.reinitialize(LogbackLoggingSystem.java:334)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initializeWithConventions(AbstractLoggingSystem.java:74)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initialize(AbstractLoggingSystem.java:61)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:189)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:332)
+	... 24 common frames omitted
+04:11:14.380 [background-preinit] INFO       o.h.validator.internal.util.Version ----- HV000001: Hibernate Validator 8.0.1.Final 
+04:11:14.411 [restartedMain] INFO       o.e.u.S.SecureForumApplication ----- Starting SecureForumApplication using Java 17.0.5 with PID 30824 (C:\Users\Ognjen\Desktop\sigurnost_projektni\my-internet-forum\my-forum-back\SecureForum\target\classes started by Ognjen in C:\Users\Ognjen\Desktop\sigurnost_projektni\my-internet-forum\my-forum-back) 
+04:11:14.412 [restartedMain] INFO       o.e.u.S.SecureForumApplication ----- No active profile set, falling back to 1 default profile: "default" 
+04:11:14.444 [restartedMain] INFO       o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor ----- Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable 
+04:11:14.444 [restartedMain] INFO       o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor ----- For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG' 
+04:11:15.245 [restartedMain] INFO       o.s.d.r.c.RepositoryConfigurationDelegate ----- Bootstrapping Spring Data JPA repositories in DEFAULT mode. 
+04:11:15.313 [restartedMain] INFO       o.s.d.r.c.RepositoryConfigurationDelegate ----- Finished Spring Data repository scanning in 61 ms. Found 7 JPA repository interfaces. 
+04:11:15.939 [restartedMain] INFO       o.s.b.w.e.tomcat.TomcatWebServer ----- Tomcat initialized with port 8443 (https) 
+04:11:15.947 [restartedMain] INFO       o.a.coyote.http11.Http11NioProtocol ----- Initializing ProtocolHandler ["https-jsse-nio-8443"] 
+04:11:15.950 [restartedMain] INFO       o.a.catalina.core.StandardService ----- Starting service [Tomcat] 
+04:11:15.950 [restartedMain] INFO       o.a.catalina.core.StandardEngine ----- Starting Servlet engine: [Apache Tomcat/10.1.20] 
+04:11:15.992 [restartedMain] INFO       o.a.c.c.C.[Tomcat].[localhost].[/] ----- Initializing Spring embedded WebApplicationContext 
+04:11:15.992 [restartedMain] INFO       o.s.b.w.s.c.ServletWebServerApplicationContext ----- Root WebApplicationContext: initialization completed in 1548 ms 
+04:11:16.210 [restartedMain] INFO       o.h.jpa.internal.util.LogHelper ----- HHH000204: Processing PersistenceUnitInfo [name: default] 
+04:11:16.262 [restartedMain] INFO       org.hibernate.Version ----- HHH000412: Hibernate ORM core version 6.4.4.Final 
+04:11:16.288 [restartedMain] INFO       o.h.c.i.RegionFactoryInitiator ----- HHH000026: Second-level cache disabled 
+04:11:16.468 [restartedMain] INFO       o.s.o.j.p.SpringPersistenceUnitInfo ----- No LoadTimeWeaver setup: ignoring JPA class transformer 
+04:11:16.490 [restartedMain] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Starting... 
+04:11:16.683 [restartedMain] INFO       com.zaxxer.hikari.pool.HikariPool ----- HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1ce58c7d 
+04:11:16.685 [restartedMain] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Start completed. 
+04:11:17.498 [restartedMain] INFO       o.h.e.t.j.p.i.JtaPlatformInitiator ----- HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration) 
+04:11:17.578 [restartedMain] INFO       o.s.o.j.LocalContainerEntityManagerFactoryBean ----- Initialized JPA EntityManagerFactory for persistence unit 'default' 
+04:11:18.115 [restartedMain] WARN       o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration ----- spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning 
+04:11:18.465 [restartedMain] INFO       o.s.b.a.e.web.EndpointLinksResolver ----- Exposing 1 endpoint(s) beneath base path '/actuator' 
+04:11:18.515 [restartedMain] INFO       o.s.s.web.DefaultSecurityFilterChain ----- Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4593a6cb, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1b97f891, org.springframework.security.web.context.SecurityContextHolderFilter@3660fac, org.springframework.security.web.header.HeaderWriterFilter@2e2eeb47, org.springframework.web.filter.CorsFilter@74cda6dd, org.springframework.security.web.authentication.logout.LogoutFilter@49f0bdd8, org.etf.unibl.SecureForum.security.JWTAuthenticationFilter@5f48392f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1e0ca9a6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@46064b7e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3271ee0f, org.springframework.security.web.session.SessionManagementFilter@47052f13, org.springframework.security.web.access.ExceptionTranslationFilter@2193c70, org.springframework.security.web.access.intercept.AuthorizationFilter@785a82cc] 
+04:11:18.845 [restartedMain] INFO       o.s.b.d.a.OptionalLiveReloadServer ----- LiveReload server is running on port 35729 
+04:11:18.886 [restartedMain] INFO       o.a.coyote.http11.Http11NioProtocol ----- Starting ProtocolHandler ["https-jsse-nio-8443"] 
+04:11:18.969 [restartedMain] INFO       o.a.t.u.net.NioEndpoint.certificate ----- Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [C:\Users\Ognjen\.keystore] using alias [1] with trust store [null] 
+04:11:18.981 [restartedMain] INFO       o.s.b.w.e.tomcat.TomcatWebServer ----- Tomcat started on port 8443 (https) with context path '' 
+04:11:18.993 [restartedMain] INFO       o.e.u.S.SecureForumApplication ----- Started SecureForumApplication in 4.843 seconds (process running for 5.418) 
+04:11:19.293 [RMI TCP Connection(2)-26.130.12.123] INFO       o.a.c.c.C.[Tomcat].[localhost].[/] ----- Initializing Spring DispatcherServlet 'dispatcherServlet' 
+04:11:19.293 [RMI TCP Connection(2)-26.130.12.123] INFO       o.s.web.servlet.DispatcherServlet ----- Initializing Servlet 'dispatcherServlet' 
+04:11:19.294 [RMI TCP Connection(2)-26.130.12.123] INFO       o.s.web.servlet.DispatcherServlet ----- Completed initialization in 1 ms 
+04:11:19.324 [RMI TCP Connection(1)-26.130.12.123] WARN       o.s.b.a.mail.MailHealthIndicator ----- Mail health check failed 
+org.eclipse.angus.mail.util.MailConnectException: Couldn't connect to host, port: localhost, 1025; timeout 5000
+	at org.eclipse.angus.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:2243)
+	at org.eclipse.angus.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:729)
+	at jakarta.mail.Service.connect(Service.java:345)
+	at org.springframework.mail.javamail.JavaMailSenderImpl.connectTransport(JavaMailSenderImpl.java:480)
+	at org.springframework.mail.javamail.JavaMailSenderImpl.testConnection(JavaMailSenderImpl.java:360)
+	at org.springframework.boot.actuate.mail.MailHealthIndicator.doHealthCheck(MailHealthIndicator.java:52)
+	at org.springframework.boot.actuate.health.AbstractHealthIndicator.health(AbstractHealthIndicator.java:82)
+	at org.springframework.boot.actuate.health.HealthIndicator.getHealth(HealthIndicator.java:37)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:82)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:41)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getLoggedHealth(HealthEndpointSupport.java:172)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:145)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getAggregateContribution(HealthEndpointSupport.java:156)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:141)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:110)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:81)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:76)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:66)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:281)
+	at org.springframework.boot.actuate.endpoint.invoke.reflect.ReflectiveOperationInvoker.invoke(ReflectiveOperationInvoker.java:74)
+	at org.springframework.boot.actuate.endpoint.annotation.AbstractDiscoveredOperation.invoke(AbstractDiscoveredOperation.java:60)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:124)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:97)
+	at java.management/com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:814)
+	at java.management/com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:802)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1472)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1310)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1405)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:829)
+	at java.base/jdk.internal.reflect.GeneratedMethodAccessor39.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:360)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:712)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:587)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:828)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:705)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:704)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.net.ConnectException: Connection refused: no further information
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:597)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:633)
+	at org.eclipse.angus.mail.util.WriteTimeoutSocket.connect(WriteTimeoutSocket.java:118)
+	at org.eclipse.angus.mail.util.SocketFetcher.createSocket(SocketFetcher.java:366)
+	at org.eclipse.angus.mail.util.SocketFetcher.getSocket(SocketFetcher.java:243)
+	at org.eclipse.angus.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:2193)
+	... 48 common frames omitted
+04:11:38.087 [SpringApplicationShutdownHook] INFO       o.s.o.j.LocalContainerEntityManagerFactoryBean ----- Closing JPA EntityManagerFactory for persistence unit 'default' 
+04:11:38.090 [SpringApplicationShutdownHook] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Shutdown initiated... 
+04:11:38.096 [SpringApplicationShutdownHook] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Shutdown completed. 
+04:11:40.275 [background-preinit] INFO       o.h.validator.internal.util.Version ----- HV000001: Hibernate Validator 8.0.1.Final 
+04:11:40.311 [restartedMain] INFO       o.e.u.S.SecureForumApplication ----- Starting SecureForumApplication using Java 17.0.5 with PID 18256 (C:\Users\Ognjen\Desktop\sigurnost_projektni\my-internet-forum\my-forum-back\SecureForum\target\classes started by Ognjen in C:\Users\Ognjen\Desktop\sigurnost_projektni\my-internet-forum\my-forum-back) 
+04:11:40.313 [restartedMain] INFO       o.e.u.S.SecureForumApplication ----- No active profile set, falling back to 1 default profile: "default" 
+04:11:40.350 [restartedMain] INFO       o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor ----- Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable 
+04:11:40.350 [restartedMain] INFO       o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor ----- For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG' 
+04:11:41.199 [restartedMain] INFO       o.s.d.r.c.RepositoryConfigurationDelegate ----- Bootstrapping Spring Data JPA repositories in DEFAULT mode. 
+04:11:41.270 [restartedMain] INFO       o.s.d.r.c.RepositoryConfigurationDelegate ----- Finished Spring Data repository scanning in 64 ms. Found 7 JPA repository interfaces. 
+04:11:41.886 [restartedMain] INFO       o.s.b.w.e.tomcat.TomcatWebServer ----- Tomcat initialized with port 8443 (https) 
+04:11:41.893 [restartedMain] INFO       o.a.coyote.http11.Http11NioProtocol ----- Initializing ProtocolHandler ["https-jsse-nio-8443"] 
+04:11:41.897 [restartedMain] INFO       o.a.catalina.core.StandardService ----- Starting service [Tomcat] 
+04:11:41.897 [restartedMain] INFO       o.a.catalina.core.StandardEngine ----- Starting Servlet engine: [Apache Tomcat/10.1.20] 
+04:11:41.936 [restartedMain] INFO       o.a.c.c.C.[Tomcat].[localhost].[/] ----- Initializing Spring embedded WebApplicationContext 
+04:11:41.936 [restartedMain] INFO       o.s.b.w.s.c.ServletWebServerApplicationContext ----- Root WebApplicationContext: initialization completed in 1585 ms 
+04:11:42.160 [restartedMain] INFO       o.h.jpa.internal.util.LogHelper ----- HHH000204: Processing PersistenceUnitInfo [name: default] 
+04:11:42.203 [restartedMain] INFO       org.hibernate.Version ----- HHH000412: Hibernate ORM core version 6.4.4.Final 
+04:11:42.230 [restartedMain] INFO       o.h.c.i.RegionFactoryInitiator ----- HHH000026: Second-level cache disabled 
+04:11:42.405 [restartedMain] INFO       o.s.o.j.p.SpringPersistenceUnitInfo ----- No LoadTimeWeaver setup: ignoring JPA class transformer 
+04:11:42.426 [restartedMain] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Starting... 
+04:11:42.622 [restartedMain] INFO       com.zaxxer.hikari.pool.HikariPool ----- HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@595f1f1a 
+04:11:42.624 [restartedMain] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Start completed. 
+04:11:43.453 [restartedMain] INFO       o.h.e.t.j.p.i.JtaPlatformInitiator ----- HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration) 
+04:11:43.536 [restartedMain] INFO       o.s.o.j.LocalContainerEntityManagerFactoryBean ----- Initialized JPA EntityManagerFactory for persistence unit 'default' 
+04:11:44.090 [restartedMain] WARN       o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration ----- spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning 
+04:11:44.438 [restartedMain] INFO       o.s.b.a.e.web.EndpointLinksResolver ----- Exposing 1 endpoint(s) beneath base path '/actuator' 
+04:11:44.486 [restartedMain] INFO       o.s.s.web.DefaultSecurityFilterChain ----- Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7e8b8337, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7a05eb2, org.springframework.security.web.context.SecurityContextHolderFilter@2d40ca0d, org.springframework.security.web.header.HeaderWriterFilter@3a77eda8, org.springframework.web.filter.CorsFilter@4ad35147, org.springframework.security.web.authentication.logout.LogoutFilter@1af5659e, org.etf.unibl.SecureForum.security.JWTAuthenticationFilter@65fef083, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@48faaadd, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@572e063, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5f170164, org.springframework.security.web.session.SessionManagementFilter@7aca8110, org.springframework.security.web.access.ExceptionTranslationFilter@218c999b, org.springframework.security.web.access.intercept.AuthorizationFilter@78b030c6] 
+04:11:44.820 [restartedMain] INFO       o.s.b.d.a.OptionalLiveReloadServer ----- LiveReload server is running on port 35729 
+04:11:44.862 [restartedMain] INFO       o.a.coyote.http11.Http11NioProtocol ----- Starting ProtocolHandler ["https-jsse-nio-8443"] 
+04:11:44.946 [restartedMain] INFO       o.a.t.u.net.NioEndpoint.certificate ----- Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [C:\Users\Ognjen\.keystore] using alias [1] with trust store [null] 
+04:11:44.958 [restartedMain] INFO       o.s.b.w.e.tomcat.TomcatWebServer ----- Tomcat started on port 8443 (https) with context path '' 
+04:11:44.970 [restartedMain] INFO       o.e.u.S.SecureForumApplication ----- Started SecureForumApplication in 4.936 seconds (process running for 5.587) 
+04:11:45.112 [RMI TCP Connection(3)-26.130.12.123] INFO       o.a.c.c.C.[Tomcat].[localhost].[/] ----- Initializing Spring DispatcherServlet 'dispatcherServlet' 
+04:11:45.112 [RMI TCP Connection(3)-26.130.12.123] INFO       o.s.web.servlet.DispatcherServlet ----- Initializing Servlet 'dispatcherServlet' 
+04:11:45.113 [RMI TCP Connection(3)-26.130.12.123] INFO       o.s.web.servlet.DispatcherServlet ----- Completed initialization in 1 ms 
+04:11:45.142 [RMI TCP Connection(2)-26.130.12.123] WARN       o.s.b.a.mail.MailHealthIndicator ----- Mail health check failed 
+org.eclipse.angus.mail.util.MailConnectException: Couldn't connect to host, port: localhost, 1025; timeout 5000
+	at org.eclipse.angus.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:2243)
+	at org.eclipse.angus.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:729)
+	at jakarta.mail.Service.connect(Service.java:345)
+	at org.springframework.mail.javamail.JavaMailSenderImpl.connectTransport(JavaMailSenderImpl.java:480)
+	at org.springframework.mail.javamail.JavaMailSenderImpl.testConnection(JavaMailSenderImpl.java:360)
+	at org.springframework.boot.actuate.mail.MailHealthIndicator.doHealthCheck(MailHealthIndicator.java:52)
+	at org.springframework.boot.actuate.health.AbstractHealthIndicator.health(AbstractHealthIndicator.java:82)
+	at org.springframework.boot.actuate.health.HealthIndicator.getHealth(HealthIndicator.java:37)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:82)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:41)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getLoggedHealth(HealthEndpointSupport.java:172)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:145)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getAggregateContribution(HealthEndpointSupport.java:156)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:141)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:110)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:81)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:76)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:66)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:281)
+	at org.springframework.boot.actuate.endpoint.invoke.reflect.ReflectiveOperationInvoker.invoke(ReflectiveOperationInvoker.java:74)
+	at org.springframework.boot.actuate.endpoint.annotation.AbstractDiscoveredOperation.invoke(AbstractDiscoveredOperation.java:60)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:124)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:97)
+	at java.management/com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:814)
+	at java.management/com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:802)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1472)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1310)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1405)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:829)
+	at java.base/jdk.internal.reflect.GeneratedMethodAccessor40.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:360)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:712)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:587)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:828)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:705)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:704)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.net.ConnectException: Connection refused: no further information
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:597)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:633)
+	at org.eclipse.angus.mail.util.WriteTimeoutSocket.connect(WriteTimeoutSocket.java:118)
+	at org.eclipse.angus.mail.util.SocketFetcher.createSocket(SocketFetcher.java:366)
+	at org.eclipse.angus.mail.util.SocketFetcher.getSocket(SocketFetcher.java:243)
+	at org.eclipse.angus.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:2193)
+	... 48 common frames omitted
+04:11:47.273 [SpringApplicationShutdownHook] INFO       o.s.o.j.LocalContainerEntityManagerFactoryBean ----- Closing JPA EntityManagerFactory for persistence unit 'default' 
+04:11:47.276 [SpringApplicationShutdownHook] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Shutdown initiated... 
+04:11:47.281 [SpringApplicationShutdownHook] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Shutdown completed. 
