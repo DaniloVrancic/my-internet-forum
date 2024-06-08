@@ -93,8 +93,9 @@ public class WebSecurityConfig{
         http.addFilterBefore(xssFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        http.oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()));
-        http.formLogin(Customizer.withDefaults());
+
+        //http.formLogin(Customizer.withDefaults());
+        //http.oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()));
         return http.build();
     }
 
