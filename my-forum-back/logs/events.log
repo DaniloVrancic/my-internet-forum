@@ -1638,3 +1638,120 @@ Caused by: java.lang.ClassNotFoundException: org.etf.unibl.SecureForum.security.
 16:31:46.410 [SpringApplicationShutdownHook] INFO       o.s.o.j.LocalContainerEntityManagerFactoryBean ----- Closing JPA EntityManagerFactory for persistence unit 'default' 
 16:31:46.414 [SpringApplicationShutdownHook] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Shutdown initiated... 
 16:31:46.419 [SpringApplicationShutdownHook] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Shutdown completed. 
+16:50:19.875 [background-preinit] INFO       o.h.validator.internal.util.Version ----- HV000001: Hibernate Validator 8.0.1.Final 
+16:50:19.909 [restartedMain] INFO       o.e.u.S.SecureForumApplication ----- Starting SecureForumApplication using Java 17.0.5 with PID 18540 (C:\Users\Ognjen\Desktop\sigurnost_projektni\my-internet-forum\my-forum-back\SecureForum\target\classes started by Ognjen in C:\Users\Ognjen\Desktop\sigurnost_projektni\my-internet-forum\my-forum-back) 
+16:50:19.910 [restartedMain] INFO       o.e.u.S.SecureForumApplication ----- No active profile set, falling back to 1 default profile: "default" 
+16:50:19.947 [restartedMain] INFO       o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor ----- Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable 
+16:50:19.947 [restartedMain] INFO       o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor ----- For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG' 
+16:50:20.851 [restartedMain] INFO       o.s.d.r.c.RepositoryConfigurationDelegate ----- Bootstrapping Spring Data JPA repositories in DEFAULT mode. 
+16:50:20.948 [restartedMain] INFO       o.s.d.r.c.RepositoryConfigurationDelegate ----- Finished Spring Data repository scanning in 88 ms. Found 7 JPA repository interfaces. 
+16:50:21.658 [restartedMain] INFO       o.s.b.w.e.tomcat.TomcatWebServer ----- Tomcat initialized with port 8443 (https) 
+16:50:21.666 [restartedMain] INFO       o.a.coyote.http11.Http11NioProtocol ----- Initializing ProtocolHandler ["https-jsse-nio-8443"] 
+16:50:21.670 [restartedMain] INFO       o.a.catalina.core.StandardService ----- Starting service [Tomcat] 
+16:50:21.670 [restartedMain] INFO       o.a.catalina.core.StandardEngine ----- Starting Servlet engine: [Apache Tomcat/10.1.20] 
+16:50:21.713 [restartedMain] INFO       o.a.c.c.C.[Tomcat].[localhost].[/] ----- Initializing Spring embedded WebApplicationContext 
+16:50:21.713 [restartedMain] INFO       o.s.b.w.s.c.ServletWebServerApplicationContext ----- Root WebApplicationContext: initialization completed in 1766 ms 
+16:50:21.960 [restartedMain] INFO       o.h.jpa.internal.util.LogHelper ----- HHH000204: Processing PersistenceUnitInfo [name: default] 
+16:50:22.009 [restartedMain] INFO       org.hibernate.Version ----- HHH000412: Hibernate ORM core version 6.4.4.Final 
+16:50:22.039 [restartedMain] INFO       o.h.c.i.RegionFactoryInitiator ----- HHH000026: Second-level cache disabled 
+16:50:22.241 [restartedMain] INFO       o.s.o.j.p.SpringPersistenceUnitInfo ----- No LoadTimeWeaver setup: ignoring JPA class transformer 
+16:50:22.266 [restartedMain] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Starting... 
+16:50:22.486 [restartedMain] INFO       com.zaxxer.hikari.pool.HikariPool ----- HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@594fd88 
+16:50:22.488 [restartedMain] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Start completed. 
+16:50:23.435 [restartedMain] INFO       o.h.e.t.j.p.i.JtaPlatformInitiator ----- HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration) 
+16:50:23.527 [restartedMain] INFO       o.s.o.j.LocalContainerEntityManagerFactoryBean ----- Initialized JPA EntityManagerFactory for persistence unit 'default' 
+16:50:24.166 [restartedMain] WARN       o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration ----- spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning 
+16:50:24.603 [restartedMain] INFO       o.s.b.a.e.web.EndpointLinksResolver ----- Exposing 1 endpoint(s) beneath base path '/actuator' 
+16:50:24.661 [restartedMain] INFO       o.s.s.web.DefaultSecurityFilterChain ----- Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6e7afc9, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@71f51d29, org.springframework.security.web.context.SecurityContextHolderFilter@5ab93dd4, org.springframework.security.web.header.HeaderWriterFilter@5ef4c10c, org.springframework.web.filter.CorsFilter@4063af40, org.springframework.security.web.authentication.logout.LogoutFilter@763941cb, org.etf.unibl.SecureForum.security.xss_filter.XSSFilter@845143b, org.etf.unibl.SecureForum.security.JWTAuthenticationFilter@1085958, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@924cfdc, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3ea0a1a3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4ff32789, org.springframework.security.web.session.SessionManagementFilter@7e8b8337, org.springframework.security.web.access.ExceptionTranslationFilter@431608f, org.springframework.security.web.access.intercept.AuthorizationFilter@7c046f64] 
+16:50:25.059 [restartedMain] INFO       o.s.b.d.a.OptionalLiveReloadServer ----- LiveReload server is running on port 35729 
+16:50:25.110 [restartedMain] INFO       o.a.coyote.http11.Http11NioProtocol ----- Starting ProtocolHandler ["https-jsse-nio-8443"] 
+16:50:25.199 [restartedMain] INFO       o.a.t.u.net.NioEndpoint.certificate ----- Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [C:\Users\Ognjen\.keystore] using alias [1] with trust store [null] 
+16:50:25.212 [restartedMain] INFO       o.s.b.w.e.tomcat.TomcatWebServer ----- Tomcat started on port 8443 (https) with context path '' 
+16:50:25.226 [restartedMain] INFO       o.e.u.S.SecureForumApplication ----- Started SecureForumApplication in 5.623 seconds (process running for 6.281) 
+16:50:25.689 [RMI TCP Connection(2)-26.130.12.123] INFO       o.a.c.c.C.[Tomcat].[localhost].[/] ----- Initializing Spring DispatcherServlet 'dispatcherServlet' 
+16:50:25.690 [RMI TCP Connection(2)-26.130.12.123] INFO       o.s.web.servlet.DispatcherServlet ----- Initializing Servlet 'dispatcherServlet' 
+16:50:25.691 [RMI TCP Connection(2)-26.130.12.123] INFO       o.s.web.servlet.DispatcherServlet ----- Completed initialization in 1 ms 
+16:53:54.923 [SpringApplicationShutdownHook] INFO       o.s.o.j.LocalContainerEntityManagerFactoryBean ----- Closing JPA EntityManagerFactory for persistence unit 'default' 
+16:53:54.926 [SpringApplicationShutdownHook] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Shutdown initiated... 
+16:53:54.930 [SpringApplicationShutdownHook] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Shutdown completed. 
+16:57:04.655 [background-preinit] INFO       o.h.validator.internal.util.Version ----- HV000001: Hibernate Validator 8.0.1.Final 
+16:57:04.686 [restartedMain] INFO       o.e.u.S.SecureForumApplication ----- Starting SecureForumApplication using Java 17.0.5 with PID 25628 (C:\Users\Ognjen\Desktop\sigurnost_projektni\my-internet-forum\my-forum-back\SecureForum\target\classes started by Ognjen in C:\Users\Ognjen\Desktop\sigurnost_projektni\my-internet-forum\my-forum-back) 
+16:57:04.686 [restartedMain] INFO       o.e.u.S.SecureForumApplication ----- No active profile set, falling back to 1 default profile: "default" 
+16:57:04.717 [restartedMain] INFO       o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor ----- Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable 
+16:57:04.717 [restartedMain] INFO       o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor ----- For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG' 
+16:57:05.564 [restartedMain] INFO       o.s.d.r.c.RepositoryConfigurationDelegate ----- Bootstrapping Spring Data JPA repositories in DEFAULT mode. 
+16:57:05.641 [restartedMain] INFO       o.s.d.r.c.RepositoryConfigurationDelegate ----- Finished Spring Data repository scanning in 69 ms. Found 7 JPA repository interfaces. 
+16:57:06.283 [restartedMain] INFO       o.s.b.w.e.tomcat.TomcatWebServer ----- Tomcat initialized with port 8443 (https) 
+16:57:06.291 [restartedMain] INFO       o.a.coyote.http11.Http11NioProtocol ----- Initializing ProtocolHandler ["https-jsse-nio-8443"] 
+16:57:06.294 [restartedMain] INFO       o.a.catalina.core.StandardService ----- Starting service [Tomcat] 
+16:57:06.294 [restartedMain] INFO       o.a.catalina.core.StandardEngine ----- Starting Servlet engine: [Apache Tomcat/10.1.20] 
+16:57:06.339 [restartedMain] INFO       o.a.c.c.C.[Tomcat].[localhost].[/] ----- Initializing Spring embedded WebApplicationContext 
+16:57:06.339 [restartedMain] INFO       o.s.b.w.s.c.ServletWebServerApplicationContext ----- Root WebApplicationContext: initialization completed in 1622 ms 
+16:57:06.558 [restartedMain] INFO       o.h.jpa.internal.util.LogHelper ----- HHH000204: Processing PersistenceUnitInfo [name: default] 
+16:57:06.605 [restartedMain] INFO       org.hibernate.Version ----- HHH000412: Hibernate ORM core version 6.4.4.Final 
+16:57:06.634 [restartedMain] INFO       o.h.c.i.RegionFactoryInitiator ----- HHH000026: Second-level cache disabled 
+16:57:06.822 [restartedMain] INFO       o.s.o.j.p.SpringPersistenceUnitInfo ----- No LoadTimeWeaver setup: ignoring JPA class transformer 
+16:57:06.845 [restartedMain] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Starting... 
+16:57:07.051 [restartedMain] INFO       com.zaxxer.hikari.pool.HikariPool ----- HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@342b1c14 
+16:57:07.053 [restartedMain] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Start completed. 
+16:57:07.924 [restartedMain] INFO       o.h.e.t.j.p.i.JtaPlatformInitiator ----- HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration) 
+16:57:08.006 [restartedMain] INFO       o.s.o.j.LocalContainerEntityManagerFactoryBean ----- Initialized JPA EntityManagerFactory for persistence unit 'default' 
+16:57:08.592 [restartedMain] WARN       o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration ----- spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning 
+16:57:09.002 [restartedMain] INFO       o.s.b.a.e.web.EndpointLinksResolver ----- Exposing 1 endpoint(s) beneath base path '/actuator' 
+16:57:09.063 [restartedMain] INFO       o.s.s.web.DefaultSecurityFilterChain ----- Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7532b3b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@60b6007c, org.springframework.security.web.context.SecurityContextHolderFilter@63d2c7bd, org.springframework.security.web.header.HeaderWriterFilter@33e5d77, org.springframework.web.filter.CorsFilter@3700ff4, org.springframework.security.web.authentication.logout.LogoutFilter@2f0c20af, org.etf.unibl.SecureForum.security.xss_filter.XSSFilter@4525fe0d, org.etf.unibl.SecureForum.security.JWTAuthenticationFilter@23fe52d3, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@29b8fcab, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@51cd4455, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@be223c1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@76ce80fa, org.springframework.security.web.session.SessionManagementFilter@7b9b6f3e, org.springframework.security.web.access.ExceptionTranslationFilter@34c1bef, org.springframework.security.web.access.intercept.AuthorizationFilter@337fc1b1] 
+16:57:09.445 [restartedMain] INFO       o.s.b.d.a.OptionalLiveReloadServer ----- LiveReload server is running on port 35729 
+16:57:09.492 [restartedMain] INFO       o.a.coyote.http11.Http11NioProtocol ----- Starting ProtocolHandler ["https-jsse-nio-8443"] 
+16:57:09.580 [restartedMain] INFO       o.a.t.u.net.NioEndpoint.certificate ----- Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [C:\Users\Ognjen\.keystore] using alias [1] with trust store [null] 
+16:57:09.593 [restartedMain] INFO       o.s.b.w.e.tomcat.TomcatWebServer ----- Tomcat started on port 8443 (https) with context path '' 
+16:57:09.606 [restartedMain] INFO       o.e.u.S.SecureForumApplication ----- Started SecureForumApplication in 5.184 seconds (process running for 5.779) 
+16:57:10.083 [RMI TCP Connection(4)-26.130.12.123] INFO       o.a.c.c.C.[Tomcat].[localhost].[/] ----- Initializing Spring DispatcherServlet 'dispatcherServlet' 
+16:57:10.083 [RMI TCP Connection(4)-26.130.12.123] INFO       o.s.web.servlet.DispatcherServlet ----- Initializing Servlet 'dispatcherServlet' 
+16:57:10.084 [RMI TCP Connection(4)-26.130.12.123] INFO       o.s.web.servlet.DispatcherServlet ----- Completed initialization in 1 ms 
+16:58:28.800 [File Watcher] INFO       o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener ----- Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification) 
+16:58:28.804 [Thread-5] INFO       o.a.coyote.http11.Http11NioProtocol ----- Stopping ProtocolHandler ["https-jsse-nio-8443"] 
+16:58:28.819 [Thread-5] INFO       o.s.o.j.LocalContainerEntityManagerFactoryBean ----- Closing JPA EntityManagerFactory for persistence unit 'default' 
+16:58:28.822 [Thread-5] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Shutdown initiated... 
+16:58:28.827 [Thread-5] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-1 - Shutdown completed. 
+16:58:28.935 [restartedMain] INFO       o.e.u.S.SecureForumApplication ----- Starting SecureForumApplication using Java 17.0.5 with PID 25628 (C:\Users\Ognjen\Desktop\sigurnost_projektni\my-internet-forum\my-forum-back\SecureForum\target\classes started by Ognjen in C:\Users\Ognjen\Desktop\sigurnost_projektni\my-internet-forum\my-forum-back) 
+16:58:28.935 [restartedMain] INFO       o.e.u.S.SecureForumApplication ----- No active profile set, falling back to 1 default profile: "default" 
+16:58:29.230 [restartedMain] INFO       o.s.d.r.c.RepositoryConfigurationDelegate ----- Bootstrapping Spring Data JPA repositories in DEFAULT mode. 
+16:58:29.257 [restartedMain] INFO       o.s.d.r.c.RepositoryConfigurationDelegate ----- Finished Spring Data repository scanning in 26 ms. Found 7 JPA repository interfaces. 
+16:58:29.397 [restartedMain] INFO       o.s.b.w.e.tomcat.TomcatWebServer ----- Tomcat initialized with port 8443 (https) 
+16:58:29.397 [restartedMain] INFO       o.a.coyote.http11.Http11NioProtocol ----- Initializing ProtocolHandler ["https-jsse-nio-8443"] 
+16:58:29.398 [restartedMain] INFO       o.a.catalina.core.StandardService ----- Starting service [Tomcat] 
+16:58:29.398 [restartedMain] INFO       o.a.catalina.core.StandardEngine ----- Starting Servlet engine: [Apache Tomcat/10.1.20] 
+16:58:29.418 [restartedMain] INFO       o.a.c.c.C.[Tomcat].[localhost].[/] ----- Initializing Spring embedded WebApplicationContext 
+16:58:29.418 [restartedMain] INFO       o.s.b.w.s.c.ServletWebServerApplicationContext ----- Root WebApplicationContext: initialization completed in 482 ms 
+16:58:29.549 [restartedMain] INFO       o.h.jpa.internal.util.LogHelper ----- HHH000204: Processing PersistenceUnitInfo [name: default] 
+16:58:29.553 [restartedMain] INFO       o.h.c.i.RegionFactoryInitiator ----- HHH000026: Second-level cache disabled 
+16:58:29.558 [restartedMain] INFO       o.s.o.j.p.SpringPersistenceUnitInfo ----- No LoadTimeWeaver setup: ignoring JPA class transformer 
+16:58:29.559 [restartedMain] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-2 - Starting... 
+16:58:29.570 [restartedMain] INFO       com.zaxxer.hikari.pool.HikariPool ----- HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@332607ea 
+16:58:29.571 [restartedMain] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-2 - Start completed. 
+16:58:29.684 [restartedMain] INFO       o.h.e.t.j.p.i.JtaPlatformInitiator ----- HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration) 
+16:58:29.727 [restartedMain] INFO       o.s.o.j.LocalContainerEntityManagerFactoryBean ----- Initialized JPA EntityManagerFactory for persistence unit 'default' 
+16:58:29.976 [restartedMain] WARN       o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration ----- spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning 
+16:58:30.185 [restartedMain] INFO       o.s.b.a.e.web.EndpointLinksResolver ----- Exposing 1 endpoint(s) beneath base path '/actuator' 
+16:58:30.232 [restartedMain] WARN       o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext ----- Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration': Unsatisfied dependency expressed through method 'setFilterChains' parameter 0: Error creating bean with name 'filterChain' defined in class path resource [org/etf/unibl/SecureForum/security/WebSecurityConfig.class]: Failed to instantiate [org.springframework.security.web.SecurityFilterChain]: Factory method 'filterChain' threw exception with message: No qualifying bean of type 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository' available 
+16:58:30.233 [restartedMain] INFO       o.s.o.j.LocalContainerEntityManagerFactoryBean ----- Closing JPA EntityManagerFactory for persistence unit 'default' 
+16:58:30.234 [restartedMain] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-2 - Shutdown initiated... 
+16:58:30.237 [restartedMain] INFO       com.zaxxer.hikari.HikariDataSource ----- HikariPool-2 - Shutdown completed. 
+16:58:30.238 [restartedMain] INFO       o.a.catalina.core.StandardService ----- Stopping service [Tomcat] 
+16:58:30.249 [restartedMain] INFO       o.s.b.a.l.ConditionEvaluationReportLogger ----- 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled. 
+16:58:30.282 [restartedMain] ERROR      o.s.b.d.LoggingFailureAnalysisReporter ----- 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of method setFilterChains in org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration required a bean of type 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository' in your configuration.
+ 

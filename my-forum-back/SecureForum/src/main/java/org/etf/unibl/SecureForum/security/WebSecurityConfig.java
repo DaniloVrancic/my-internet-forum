@@ -84,6 +84,8 @@ public class WebSecurityConfig{
         http.addFilterBefore(xssFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
+        http.oauth2Login(settings -> {settings.loginPage("/login").defaultSuccessUrl("/main-page");});
+        http.formLogin(Customizer.withDefaults());
         return http.build();
     }
 

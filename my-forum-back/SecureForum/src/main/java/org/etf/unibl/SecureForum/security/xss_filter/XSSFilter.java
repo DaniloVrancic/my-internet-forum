@@ -49,7 +49,7 @@ public class XSSFilter extends OncePerRequestFilter {
         }
 
         XSSRequestWrapper sanitizedRequest = new XSSRequestWrapper(request);
-        
+
         filterChain.doFilter(sanitizedRequest,response);
     }
 
