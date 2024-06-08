@@ -124,11 +124,20 @@ export class ForumerPageComponent implements OnInit, OnDestroy{
   }
 
   openPost(caughtPost: ForumPost){
+
+    let clonedPost: any = {...caughtPost};
+    if(this.userIsForumer())
+      {
+        clonedPost.forumerHasAdd = this.forumerHasAdd;
+        clonedPost.forumerHasUpdate = this.forumerHasUpdate;
+        clonedPost.forumerHasDelete = this.forumerHasDelete;
+        clonedPost.topicId = this.forumerPageService.getSelectedTopicId();
+      }
     const dialogRef = this.dialog.open(SelectedPostComponent, {
       width: '85%',
       autoFocus: false,
       maxHeight: '90vh',
-      data: caughtPost
+      data: clonedPost
     });
 
   }
@@ -145,7 +154,6 @@ export class ForumerPageComponent implements OnInit, OnDestroy{
 
     if(this.userHasAdministrationPriviledges() || (this.userIsForumer() && this.forumerHasUpdate && this.userOwnerOfPost(postToEdit.user_creator))){
 
-      
       event.stopPropagation();
       const dialogRef = this.dialog.open(EditPostComponent, {
         width: '85%',
