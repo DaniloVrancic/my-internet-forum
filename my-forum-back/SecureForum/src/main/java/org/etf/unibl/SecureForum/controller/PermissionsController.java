@@ -4,6 +4,7 @@ import jakarta.persistence.EntityExistsException;
 import org.etf.unibl.SecureForum.model.dto.Permission;
 import org.etf.unibl.SecureForum.model.entities.PermissionsEntity;
 import org.etf.unibl.SecureForum.model.enums.PermissionType;
+import org.etf.unibl.SecureForum.model.requests.PermissionForTopicAndUserRequest;
 import org.etf.unibl.SecureForum.model.requests.PermissionsRequest;
 import org.etf.unibl.SecureForum.repositories.PermissionsRepository;
 import org.etf.unibl.SecureForum.service.PermissionsService;
@@ -72,6 +73,12 @@ public class PermissionsController {
             permissionToReturn.setTopic_name(foundEntity.getTopic().getName());
             return permissionToReturn;
         }
+    }
+
+    @PostMapping("/get_permissions_for_topic")
+    @ResponseStatus(HttpStatus.OK)
+    public List<String> getPermissionsForTopicForUser(@RequestBody PermissionForTopicAndUserRequest request){
+        return permissionsService.findAllByUserIdAndTopicId(request.getUserId(), request.getTopicId());
     }
 
     @DeleteMapping("/delete/{id}")

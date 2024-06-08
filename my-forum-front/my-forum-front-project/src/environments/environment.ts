@@ -6,5 +6,6 @@ export const environment = {
     possibleStatuses: ["APPROVED", "REJECTED", "PENDING"],
     selectedTopicString: "selected_topic_id",
     needsReloadString: "main_page_needs_reload",
-    tokenStorageKey: "JWT_token"
+    tokenStorageKey: "JWT_token",
+    currentForumerTopicPermissions: "forumer_topic_permissions"
 }

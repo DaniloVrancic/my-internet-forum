@@ -99,6 +99,18 @@ public class PermissionsServiceImpl extends CrudJpaService<PermissionsEntity, In
         return foundPermissions;
     }
 
+    @Override
+    public List<String> findAllByUserIdAndTopicId(Integer userId, Integer topicId){
+        List<PermissionsEntity> foundEntities = permissionsRepository.findByReferencedUser_IdAndTopic_Id(userId, topicId);
+        List<String> permissionTypesForTopic = new ArrayList<>();
+
+        for(PermissionsEntity foundEntity : foundEntities){
+            permissionTypesForTopic.add(foundEntity.getPermission().getValue().toUpperCase());
+        }
+
+        return permissionTypesForTopic;
+    }
+
     private Permission mapPermissionEntityToPermission(PermissionsEntity entity){
         Permission permissionToReturn = new Permission();
         permissionToReturn.setId(entity.getId());

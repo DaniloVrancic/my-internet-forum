@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../../interfaces/user';
@@ -6,6 +6,8 @@ import { VerifyCodeRequest } from '../../verify-code-page/verify-code-request-in
 import { environment } from '../../environments/environment';
 import { UserPrivilegeUpdateRequest } from '../../interfaces/requests/user-privilege-update-request';
 import { UserWithToken } from '../../interfaces/user-with-token';
+import { PermissionService } from './permission.service';
+import { response } from 'express';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +16,8 @@ export class UserService {
   private baseUserUrl = environment.apiBaseUrl + '/users';
   private baseAuthUrl = environment.apiBaseUrl + '/auth';
   private currentUser: User | null;
+  private currentForumerTopicPermissions: string[] = [];
+  permissionService = inject(PermissionService);
 
   constructor(private http: HttpClient) { 
     this.currentUser = null;
@@ -110,5 +114,33 @@ export class UserService {
 
   public deleteJwtToken(){
     localStorage.removeItem(environment.tokenStorageKey);
+  }
+
+  public fetchTopicPermissionsForCurrentUser(topicId: number){
+        
+        this.permissionService.findPermissionsForUserAndTopic({userId: this.getCurrentUser()?.id as number, topicId: topicId}).subscribe({
+          next: (response: string[]) => {this.currentForumerTopicPermissions = response;
+                                        sessionStorage.setItem(environment.currentForumerTopicPermissions, JSON.stringify(response));
+          },
+          error: errorObj => {console.error(errorObj)}
+        });
+  }
+
+  public deleteFetchedPermissions(){
+    sessionStorage.removeItem(environment.currentForumerTopicPermissions);
+    this.currentForumerTopicPermissions = [];
+  }
+
+  public getFetchedPermissions(): string[]{
+    if(this.currentForumerTopicPermissions != null){
+      return this.currentForumerTopicPermissions;
+    }
+    else if(sessionStorage.getItem(environment.currentForumerTopicPermissions) != null){
+      this.currentForumerTopicPermissions = JSON.parse(sessionStorage.getItem(environment.currentForumerTopicPermissions) as string)
+      return (this.currentForumerTopicPermissions);
+    }
+    else{
+      return [];
+    }
   }
 }
