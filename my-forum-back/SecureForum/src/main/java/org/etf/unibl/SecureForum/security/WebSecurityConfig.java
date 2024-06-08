@@ -61,10 +61,12 @@ public class WebSecurityConfig{
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.csrf(setting -> setting.disable())
+        http
+                .cors(Customizer.withDefaults())
+                .csrf(setting -> setting.disable())
                 .exceptionHandling(handlingConfigurer -> {handlingConfigurer.authenticationEntryPoint(authEntryPoint);})
                 .sessionManagement(sessionManagement -> {sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);})
-                .authorizeHttpRequests(requestMatcherConfigurer -> {requestMatcherConfigurer.requestMatchers("/auth/**").permitAll();
+                .authorizeHttpRequests(requestMatcherConfigurer -> {requestMatcherConfigurer.requestMatchers("/","/auth/**").permitAll();
 
                                                                     requestMatcherConfigurer.requestMatchers("/users/**").hasRole(ADMIN_ROLE); //Only administrator can manipulate with users
 
@@ -97,10 +99,11 @@ public class WebSecurityConfig{
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
 
-       // http.formLogin(Customizer.withDefaults());
-       // http.oauth2ResourceServer(oauth2 -> oauth2.jwt(
-       //         jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(customJwtConverter())
-       // ));
+        http.formLogin(Customizer.withDefaults());
+     //   http.oauth2ResourceServer(oauth2 -> oauth2.jwt(
+     //           jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(customJwtConverter())
+     //   ));
+     //   http.oauth2ResourceServer(rserver -> rserver.opaqueToken(Customizer.withDefaults()));
         return http.build();
     }
 

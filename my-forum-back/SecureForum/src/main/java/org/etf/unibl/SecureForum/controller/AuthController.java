@@ -26,7 +26,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -71,12 +73,14 @@ public class AuthController {
     }
 
     @GetMapping("/oauth2")
-    public ResponseEntity<UrlDto> oauth2Auth(){
+    public ResponseEntity<UrlDto> oauth2Auth(@AuthenticationPrincipal OAuth2User user){
         String url = new GoogleAuthorizationCodeRequestUrl(
                 clientId,
                 "https://localhost:4200", //callback url for Google to call
                 Arrays.asList("email", "profile", "openid")
         ).build(); //Will generate the link where the user will be able to see the Google login form
+
+
 
         return ResponseEntity.ok(new UrlDto(url));
     }
@@ -94,6 +98,8 @@ public class AuthController {
                 code,
                 "https://localhost:4200"
         ).execute().getAccessToken();
+        System.out.println("I AM IN GOOGLE CALLBACK!");
+
         }
         catch(Exception ex){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

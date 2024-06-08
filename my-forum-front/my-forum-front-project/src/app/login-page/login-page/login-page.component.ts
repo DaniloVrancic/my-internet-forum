@@ -7,6 +7,7 @@ import { UserStatuses } from '../../../interfaces/user.statuses';
 import { NavigationBarComponent } from '../../partials/nav/navigation-bar/navigation-bar.component';
 import { environment } from '../../../environments/environment';
 import { OauthGoogleService } from '../../services/oauth-google.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-page',
@@ -27,7 +28,8 @@ export class LoginPageComponent implements OnInit{
 
   constructor(private userService: UserService,
               private router: Router,
-              private oAuthService: OauthGoogleService)
+              private oAuthService: OauthGoogleService,
+              )
   {
     this.loginRequest = {} as LoginRequest;
     this.foundUrl = "";
@@ -108,7 +110,8 @@ export class LoginPageComponent implements OnInit{
   }
 
   loginUserGithub() {
-    
+    console.log(this.foundUrl);
+
     }
 
 }

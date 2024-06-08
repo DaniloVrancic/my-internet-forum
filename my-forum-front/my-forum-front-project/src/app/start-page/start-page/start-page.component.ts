@@ -21,19 +21,6 @@ export class StartPageComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.activateRoute.queryParams.subscribe(params => {
-      if(params["code"] !== undefined){
-        this.http.getToken(params["code"]).subscribe(result => {
-          if(result == true) {
-            console.log("NAVIGATE TO MAIN PAGE");
-          }
-          else{
-            console.log("NAVIGATE TO START PAGE");
-          }
-        })
-      }
-    })
-   
   }
 
   registerClick(){
