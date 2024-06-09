@@ -38,7 +38,8 @@ export class LoginPageComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit(): void {
-      
+      localStorage.clear();
+      sessionStorage.clear();
   }
 
   ngAfterViewInit(): void {
@@ -80,18 +81,18 @@ export class LoginPageComponent implements OnInit, AfterViewInit{
     .subscribe(
     {
     next: response => {
-      let caughtToken : string = response.token;
+      //let caughtToken : string = response.token;
       let userToSet: User = {id: response.id, username: response.username,
                             email: response.email, createTime: response.createTime,
                             status: response.status, type: response.type
       }
       this.userService.setCurrentUser(userToSet);
-      this.userService.setJwtToken(caughtToken);
+      //this.userService.setJwtToken(caughtToken);
       this.errorMessage = ""; // Remove the error message at this point cause everything went alright.
 
       sessionStorage.setItem(environment.needsReloadString, "true");
 
-      if(response.status == UserStatuses.requested)
+      if(response.status == UserStatuses.requested || response.status == UserStatuses.active)
         {
           this.router.navigate(["/verify-page"]); //redirect the user to verification if he hasn't already been verified
           alert("Please verify your account.\nVerification code has been sent to your e-mail.")

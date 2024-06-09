@@ -49,12 +49,11 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
 
     @Autowired
     public UserServiceImpl(AuthenticationManager authenticationManager,
-            ModelMapper modelMapper, UserRepository userRepository,
+                           ModelMapper modelMapper, UserRepository userRepository,
                            PasswordEncoder passwordEncoder,
                            JWTGenerator jwtGenerator,
                            CodeVerificationRepository codeVerificationRepository,
-                           EmailSender emailSender)
-    {
+                           EmailSender emailSender) {
         super(userRepository, modelMapper, UserEntity.class); //For implementing CRUD operations
         this.authenticationManager = authenticationManager;
         this.modelMapper = modelMapper;
@@ -64,8 +63,6 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         this.passwordEncoder = passwordEncoder;
         this.jwtGenerator = jwtGenerator;
     }
-    
-    
 
 
     @Override
@@ -87,16 +84,13 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         userForDatabase.setOauth_account(false);
         ///////////////////////////////////////////////////////
         UserEntity savedUser = null;
-        try{
+        try {
             savedUser = userRepository.save(userForDatabase);
-        }
-        catch(DataIntegrityViolationException ex)
-        {
+        } catch (DataIntegrityViolationException ex) {
             throw new ConflictException();
         }
 
-        if(savedUser.getStatus().equals(UserEntity.Status.REQUESTED))
-        {
+        if (savedUser.getStatus().equals(UserEntity.Status.REQUESTED)) {
             generateNewVerificationCode(savedUser); //Code to send to email for verification
         }
         ////////    SETTING DATA FOR USER TO RETURN //////////
@@ -107,16 +101,21 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         return userToReturn;
     }
 
-    public UserWithAuthenticationTokenResponse login(LoginRequest request){
+    public User login(LoginRequest request) {
 
         try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getUsername(),
-                            request.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
             UserEntity foundEntity = userRepository.findByUsernameIs(request.getUsername()).orElseThrow(NotFoundException::new);
+
+                generateNewVerificationCode(foundEntity);
+
+            if(UserEntity.Status.ACTIVE.equals(foundEntity.getStatus())){
+                Authentication authentication = authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                request.getUsername(),
+                                request.getPassword()));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+
             User userToReturn = mapUserEntityToUser(foundEntity);
 
             if (userToReturn.getStatus().equals(UserEntity.Status.BLOCKED)) {
@@ -126,7 +125,8 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
             String token = jwtGenerator.generateToken(foundEntity);
 
 
-            return new UserWithAuthenticationTokenResponse(userToReturn, token);
+           // return new UserWithAuthenticationTokenResponse(userToReturn, token);
+            return userToReturn;
         } catch (BadCredentialsException ex) {
             throw new NotFoundException("User credentials aren't correct"); // If user was not found or password is incorrect
         }
@@ -135,6 +135,7 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
 
     /**
      * Generates new Verification Code for user to Use, also sends it to the users email.
+     *
      * @param savedUser User to send the code to
      */
     public void generateNewVerificationCode(UserEntity savedUser) {
@@ -143,15 +144,13 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
 
         CodeVerificationEntity codeVerificationEntity = null;
         CodeVerificationEntity savedCodeVerificationEntity = null;
-        if(existingEntities.size() > 0) /* IF A CODE ALREADY EXISTS FOR A USER IN DATABASE, OVERWRITE IT WITH NEW CODE*/
-        {
+        if (existingEntities.size() > 0) /* IF A CODE ALREADY EXISTS FOR A USER IN DATABASE, OVERWRITE IT WITH NEW CODE*/ {
             codeVerificationEntity = existingEntities.get(0);
             String randomGeneratedCode = generateRandomVerificationCode();
             codeVerificationEntity.setVerificationCode(randomGeneratedCode);
             codeVerificationEntity.setCreatedAt(Timestamp.from(Instant.now()));
             savedCodeVerificationEntity = codeVerificationRepository.save(codeVerificationEntity);
-        }
-        else{ /*OTHERWISE IF IT DOESN'T EXIST, JUST CREATE A NEW ONE*/
+        } else { /*OTHERWISE IF IT DOESN'T EXIST, JUST CREATE A NEW ONE*/
             String randomGeneratedCode = generateRandomVerificationCode();
 
             codeVerificationEntity = new CodeVerificationEntity();
@@ -160,17 +159,14 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
 
             codeVerificationEntity.setCreatedAt(Timestamp.from(Instant.now()));
 
-            savedCodeVerificationEntity =  codeVerificationRepository.save(codeVerificationEntity);
+            savedCodeVerificationEntity = codeVerificationRepository.save(codeVerificationEntity);
         }
 
 
-
-
-        try{ /*AFTER CREATING OR UPDATING IT, JUST SEND A NEW EMAIL*/
+        try { /*AFTER CREATING OR UPDATING IT, JUST SEND A NEW EMAIL*/
             emailSender.send(savedUser.getEmail(),
-                            buildEmail(savedUser.getUsername(), savedCodeVerificationEntity.getVerificationCode()));
-        }
-        catch(Exception ex){
+                    buildEmail(savedUser.getUsername(), savedCodeVerificationEntity.getVerificationCode()));
+        } catch (Exception ex) {
             System.out.println(ex.getLocalizedMessage());
             throw ex;
         }
@@ -188,23 +184,21 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
     }
 
     @Override
-    public List<CodeVerificationEntity> getAllCodesForUser(Integer userId)
-    {
+    public List<CodeVerificationEntity> getAllCodesForUser(Integer userId) {
         return codeVerificationRepository.findAllByReferencedUser_Id(userId);
     }
 
 
-    private PasswordEncoder getBCryptEncoder(){
+    private PasswordEncoder getBCryptEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    private String generateRandomVerificationCode()
-    {
+    private String generateRandomVerificationCode() {
         Random rand = new Random();
         final int NUM_OF_CODE_DIGITS = 6; //DIGITS EXISTING IN CODE
 
         String codeToReturn = "";
-        for(int i = 0; i < NUM_OF_CODE_DIGITS; ++i) {
+        for (int i = 0; i < NUM_OF_CODE_DIGITS; ++i) {
             codeToReturn += rand.nextInt(10);
         }
 
@@ -220,7 +214,7 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         String htmlContent = "<body>" +
                 "<p>Hi " + name + ",</p>" +
                 "<p>Thank you for registering to MySecureForum. Please use the code below to activate your account:</p>" +
-                "<p></p>"+
+                "<p></p>" +
                 "<p><b>" + code + "</b></p>" +
                 "<p>We are eagerly waiting for you!</p>" +
                 "</body>";
@@ -229,7 +223,7 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         return textContent + "|||" + htmlContent;
     }
 
-    private User mapUserEntityToUser(UserEntity entity){
+    private User mapUserEntityToUser(UserEntity entity) {
         User userToReturn = new User();
         userToReturn.setId(entity.getId());
         userToReturn.setUsername(entity.getUsername());
@@ -238,6 +232,21 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         userToReturn.setType(entity.getType());
         userToReturn.setStatus(entity.getStatus());
         return userToReturn;
+    }
+
+    @Override
+    public Boolean logoutUser(LogoutRequest request) {
+        UserEntity foundEntity = userRepository.findById(request.userId()).orElseThrow(NotFoundException::new);
+
+        if (!UserEntity.Status.BLOCKED.equals(foundEntity.getStatus())) {
+            foundEntity.setStatus(UserEntity.Status.REQUESTED);
+            userRepository.save(foundEntity);
+            //SecurityContextHolder.clearContext();
+            return true;
+        } else {
+            //SecurityContextHolder.clearContext();
+            return false;
+        }
     }
 
 }

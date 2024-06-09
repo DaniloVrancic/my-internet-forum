@@ -108,19 +108,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public UserWithAuthenticationTokenResponse loginUser(@Valid @RequestBody LoginRequest request){
+    public User loginUser(@Valid @RequestBody LoginRequest request){
 
         try{
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                       request.getUsername(),
-                        request.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        //UserWithAuthenticationTokenResponse authResponse = userService.login(request);
 
-        UserWithAuthenticationTokenResponse authResponse = userService.login(request);
-
-        return authResponse;
+        return userService.login(request);
         }
         catch(LockedException ex){ //In case that the user has been blocked from the forum will occur
             throw new ForbiddenException("User has been blocked from forum");

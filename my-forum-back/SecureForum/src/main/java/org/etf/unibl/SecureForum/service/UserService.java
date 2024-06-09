@@ -14,7 +14,7 @@ public interface UserService extends CrudService<Integer> {
 
     User signUp(SignUpRequest request);
 
-    UserWithAuthenticationTokenResponse login(LoginRequest request);
+    User login(LoginRequest request);
 
     User changePrivileges(UpdateUserPrivilegesRequest request);
 
@@ -22,4 +22,5 @@ public interface UserService extends CrudService<Integer> {
 
     void generateNewVerificationCode(UserEntity savedUser);
 
+    Boolean logoutUser(LogoutRequest userId);
 }

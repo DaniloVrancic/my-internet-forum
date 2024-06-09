@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -9,9 +10,8 @@ import { Router } from '@angular/router';
   styleUrl: './navigation-bar.component.css'
 })
 export class NavigationBarComponent implements OnInit{
-constructor(private router: Router){
-
-
+;
+constructor(private router: Router, private userService: UserService){
 }
 
 ngOnInit(): void {
@@ -32,10 +32,16 @@ public navigateToAdminPage() {
   }
 
 public logoutButton(){
-  //console.log("Logout Button Clicked");
-  sessionStorage.clear();
-  localStorage.clear();
-  this.router.navigate(['']);
+
+  
+
+  this.userService.logoutUser(this.userService.getCurrentUser()?.id as number).subscribe((booleanResponse: boolean) =>{
+    if(booleanResponse === true){
+      sessionStorage.clear();
+      localStorage.clear();
+      this.router.navigate(['']);
+    }
+  });
   }
 
 }

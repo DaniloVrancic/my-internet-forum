@@ -8,6 +8,7 @@ import { UserPrivilegeUpdateRequest } from '../../interfaces/requests/user-privi
 import { UserWithToken } from '../../interfaces/user-with-token';
 import { PermissionService } from './permission.service';
 import { response } from 'express';
+import { LogoutRequest } from '../../interfaces/requests/logout-request';
 
 @Injectable({
   providedIn: 'root',
@@ -72,6 +73,11 @@ export class UserService {
     return this.http.post<any>(`${this.baseAuthUrl}/resend_code/${user.id}`, null);
   }
 
+  logoutUser(userId: number): Observable<boolean> {
+    const wrapperJson: LogoutRequest = {userId: userId};
+    return this.http.post<boolean>(`${this.baseUserUrl}/logout`, wrapperJson);
+  }
+
   public setCurrentUser(user: User | null)
   {
     if(user == null)
@@ -112,7 +118,7 @@ export class UserService {
   }
 
   public getJwtToken(): string | null{
-    if(typeof localStorage != undefined && localStorage != undefined)
+    if(typeof localStorage != undefined && localStorage != undefined && localStorage.getItem(environment.tokenStorageKey) !== undefined && typeof localStorage.getItem(environment.tokenStorageKey) !== undefined)
       {
         return JSON.parse(localStorage.getItem(environment.tokenStorageKey) as string);
       }

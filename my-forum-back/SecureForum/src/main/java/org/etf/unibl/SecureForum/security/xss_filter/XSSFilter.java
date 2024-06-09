@@ -3,6 +3,7 @@ package org.etf.unibl.SecureForum.security.xss_filter;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.constraints.NotNull;
 import org.apache.coyote.BadRequestException;
 import org.etf.unibl.SecureForum.exceptions.UnauthorizedException;
@@ -35,7 +36,11 @@ public class XSSFilter extends OncePerRequestFilter {
             String paramName = parameterNames.nextElement();
             String[] paramValues = request.getParameterValues(paramName);
             for (String paramValue : paramValues) {
-                if (containsScriptTag(paramValue)) {
+                if (containsScriptTag(paramValue)) { //if the parameters have a script tag
+                    HttpSession session = request.getSession(false); //LOGOUT FROM SESSION IF HE IS SENDING MALICIOUS CONTENT
+                    if (session != null) {
+                        session.invalidate();
+                    }
                     throw new XSSAttackException("Potential XSS attack detected in parameter: " + paramName);
                 }
             }
@@ -46,7 +51,11 @@ public class XSSFilter extends OncePerRequestFilter {
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             String headerValue = request.getHeader(headerName);
-            if (containsScriptTag(headerValue)) {
+            if (containsScriptTag(headerValue)) { //If the header has a malicious script tag
+                HttpSession session = request.getSession(false); //LOGOUT THIS USER FROM SESSION IF HE DID AN ATTACK
+                if (session != null) {
+                    session.invalidate();
+                }
                 throw new XSSAttackException("Potential XSS attack detected in header: " + headerName);
             }
         }

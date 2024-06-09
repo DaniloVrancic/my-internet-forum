@@ -35,10 +35,10 @@ export class VerifyCodePageComponent implements OnInit{
         {
           this.router.navigate(['']);
         }
-      else if(this.userService.getCurrentUser()?.status == UserStatuses.active)
-        {
-          this.router.navigate(['main-page']);
-        }
+      //else if(this.userService.getCurrentUser()?.status == UserStatuses.active)
+       // {
+       //   this.router.navigate(['main-page']);
+       // }
   }
 
 

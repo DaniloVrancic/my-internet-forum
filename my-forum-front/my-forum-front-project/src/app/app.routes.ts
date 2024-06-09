@@ -18,7 +18,7 @@ export const routes: Routes = [
     { path: 'start-page', component: StartPageComponent},
     { path: 'register-page', component: RegisterPageComponent},
     { path: 'login-page', component: LoginPageComponent},
-    { path: 'main-page', component: MainPageComponent, canActivate: [authGuard]},
+    { path: 'main-page', component: MainPageComponent, canActivate: [loggedUserGuard]},
     { path: 'verify-page', component: VerifyCodePageComponent, canActivate: [loggedUserGuard]},
     { path: 'admin-page', component: AdminPageComponent, canActivate: [authGuard, loggedUserGuard, administratorGuard]},
     { path: 'moderator-page', component: ModeratorPageComponent, canActivate: [authGuard, loggedUserGuard, moderatorGuard]},

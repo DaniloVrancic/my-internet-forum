@@ -17,6 +17,11 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
 
     }
 
+  if(token == undefined){
+    userService.deleteJwtToken();
+    token = null;
+  }
+
   if (token) {
     const cloned = req.clone({
       headers: req.headers.set(
