@@ -19,6 +19,7 @@ export class CallbackComponent implements OnInit{
 
       if(token !== undefined){
         this.OAuthService.getToken(token).subscribe(result => {
+          console.log(result);
           if(result == true) {
             console.log("CAN LOG IN NOW");
             console.log(result);

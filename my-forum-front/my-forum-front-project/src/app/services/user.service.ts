@@ -105,29 +105,45 @@ export class UserService {
   }
 
   public setJwtToken(token : string){
-    localStorage.setItem(environment.tokenStorageKey, JSON.stringify(token));
+    if(localStorage != undefined)
+      {
+        localStorage.setItem(environment.tokenStorageKey, JSON.stringify(token));
+      }
   }
 
-  public getJwtToken(): string{
-    return JSON.parse(localStorage.getItem(environment.tokenStorageKey) as string);
+  public getJwtToken(): string | null{
+    if(typeof localStorage != undefined && localStorage != undefined)
+      {
+        return JSON.parse(localStorage.getItem(environment.tokenStorageKey) as string);
+      }
+    return null;
   }
 
   public deleteJwtToken(){
-    localStorage.removeItem(environment.tokenStorageKey);
+    if(localStorage != undefined && localStorage.getItem(environment.tokenStorageKey) != null)
+      {
+        localStorage.removeItem(environment.tokenStorageKey);
+      }
   }
 
   public fetchTopicPermissionsForCurrentUser(topicId: number){
         
         this.permissionService.findPermissionsForUserAndTopic({userId: this.getCurrentUser()?.id as number, topicId: topicId}).subscribe({
           next: (response: string[]) => {this.currentForumerTopicPermissions = response;
-                                        sessionStorage.setItem(environment.currentForumerTopicPermissions, JSON.stringify(response));
+                                        if(sessionStorage != undefined && sessionStorage.getItem(environment.currentForumerTopicPermissions) != null)
+                                          {
+                                            sessionStorage.setItem(environment.currentForumerTopicPermissions, JSON.stringify(response));
+                                          }
           },
           error: errorObj => {console.error(errorObj)}
         });
   }
 
   public deleteFetchedPermissions(){
-    sessionStorage.removeItem(environment.currentForumerTopicPermissions);
+    if(sessionStorage != undefined)
+      {
+        sessionStorage.removeItem(environment.currentForumerTopicPermissions);
+      }
     this.currentForumerTopicPermissions = [];
   }
 
@@ -135,7 +151,7 @@ export class UserService {
     if(this.currentForumerTopicPermissions != null){
       return this.currentForumerTopicPermissions;
     }
-    else if(sessionStorage.getItem(environment.currentForumerTopicPermissions) != null){
+    else if(sessionStorage != undefined && sessionStorage.getItem(environment.currentForumerTopicPermissions) != null){
       this.currentForumerTopicPermissions = JSON.parse(sessionStorage.getItem(environment.currentForumerTopicPermissions) as string)
       return (this.currentForumerTopicPermissions);
     }

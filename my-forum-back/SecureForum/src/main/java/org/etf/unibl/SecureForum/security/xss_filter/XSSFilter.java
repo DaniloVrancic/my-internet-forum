@@ -25,6 +25,8 @@ public class XSSFilter extends OncePerRequestFilter {
             throws IOException, ServletException {
 
 
+       System.out.println(request.getParameter("code"));
+        System.out.println("XSS FILTER");
         // Check parameters
         Enumeration<String> parameterNames = request.getParameterNames();
         while (parameterNames.hasMoreElements()) {
@@ -49,6 +51,7 @@ public class XSSFilter extends OncePerRequestFilter {
         }
 
         XSSRequestWrapper sanitizedRequest = new XSSRequestWrapper(request);
+
 
         filterChain.doFilter(sanitizedRequest,response);
     }

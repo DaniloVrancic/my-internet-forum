@@ -5,7 +5,6 @@ import org.etf.unibl.SecureForum.model.enums.UserType;
 import org.etf.unibl.SecureForum.repositories.UserRepository;
 import org.etf.unibl.SecureForum.security.config.GoogleOpaqueTokenIntrospector;
 import org.etf.unibl.SecureForum.security.xss_filter.XSSFilter;
-import org.etf.unibl.SecureForum.security.xss_filter.XSSFilterConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -95,9 +94,11 @@ public class WebSecurityConfig{
                 })
                 .authenticationProvider(authenticationProvider);
 
-        //http.addFilterBefore(xssFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        XSSFilter xssFilter = xssFilter();
+        JWTAuthenticationFilter jwtAuthFilter = jwtAuthenticationFilter();
 
+        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(xssFilter, UsernamePasswordAuthenticationFilter.class);
 
         http.formLogin(Customizer.withDefaults());
      //   http.oauth2ResourceServer(oauth2 -> oauth2.jwt(

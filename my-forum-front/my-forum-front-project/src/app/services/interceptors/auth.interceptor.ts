@@ -8,13 +8,19 @@ import { Router } from '@angular/router';
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
   const userService = inject(UserService);
   const router = inject(Router);
-  const token = userService.getJwtToken();
+  let token;
+  try{
+
+  if(typeof window !== 'undefined' && window.localStorage)
+    {
+      token = userService.getJwtToken();
+
+    }
 
   if (token) {
     const cloned = req.clone({
       headers: req.headers.set(
         'Authorization', `Bearer ${token}`)
-      
     });
     return next(cloned)
     .pipe( //Handling expired token
@@ -30,5 +36,10 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
   } else {
     return next(req);
   }
+}
+catch(ex){
+  console.log(ex);
+  return next(req);
+}
 
 };

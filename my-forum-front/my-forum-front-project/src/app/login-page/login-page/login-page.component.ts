@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { LoginRequest } from '../../../interfaces/requests/login-request';
 import { User } from '../../../interfaces/user';
@@ -8,6 +8,7 @@ import { NavigationBarComponent } from '../../partials/nav/navigation-bar/naviga
 import { environment } from '../../../environments/environment';
 import { OauthGoogleService } from '../../services/oauth-google.service';
 import { HttpClient } from '@angular/common/http';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-login-page',
@@ -17,7 +18,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './login-page.component.css',
   providers: [UserService, Router]
 })
-export class LoginPageComponent implements OnInit{
+export class LoginPageComponent implements OnInit, AfterViewInit{
 
   private myForm : any;
   public isMyFormValid : boolean = false;
@@ -29,6 +30,7 @@ export class LoginPageComponent implements OnInit{
   constructor(private userService: UserService,
               private router: Router,
               private oAuthService: OauthGoogleService,
+              @Inject(PLATFORM_ID) private platformId: any
               )
   {
     this.loginRequest = {} as LoginRequest;
@@ -36,10 +38,17 @@ export class LoginPageComponent implements OnInit{
   }
 
   ngOnInit(): void {
+      
+  }
+
+  ngAfterViewInit(): void {
+    console.log(document);
+    if (isPlatformBrowser(this.platformId)) {
       this.myForm = document.forms[0];
-      this.oAuthService.get("/auth/oauth2").subscribe((data: any) => {
-        this.foundUrl = data.url;
-      });
+    }
+    this.oAuthService.get("/auth/oauth2").subscribe((data: any) => {
+      this.foundUrl = data.url;
+    });
   }
 
   onInput(){
