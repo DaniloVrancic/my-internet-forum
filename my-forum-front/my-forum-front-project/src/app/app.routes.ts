@@ -12,6 +12,7 @@ import { authGuard } from './services/guard/auth.guard';
 import { loggedUserGuard } from './services/guard/logged-user.guard';
 import { moderatorGuard } from './services/guard/moderator.guard';
 import { administratorGuard } from './services/guard/administrator.guard';
+import { CallbackComponent } from './start-page/callback/callback.component';
 
 export const routes: Routes = [
     { path: 'start-page', component: StartPageComponent},
@@ -23,5 +24,6 @@ export const routes: Routes = [
     { path: 'moderator-page', component: ModeratorPageComponent, canActivate: [authGuard, loggedUserGuard, moderatorGuard]},
     { path: 'forumer-page', component: ForumerPageComponent, canActivate: [authGuard, loggedUserGuard]},
     { path: 'selected-post', component: SelectedPostComponent, canActivate: [authGuard, loggedUserGuard]},
+    { path: 'callback', component: CallbackComponent},
     { path: '',   redirectTo: '/start-page', pathMatch: 'full' }
 ];

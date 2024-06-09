@@ -21,18 +21,5 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.activateRoute.queryParams.subscribe(params => {
-      if(params["code"] !== undefined){
-        this.http.getToken(params["code"]).subscribe(result => {
-          if(result == true) {
-            this.router.navigate(['main-page']);
-          }
-          else{
-            this.router.navigate(['start-page']);
-          }
-        })
-      }
-    })
-   
   }
 }

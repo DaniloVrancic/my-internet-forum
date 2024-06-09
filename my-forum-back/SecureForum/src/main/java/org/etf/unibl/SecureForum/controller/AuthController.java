@@ -73,10 +73,10 @@ public class AuthController {
     }
 
     @GetMapping("/oauth2")
-    public ResponseEntity<UrlDto> oauth2Auth(@AuthenticationPrincipal OAuth2User user){
+    public ResponseEntity<UrlDto> oauth2Auth(){
         String url = new GoogleAuthorizationCodeRequestUrl(
                 clientId,
-                "https://localhost:4200", //callback url for Google to call
+                "https://localhost:4200/callback", //callback url for Google to call
                 Arrays.asList("email", "profile", "openid")
         ).build(); //Will generate the link where the user will be able to see the Google login form
 

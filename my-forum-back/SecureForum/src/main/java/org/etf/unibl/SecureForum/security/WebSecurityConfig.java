@@ -95,7 +95,7 @@ public class WebSecurityConfig{
                 })
                 .authenticationProvider(authenticationProvider);
 
-        http.addFilterBefore(xssFilter(), UsernamePasswordAuthenticationFilter.class);
+        //http.addFilterBefore(xssFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
 
