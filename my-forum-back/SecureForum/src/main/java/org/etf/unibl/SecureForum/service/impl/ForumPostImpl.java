@@ -1,6 +1,7 @@
 package org.etf.unibl.SecureForum.service.impl;
 
 import jakarta.transaction.Transactional;
+import org.apache.catalina.util.StringUtil;
 import org.etf.unibl.SecureForum.base.CrudJpaService;
 import org.etf.unibl.SecureForum.exceptions.BadRequestException;
 import org.etf.unibl.SecureForum.exceptions.ForbiddenException;
@@ -224,4 +225,6 @@ public class ForumPostImpl extends CrudJpaService<ForumPostEntity, Integer> impl
 
         return mappedEntities;
     }
+
+
 }

@@ -2,6 +2,7 @@ package org.etf.unibl.SecureForum.model.requests;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.etf.unibl.SecureForum.additional.sanitizer.MyStringUtils;
 import org.etf.unibl.SecureForum.model.entities.CommentEntity;
 import org.etf.unibl.SecureForum.model.entities.ForumPostEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
@@ -16,7 +17,7 @@ public class CreateCommentRequest {
     @NotNull
     private UserEntity user;
     public String getContent() {
-        return content;
+        return MyStringUtils.sanitize(content);
     }
 
     public void setContent(String content) {

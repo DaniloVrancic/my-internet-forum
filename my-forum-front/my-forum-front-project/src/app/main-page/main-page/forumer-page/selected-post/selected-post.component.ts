@@ -46,7 +46,12 @@ export class SelectedPostComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
       this.commentService.findAllApprovedByPostId(this.caughtPost.id)
       .subscribe({
-        next: response => {this.commentsOnProgram = response},
+        next: response => {this.commentsOnProgram = response
+          this.commentsOnProgram.forEach(commentOnProgram => {
+            commentOnProgram.content = this.decodeSanitizedString(commentOnProgram.content);
+            commentOnProgram.username = this.decodeSanitizedString(commentOnProgram.username);
+          })
+        },
         error: errorObj => {console.error(errorObj);}
       });
 
@@ -101,4 +106,17 @@ export class SelectedPostComponent implements OnInit, OnDestroy{
     ngOnDestroy(): void {
         this.unauthorizedErrorMessage = "";
     }
+
+
+    private decodeSanitizedString(value: string): string {
+      if (value == null) {
+        return "null";
+      }
+      return value.replace(/&amp;/g, "&")
+                  .replace(/&lt;/g, "<")
+                  .replace(/&gt;/g, ">")
+                  .replace(/&quot;/g, "\"")
+                  .replace(/&#39;/g, "'");
+    }
 }
+

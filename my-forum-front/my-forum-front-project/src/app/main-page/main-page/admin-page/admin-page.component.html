@@ -67,7 +67,7 @@
 
                 @for(currentTopic of this.allTopics; track currentTopic)
                 {
-                    <option value="{{currentTopic | json}}">{{currentTopic.name}}</option>
+                    <option value="{{currentTopic | json}}">{{this.decodeSanitizedString(currentTopic.name)}}</option>
                 }
                 </select>
             

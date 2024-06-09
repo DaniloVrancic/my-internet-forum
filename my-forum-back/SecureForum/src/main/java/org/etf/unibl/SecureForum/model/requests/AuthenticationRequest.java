@@ -1,5 +1,7 @@
 package org.etf.unibl.SecureForum.model.requests;
 
+import org.etf.unibl.SecureForum.additional.sanitizer.MyStringUtils;
+
 public class AuthenticationRequest {
 
     private String token;

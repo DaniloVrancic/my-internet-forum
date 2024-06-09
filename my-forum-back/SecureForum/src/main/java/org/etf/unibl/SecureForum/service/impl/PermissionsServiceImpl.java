@@ -121,4 +121,15 @@ public class PermissionsServiceImpl extends CrudJpaService<PermissionsEntity, In
 
         return permissionToReturn;
     }
+
+    private String sanitize(String value) {
+        if (value == null) {
+            return null;
+        }
+        return value.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;");
+    }
 }

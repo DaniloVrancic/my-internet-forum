@@ -10,7 +10,10 @@ import org.etf.unibl.SecureForum.exceptions.servlet_exceptions.XSSAttackExceptio
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Enumeration;
 import java.util.logging.LogRecord;
 
@@ -26,7 +29,6 @@ public class XSSFilter extends OncePerRequestFilter {
 
 
        System.out.println(request.getParameter("code"));
-        System.out.println("XSS FILTER");
         // Check parameters
         Enumeration<String> parameterNames = request.getParameterNames();
         while (parameterNames.hasMoreElements()) {
@@ -47,8 +49,12 @@ public class XSSFilter extends OncePerRequestFilter {
             if (containsScriptTag(headerValue)) {
                 throw new XSSAttackException("Potential XSS attack detected in header: " + headerName);
             }
-
         }
+
+     //   String requestBody = extractRequestBody(request);
+     //   if (containsScriptTag(requestBody)) {
+     //       throw new XSSAttackException("Potential XSS attack detected in request body");
+     //   }
 
         XSSRequestWrapper sanitizedRequest = new XSSRequestWrapper(request);
 
@@ -58,6 +64,29 @@ public class XSSFilter extends OncePerRequestFilter {
 
     private boolean containsScriptTag(String value) {
         return value != null && (value.toLowerCase().contains("<script>") || value.toLowerCase().contains("</script>"));
+    }
+
+    private String extractRequestBody(HttpServletRequest request) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        BufferedReader bufferedReader = null;
+
+        try {
+            InputStream inputStream = request.getInputStream();
+            if (inputStream != null) {
+                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                char[] charBuffer = new char[128];
+                int bytesRead;
+                while ((bytesRead = bufferedReader.read(charBuffer)) != -1) {
+                    stringBuilder.append(charBuffer, 0, bytesRead);
+                }
+            }
+        } finally {
+            if (bufferedReader != null) {
+                bufferedReader.close();
+            }
+        }
+
+        return stringBuilder.toString();
     }
 
 }

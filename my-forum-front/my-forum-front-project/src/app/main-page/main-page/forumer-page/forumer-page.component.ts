@@ -94,7 +94,13 @@ export class ForumerPageComponent implements OnInit, OnDestroy{
   }
 
     this.forumerPageService.findTop20ApprovedByTopicId(numberForSet).subscribe({
-      next: response => {this.allPosts = response},
+      next: response => {this.allPosts = response
+        this.allPosts.forEach(forumPost => {
+          forumPost.title = this.decodeSanitizedString(forumPost.title)
+          forumPost.content = this.decodeSanitizedString(forumPost.content);
+          forumPost.user_creator = this.decodeSanitizedString(forumPost.user_creator);
+        })
+      },
       error: errorObj => console.error(errorObj)
     })
     }
@@ -102,8 +108,6 @@ export class ForumerPageComponent implements OnInit, OnDestroy{
   addNewForumPost() {
       if(this.userHasAdministrationPriviledges() || (this.userIsForumer() && this.forumerHasAdd))
         {
-          console.log(this.userHasAdministrationPriviledges());
-          console.log(this.userIsForumer() && this.forumerHasAdd);
           this.openDialog();
         }
       else{
@@ -170,6 +174,9 @@ export class ForumerPageComponent implements OnInit, OnDestroy{
               const index = this.allPosts.findIndex(post => post.id === result.id);
             if (index !== -1) {
               this.allPosts[index] = result;
+              this.allPosts[index].title = this.decodeSanitizedString(result.title);
+              this.allPosts[index].content = this.decodeSanitizedString(result.content);
+              this.allPosts[index].user_creator = this.decodeSanitizedString(result.user_creator);
             }
           }
         },
@@ -238,5 +245,15 @@ export class ForumerPageComponent implements OnInit, OnDestroy{
 
     return currentUser?.username === postCreator;
   }
-
+  
+  decodeSanitizedString(value: string): string {
+    if (value == null) {
+      return "null";
+    }
+    return value.replace(/&amp;/g, "&")
+                .replace(/&lt;/g, "<")
+                .replace(/&gt;/g, ">")
+                .replace(/&quot;/g, "\"")
+                .replace(/&#39;/g, "'");
+  }
 }

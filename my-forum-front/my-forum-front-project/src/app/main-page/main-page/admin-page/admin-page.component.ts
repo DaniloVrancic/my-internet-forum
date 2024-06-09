@@ -310,4 +310,15 @@ export class AdminPageComponent implements OnInit, OnDestroy{
             return false;
           }
     }
+
+    decodeSanitizedString(value: string): string {
+      if (value == null) {
+        return "null";
+      }
+      return value.replace(/&amp;/g, "&")
+                  .replace(/&lt;/g, "<")
+                  .replace(/&gt;/g, ">")
+                  .replace(/&quot;/g, "\"")
+                  .replace(/&#39;/g, "'");
+    }
 }
