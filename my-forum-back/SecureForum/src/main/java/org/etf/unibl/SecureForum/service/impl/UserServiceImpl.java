@@ -106,7 +106,9 @@ public class UserServiceImpl extends CrudJpaService<UserEntity, Integer> impleme
         try {
             UserEntity foundEntity = userRepository.findByUsernameIs(request.getUsername()).orElseThrow(NotFoundException::new);
 
+            if(!UserEntity.Status.BLOCKED.equals(foundEntity.getStatus())){
                 generateNewVerificationCode(foundEntity);
+            }
 
             if(UserEntity.Status.ACTIVE.equals(foundEntity.getStatus())){
                 Authentication authentication = authenticationManager.authenticate(
