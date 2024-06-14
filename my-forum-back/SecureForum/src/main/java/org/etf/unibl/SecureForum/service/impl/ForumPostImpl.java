@@ -1,9 +1,12 @@
 package org.etf.unibl.SecureForum.service.impl;
 
 import jakarta.transaction.Transactional;
+import org.apache.catalina.util.StringUtil;
 import org.etf.unibl.SecureForum.base.CrudJpaService;
 import org.etf.unibl.SecureForum.exceptions.BadRequestException;
+import org.etf.unibl.SecureForum.exceptions.ForbiddenException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
+import org.etf.unibl.SecureForum.exceptions.UnauthorizedException;
 import org.etf.unibl.SecureForum.model.dto.Comment;
 import org.etf.unibl.SecureForum.model.dto.ForumPost;
 import org.etf.unibl.SecureForum.model.entities.CommentEntity;
@@ -18,6 +21,8 @@ import org.etf.unibl.SecureForum.repositories.ForumPostRepository;
 import org.etf.unibl.SecureForum.repositories.UserRepository;
 import org.etf.unibl.SecureForum.service.ForumPostService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -87,6 +92,17 @@ public class ForumPostImpl extends CrudJpaService<ForumPostEntity, Integer> impl
             throw new BadRequestException("Title or Content can't be blank.");
         }
 
+        Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        if(((UserEntity)currentAuthentication.getPrincipal()).getType().equals(UserType.Forumer) //If the user making the request is a Forumer
+            && !(entityToUpdate.getPostCreator().equals((UserEntity) currentAuthentication.getPrincipal()))) //And not the owner of this Post
+                {
+                 //If a forumer who isn't the owner of this post made the request, send back a Forbidden Exception
+            throw new ForbiddenException("Forumers aren't authorized to change posts that they do not own."); //Don't allow him to make the change
+                }
+
+
+
+
         entityToUpdate.setTitle(request.getTitle());
         entityToUpdate.setContent(request.getContent());
         entityToUpdate.setStatus(request.getStatus());
@@ -100,6 +116,14 @@ public class ForumPostImpl extends CrudJpaService<ForumPostEntity, Integer> impl
     @Override
     public ForumPost deleteForumPostById(Integer id) {
         ForumPostEntity foundEntity = forumPostRepository.findById(id).orElseThrow(NotFoundException::new);
+
+        Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        if(((UserEntity)currentAuthentication.getPrincipal()).getType().equals(UserType.Forumer) //If the user making the request is a Forumer
+                && !(foundEntity.getPostCreator().equals((UserEntity) currentAuthentication.getPrincipal()))) //And not the owner of this Post
+        {
+            //If a forumer who isn't the owner of this post made the request, send back a Forbidden Exception
+            throw new ForbiddenException("Forumers aren't authorized to change posts that they do not own."); //Don't allow him to delete this post
+        }
 
         forumPostRepository.deleteById(foundEntity.getId());
         return mapForumPostEntityToForumPost(foundEntity);
@@ -201,4 +225,6 @@ public class ForumPostImpl extends CrudJpaService<ForumPostEntity, Integer> impl
 
         return mappedEntities;
     }
+
+
 }

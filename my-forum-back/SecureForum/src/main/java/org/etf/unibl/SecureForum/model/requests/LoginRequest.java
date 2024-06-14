@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import org.etf.unibl.SecureForum.additional.sanitizer.MyStringUtils;
 
 public class LoginRequest {
 
@@ -16,7 +17,7 @@ public class LoginRequest {
     private String password;
 
     public String getUsername() {
-        return username;
+        return MyStringUtils.sanitize(username);
     }
 
     public void setUsername(String username) {

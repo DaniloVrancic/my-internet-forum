@@ -1,6 +1,7 @@
 package org.etf.unibl.SecureForum.model.requests;
 
 import jakarta.validation.constraints.NotNull;
+import org.etf.unibl.SecureForum.additional.sanitizer.MyStringUtils;
 import org.etf.unibl.SecureForum.model.entities.CommentEntity;
 import org.etf.unibl.SecureForum.model.entities.ForumPostEntity;
 
@@ -8,7 +9,6 @@ public class UpdatePostRequest {
 
     @NotNull
     Integer id;
-
     @NotNull
     String title;
     @NotNull
@@ -25,7 +25,7 @@ public class UpdatePostRequest {
     }
 
     public String getTitle() {
-        return title;
+        return MyStringUtils.sanitize(title);
     }
 
     public void setTitle(String title) {
@@ -33,7 +33,7 @@ public class UpdatePostRequest {
     }
 
     public String getContent() {
-        return content;
+        return MyStringUtils.sanitize(content);
     }
 
     public void setContent(String content) {

@@ -15,7 +15,7 @@
         <div class="write-comment-section">
                 <article class="comment-input-field">
                     <label for="comment-text-area">Leave a comment:</label>
-                    <textarea matInput [(ngModel)]="this.commentToPost" id="comment-text-area" style="display: block; width: 90%;"></textarea><br />
+                    <textarea matInput [(ngModel)]="this.commentToPost" id="comment-text-area" style="display: block; width: 90%;" [disabled]="!(this.userHasAdministrationPriviledges() || (this.userIsForumer() && this.forumerHasAdd))"></textarea><br />
                     <div class="buttons-area">
                         <button class="post-comment-button" mat-raised-button color="primary" style="scale: 1.3; text-align: center;" (click)="postComment($event)" [disabled]="(this.commentToPost.length == 0)">Post Comment</button>
                     </div>

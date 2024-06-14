@@ -7,6 +7,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.etf.unibl.SecureForum.additional.sanitizer.MyStringUtils;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.enums.UserType;
 
@@ -30,7 +31,7 @@ public class UserInsertRequest {
     @NotNull
     private UserEntity.Status status;
     public String getUsername() {
-        return username;
+        return MyStringUtils.sanitize(username);
     }
 
     public void setUsername(String username) {
@@ -38,7 +39,7 @@ public class UserInsertRequest {
     }
 
     public String getEmail() {
-        return email;
+        return MyStringUtils.sanitize(email);
     }
 
     public void setEmail(String email) {

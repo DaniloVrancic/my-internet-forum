@@ -1,6 +1,7 @@
 package org.etf.unibl.SecureForum.model.requests;
 
 import jakarta.validation.constraints.NotNull;
+import org.etf.unibl.SecureForum.additional.sanitizer.MyStringUtils;
 
 public class VerifyUserRequest {
 
@@ -19,7 +20,7 @@ public class VerifyUserRequest {
     }
 
     public String getVerificationCode() {
-        return verificationCode;
+        return MyStringUtils.sanitize(verificationCode);
     }
 
     public void setVerificationCode(String verificationCode) {

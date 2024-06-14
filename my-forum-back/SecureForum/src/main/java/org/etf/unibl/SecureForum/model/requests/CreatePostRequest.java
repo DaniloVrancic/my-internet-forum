@@ -2,6 +2,7 @@ package org.etf.unibl.SecureForum.model.requests;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.etf.unibl.SecureForum.additional.sanitizer.MyStringUtils;
 import org.etf.unibl.SecureForum.model.entities.TopicEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.enums.UserType;
@@ -23,7 +24,7 @@ public class CreatePostRequest {
 
 
     public String getTitle() {
-        return title;
+        return MyStringUtils.sanitize(title);
     }
 
     public void setTitle(String title) {
@@ -31,7 +32,7 @@ public class CreatePostRequest {
     }
 
     public String getContent() {
-        return content;
+        return MyStringUtils.sanitize(content);
     }
 
     public void setContent(String content) {

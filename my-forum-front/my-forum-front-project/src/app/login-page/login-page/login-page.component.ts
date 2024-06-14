@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { LoginRequest } from '../../../interfaces/requests/login-request';
 import { User } from '../../../interfaces/user';
@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 import { UserStatuses } from '../../../interfaces/user.statuses';
 import { NavigationBarComponent } from '../../partials/nav/navigation-bar/navigation-bar.component';
 import { environment } from '../../../environments/environment';
+import { OauthGoogleService } from '../../services/oauth-google.service';
+import { HttpClient } from '@angular/common/http';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-login-page',
@@ -15,20 +18,38 @@ import { environment } from '../../../environments/environment';
   styleUrl: './login-page.component.css',
   providers: [UserService, Router]
 })
-export class LoginPageComponent implements OnInit{
+export class LoginPageComponent implements OnInit, AfterViewInit{
 
   private myForm : any;
   public isMyFormValid : boolean = false;
   public errorMessage: string = "";
   public loginRequest: LoginRequest;
+
+  public foundUrl: string;
+
   constructor(private userService: UserService,
-              private router: Router)
+              private router: Router,
+              private oAuthService: OauthGoogleService,
+              @Inject(PLATFORM_ID) private platformId: any
+              )
   {
     this.loginRequest = {} as LoginRequest;
+    this.foundUrl = "";
   }
 
   ngOnInit(): void {
+      localStorage.clear();
+      sessionStorage.clear();
+  }
+
+  ngAfterViewInit(): void {
+    console.log(document);
+    if (isPlatformBrowser(this.platformId)) {
       this.myForm = document.forms[0];
+    }
+    this.oAuthService.get("/auth/oauth2").subscribe((data: any) => {
+      this.foundUrl = data.url;
+    });
   }
 
   onInput(){
@@ -60,18 +81,18 @@ export class LoginPageComponent implements OnInit{
     .subscribe(
     {
     next: response => {
-      let caughtToken : string = response.token;
+      //let caughtToken : string = response.token;
       let userToSet: User = {id: response.id, username: response.username,
                             email: response.email, createTime: response.createTime,
                             status: response.status, type: response.type
       }
       this.userService.setCurrentUser(userToSet);
-      this.userService.setJwtToken(caughtToken);
+      //this.userService.setJwtToken(caughtToken);
       this.errorMessage = ""; // Remove the error message at this point cause everything went alright.
 
       sessionStorage.setItem(environment.needsReloadString, "true");
 
-      if(response.status == UserStatuses.requested)
+      if(response.status == UserStatuses.requested || response.status == UserStatuses.active)
         {
           this.router.navigate(["/verify-page"]); //redirect the user to verification if he hasn't already been verified
           alert("Please verify your account.\nVerification code has been sent to your e-mail.")
@@ -97,5 +118,10 @@ export class LoginPageComponent implements OnInit{
     });
 
   }
+
+  loginUserGithub() {
+    console.log(this.foundUrl);
+
+    }
 
 }

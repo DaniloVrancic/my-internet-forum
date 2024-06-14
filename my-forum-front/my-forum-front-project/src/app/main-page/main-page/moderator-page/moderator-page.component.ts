@@ -35,13 +35,22 @@ export class ModeratorPageComponent implements OnInit{
   ngOnInit(): void {
       this.moderatorPageService.findAllForumPosts().subscribe({
         next: response => {this.allForumPosts = response;
+                           this.allForumPosts.forEach(forumPost => {
+                            forumPost.title = this.decodeSanitizedString(forumPost.title);
+                            forumPost.content = this.decodeSanitizedString(forumPost.content);
+                            forumPost.user_creator = this.decodeSanitizedString(forumPost.user_creator);
+                           });
                           this.pendingPosts = this.allForumPosts.filter(post => post.status === "PENDING");
                         },
         error: errorObj => console.error(errorObj)
       });
 
       this.moderatorPageService.findAllComments().subscribe({
-        next: (response: any) => {this.allComments = response; 
+        next: (response: any) => {this.allComments = response;
+                          this.allComments.forEach(comment => {
+                            comment.content = this.decodeSanitizedString(comment.content);
+                            comment.username = this.decodeSanitizedString(comment.username);
+                          });
                            this.pendingComments = this.allComments.filter(comment => comment.status === "PENDING");
                           },
         error: errorObj => console.error(errorObj)
@@ -72,6 +81,17 @@ export class ModeratorPageComponent implements OnInit{
 
   toggleDisplaySelected(){
     this.isPendingDisplaySelected = !this.isPendingDisplaySelected;
+  }
+
+  decodeSanitizedString(value: string): string {
+    if (value == null) {
+      return "null";
+    }
+    return value.replace(/&amp;/g, "&")
+                .replace(/&lt;/g, "<")
+                .replace(/&gt;/g, ">")
+                .replace(/&quot;/g, "\"")
+                .replace(/&#39;/g, "'");
   }
 
 }

@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.etf.unibl.SecureForum.additional.sanitizer.MyStringUtils;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.enums.UserType;
 
@@ -30,7 +31,7 @@ public class SignUpRequest {
 
 
     public String getUsername() {
-        return username;
+        return MyStringUtils.sanitize(username);
     }
 
     public void setUsername(String username) {
@@ -38,7 +39,7 @@ public class SignUpRequest {
     }
 
     public String getEmail() {
-        return email;
+        return MyStringUtils.sanitize(email);
     }
 
     public void setEmail(String email) {
@@ -46,7 +47,7 @@ public class SignUpRequest {
     }
 
     public String getPassword() {
-        return password;
+        return MyStringUtils.sanitize(password);
     }
 
     public void setPassword(String password) {

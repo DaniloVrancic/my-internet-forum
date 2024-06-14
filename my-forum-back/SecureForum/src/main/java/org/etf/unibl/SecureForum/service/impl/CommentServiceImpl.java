@@ -2,10 +2,12 @@ package org.etf.unibl.SecureForum.service.impl;
 
 import jakarta.transaction.Transactional;
 import org.etf.unibl.SecureForum.base.CrudJpaService;
+import org.etf.unibl.SecureForum.exceptions.ForbiddenException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
 import org.etf.unibl.SecureForum.model.dto.Comment;
 import org.etf.unibl.SecureForum.model.entities.CommentEntity;
 import org.etf.unibl.SecureForum.model.entities.ForumPostEntity;
+import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.enums.UserType;
 import org.etf.unibl.SecureForum.model.requests.CreateCommentRequest;
 import org.etf.unibl.SecureForum.model.requests.EditCommentRequest;
@@ -15,6 +17,8 @@ import org.etf.unibl.SecureForum.repositories.UserRepository;
 import org.etf.unibl.SecureForum.service.CommentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -127,6 +131,16 @@ public class CommentServiceImpl extends CrudJpaService<CommentEntity, Integer> i
     public Comment editComment(EditCommentRequest request){
         CommentEntity entityToUpdate = commentRepository.findById(request.getId()).orElseThrow(NotFoundException::new);
 
+        ////////////// Small security check for editing comments ///////////////////////
+        Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        if(((UserEntity)currentAuthentication.getPrincipal()).getType().equals(UserType.Forumer) //If the user making the request is a Forumer
+                && !(entityToUpdate.getReferencedUser().equals((UserEntity) currentAuthentication.getPrincipal()))) //And not the owner of this Post
+        {
+            //If a forumer who isn't the owner of this post made the request, send back a Forbidden Exception
+            throw new ForbiddenException("Forumers aren't authorized to change comments that they do not own."); //Don't allow him to make the change
+        }
+        //////////////// IF THE CHECK PASSES THE CODE WILL CONTINUE FURTHER //////////
+
         entityToUpdate.setContent(request.getContent());
         entityToUpdate.setModifiedAt(Timestamp.from(Instant.now()));
 
@@ -147,6 +161,16 @@ public class CommentServiceImpl extends CrudJpaService<CommentEntity, Integer> i
     public Comment updateComment(UpdateCommentRequest request){
         CommentEntity entityToUpdate = commentRepository.findById(request.getId()).orElseThrow(NotFoundException::new);
 
+        ////////////// Small security check for editing comments ///////////////////////
+        Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        if(((UserEntity)currentAuthentication.getPrincipal()).getType().equals(UserType.Forumer) //If the user making the request is a Forumer
+                && !(entityToUpdate.getReferencedUser().equals((UserEntity) currentAuthentication.getPrincipal()))) //And not the owner of this Post
+        {
+            //If a forumer who isn't the owner of this post made the request, send back a Forbidden Exception
+            throw new ForbiddenException("Forumers aren't authorized to change comments that they do not own."); //Don't allow him to make the change
+        }
+        //////////////// IF THE CHECK PASSES THE CODE WILL CONTINUE FURTHER //////////
+
         entityToUpdate.setContent(request.getContent());
         entityToUpdate.setStatus(request.getStatus());
         entityToUpdate.setModifiedAt(Timestamp.from(Instant.now())); //Optional, if I don't want to leave a trace of editing with this method I can simply switch it off.
@@ -158,6 +182,17 @@ public class CommentServiceImpl extends CrudJpaService<CommentEntity, Integer> i
 
     public Comment deleteComment(Integer id){
         CommentEntity entityToDelete = commentRepository.findById(id).orElseThrow(NotFoundException::new);
+
+        ////////////// Small security check for editing comments ///////////////////////
+        Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        if(((UserEntity)currentAuthentication.getPrincipal()).getType().equals(UserType.Forumer) //If the user making the request is a Forumer
+                && !(entityToDelete.getReferencedUser().equals((UserEntity) currentAuthentication.getPrincipal()))) //And not the owner of this Post
+        {
+            //If a forumer who isn't the owner of this post made the request, send back a Forbidden Exception
+            throw new ForbiddenException("Forumers aren't authorized to change comments that they do not own."); //Don't allow him to delete
+        }
+        //////////////// IF THE CHECK PASSES THE CODE WILL CONTINUE FURTHER //////////
+
         commentRepository.deleteById(id);
         return mapCommentEntityToComment(entityToDelete);
     }
@@ -174,6 +209,9 @@ public class CommentServiceImpl extends CrudJpaService<CommentEntity, Integer> i
 
         return mappedComment;
     }
+
+
+
 
 
 }

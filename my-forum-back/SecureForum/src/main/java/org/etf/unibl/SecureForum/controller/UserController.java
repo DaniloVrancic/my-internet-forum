@@ -142,6 +142,17 @@ public class UserController {
         }
     }
 
+    @PostMapping("/logout")
+    @Transactional
+    public Boolean logOutUser(@RequestBody LogoutRequest request) {
+        try{
+            return  userService.logoutUser(request);
+        }
+        catch (Exception ex){
+            throw new BadRequestException();
+        }
+    }
+
     @DeleteMapping("/delete/{id}")
     public String deleteUserById(@PathVariable("id") Integer user_Id)
     {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../../interfaces/user';
@@ -6,6 +6,9 @@ import { VerifyCodeRequest } from '../../verify-code-page/verify-code-request-in
 import { environment } from '../../environments/environment';
 import { UserPrivilegeUpdateRequest } from '../../interfaces/requests/user-privilege-update-request';
 import { UserWithToken } from '../../interfaces/user-with-token';
+import { PermissionService } from './permission.service';
+import { response } from 'express';
+import { LogoutRequest } from '../../interfaces/requests/logout-request';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +17,8 @@ export class UserService {
   private baseUserUrl = environment.apiBaseUrl + '/users';
   private baseAuthUrl = environment.apiBaseUrl + '/auth';
   private currentUser: User | null;
+  private currentForumerTopicPermissions: string[] = [];
+  permissionService = inject(PermissionService);
 
   constructor(private http: HttpClient) { 
     this.currentUser = null;
@@ -68,6 +73,11 @@ export class UserService {
     return this.http.post<any>(`${this.baseAuthUrl}/resend_code/${user.id}`, null);
   }
 
+  logoutUser(userId: number): Observable<boolean> {
+    const wrapperJson: LogoutRequest = {userId: userId};
+    return this.http.post<boolean>(`${this.baseUserUrl}/logout`, wrapperJson);
+  }
+
   public setCurrentUser(user: User | null)
   {
     if(user == null)
@@ -76,16 +86,16 @@ export class UserService {
     }
     else
     {
-      sessionStorage.setItem(environment.userKeyString, JSON.stringify(user));
+      localStorage.setItem(environment.userKeyString, JSON.stringify(user));
       this.currentUser = user; //Makes sure to always update the current user to the latest set User.
     }
   }
 
   public removeCurrentUser()
   {
-    if(sessionStorage.getItem(environment.userKeyString) != null)
+    if(localStorage.getItem(environment.userKeyString) != null)
       {
-        sessionStorage.removeItem(environment.userKeyString);
+        localStorage.removeItem(environment.userKeyString);
         this.currentUser = null;
       }
   }
@@ -94,21 +104,65 @@ export class UserService {
   {
     if(this.currentUser == null)
       {
-        return JSON.parse(sessionStorage.getItem(environment.userKeyString) as string);
+        return JSON.parse(localStorage.getItem(environment.userKeyString) as string);
       }
     else
       return this.currentUser;
   }
 
   public setJwtToken(token : string){
-    localStorage.setItem(environment.tokenStorageKey, JSON.stringify(token));
+    if(localStorage != undefined)
+      {
+        localStorage.setItem(environment.tokenStorageKey, JSON.stringify(token));
+      }
   }
 
-  public getJwtToken(): string{
-    return JSON.parse(localStorage.getItem(environment.tokenStorageKey) as string);
+  public getJwtToken(): string | null{
+    if(typeof localStorage != undefined && localStorage != undefined && localStorage.getItem(environment.tokenStorageKey) !== undefined && typeof localStorage.getItem(environment.tokenStorageKey) !== undefined)
+      {
+        return JSON.parse(localStorage.getItem(environment.tokenStorageKey) as string);
+      }
+    return null;
   }
 
   public deleteJwtToken(){
-    localStorage.removeItem(environment.tokenStorageKey);
+    if(localStorage != undefined && localStorage.getItem(environment.tokenStorageKey) != null)
+      {
+        localStorage.removeItem(environment.tokenStorageKey);
+      }
+  }
+
+  public fetchTopicPermissionsForCurrentUser(topicId: number){
+        
+        this.permissionService.findPermissionsForUserAndTopic({userId: this.getCurrentUser()?.id as number, topicId: topicId}).subscribe({
+          next: (response: string[]) => {this.currentForumerTopicPermissions = response;
+                                        if(sessionStorage != undefined && sessionStorage.getItem(environment.currentForumerTopicPermissions) != null)
+                                          {
+                                            sessionStorage.setItem(environment.currentForumerTopicPermissions, JSON.stringify(response));
+                                          }
+          },
+          error: errorObj => {console.error(errorObj)}
+        });
+  }
+
+  public deleteFetchedPermissions(){
+    if(sessionStorage != undefined)
+      {
+        sessionStorage.removeItem(environment.currentForumerTopicPermissions);
+      }
+    this.currentForumerTopicPermissions = [];
+  }
+
+  public getFetchedPermissions(): string[]{
+    if(this.currentForumerTopicPermissions != null){
+      return this.currentForumerTopicPermissions;
+    }
+    else if(sessionStorage != undefined && sessionStorage.getItem(environment.currentForumerTopicPermissions) != null){
+      this.currentForumerTopicPermissions = JSON.parse(sessionStorage.getItem(environment.currentForumerTopicPermissions) as string)
+      return (this.currentForumerTopicPermissions);
+    }
+    else{
+      return [];
+    }
   }
 }

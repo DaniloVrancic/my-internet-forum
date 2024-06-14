@@ -99,6 +99,18 @@ public class PermissionsServiceImpl extends CrudJpaService<PermissionsEntity, In
         return foundPermissions;
     }
 
+    @Override
+    public List<String> findAllByUserIdAndTopicId(Integer userId, Integer topicId){
+        List<PermissionsEntity> foundEntities = permissionsRepository.findByReferencedUser_IdAndTopic_Id(userId, topicId);
+        List<String> permissionTypesForTopic = new ArrayList<>();
+
+        for(PermissionsEntity foundEntity : foundEntities){
+            permissionTypesForTopic.add(foundEntity.getPermission().getValue().toUpperCase());
+        }
+
+        return permissionTypesForTopic;
+    }
+
     private Permission mapPermissionEntityToPermission(PermissionsEntity entity){
         Permission permissionToReturn = new Permission();
         permissionToReturn.setId(entity.getId());
@@ -108,5 +120,16 @@ public class PermissionsServiceImpl extends CrudJpaService<PermissionsEntity, In
         permissionToReturn.setUser_id(entity.getReferencedUser().getId());
 
         return permissionToReturn;
+    }
+
+    private String sanitize(String value) {
+        if (value == null) {
+            return null;
+        }
+        return value.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;");
     }
 }

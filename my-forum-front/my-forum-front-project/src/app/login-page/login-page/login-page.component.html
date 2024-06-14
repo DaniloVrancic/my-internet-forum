@@ -9,14 +9,18 @@
                 <div class="error-message">{{this.errorMessage}}</div>
             }
             <label for="username" class="input-field-descriptor">Username:</label>
-            <input type="text" name="username" id="username" required="required" class="input-field" placeholder=" " (input)="onInputUsername($event)"/><br/><br/>
+            <input pattern="[A-Za-z0-9_]+" title="Only alphanumerical and '_' are allowed." type="text" name="username" id="username" required="required" class="input-field" placeholder=" " (input)="onInputUsername($event)"/><br/><br/>
 
             <label for="password" class="input-field-descriptor">Password:</label>
-            <input type="password" name="password" id="password" required="required" class="input-field" placeholder=" " (input)="onInputPassword($event)"/><br/><br/>
+            <input pattern="[A-Za-z0-9_]+" title="Only alphanumerical and '_' are allowed." type="password" name="password" id="password" required="required" class="input-field" placeholder=" " (input)="onInputPassword($event)"/><br/><br/>
 
             <div class="buttons-area">
-            <button type="button" style="font-weight: 600; font-size: 1.2rem;" [disabled]="!this.isMyFormValid" (click)="loginUser()">Login</button>
+                <button type="button" style="font-weight: 600; font-size: 1.2rem;" [disabled]="!this.isMyFormValid" (click)="loginUser()">Login</button>
             </div>
+
+            <div class="buttons-area">
+                <a style="margin-top:1rem; margin-bottom: 0.4rem; scale:0.7" href={{this.foundUrl}}>Login using Google</a>
+                </div>
             
         </form>
     </div>

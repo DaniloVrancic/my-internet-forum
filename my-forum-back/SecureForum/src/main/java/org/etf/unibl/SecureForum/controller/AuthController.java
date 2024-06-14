@@ -1,16 +1,14 @@
 package org.etf.unibl.SecureForum.controller;
 
-import com.nimbusds.openid.connect.sdk.AuthenticationResponse;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.etf.unibl.SecureForum.exceptions.BadRequestException;
 import org.etf.unibl.SecureForum.exceptions.ForbiddenException;
 import org.etf.unibl.SecureForum.exceptions.NotFoundException;
-import org.etf.unibl.SecureForum.exceptions.UnauthorizedException;
-import org.etf.unibl.SecureForum.model.dto.AuthResponse;
-import org.etf.unibl.SecureForum.model.dto.User;
-import org.etf.unibl.SecureForum.model.dto.UserWithAuthenticationTokenResponse;
-import org.etf.unibl.SecureForum.model.dto.VerificationCodeEmailMessage;
+import org.etf.unibl.SecureForum.model.dto.*;
 import org.etf.unibl.SecureForum.model.entities.CodeVerificationEntity;
 import org.etf.unibl.SecureForum.model.entities.UserEntity;
 import org.etf.unibl.SecureForum.model.requests.LoginRequest;
@@ -21,16 +19,20 @@ import org.etf.unibl.SecureForum.repositories.UserRepository;
 import org.etf.unibl.SecureForum.security.JWTGenerator;
 import org.etf.unibl.SecureForum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -50,6 +52,11 @@ public class AuthController {
     private final UserRepository userRepository;
     private final JWTGenerator jwtGenerator;
 
+    @Value("${spring.security.oauth2.resourceserver.opaquetoken.client-id}")
+    private String clientId;
+    @Value("${spring.security.oauth2.resourceserver.opaquetoken.client-secret}")
+    private String clientSecret;
+
     private final CodeVerificationRepository codeVerificationRepository;
 
     @Autowired
@@ -65,21 +72,49 @@ public class AuthController {
         this.codeVerificationRepository = codeVerificationRepository;
     }
 
+    @GetMapping("/oauth2")
+    public ResponseEntity<UrlDto> oauth2Auth(){
+        String url = new GoogleAuthorizationCodeRequestUrl(
+                clientId,
+                "https://localhost:4200/callback", //callback url for Google to call
+                Arrays.asList("email", "profile", "openid")
+        ).build(); //Will generate the link where the user will be able to see the Google login form
+
+
+
+        return ResponseEntity.ok(new UrlDto(url));
+    }
+
+    @GetMapping("/oauth2/callback")
+    public ResponseEntity<TokenDto> oauth2AuthCallback(@RequestParam("code") String code) {
+        String token = "";
+        try{
+
+        token = new GoogleAuthorizationCodeTokenRequest(
+                new NetHttpTransport(),
+                new GsonFactory(),
+                clientId,
+                clientSecret,
+                code,
+                "https://localhost:4200"
+        ).execute().getAccessToken();
+        System.out.println("I AM IN GOOGLE CALLBACK!");
+
+        }
+        catch(Exception ex){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return  ResponseEntity.ok(new TokenDto(token));
+    }
+
     @PostMapping("/login")
-    public UserWithAuthenticationTokenResponse loginUser(@Valid @RequestBody LoginRequest request){
+    public User loginUser(@Valid @RequestBody LoginRequest request){
 
         try{
 
+        //UserWithAuthenticationTokenResponse authResponse = userService.login(request);
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                       request.getUsername(),
-                        request.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        UserWithAuthenticationTokenResponse authResponse = userService.login(request);
-
-        return authResponse;
+        return userService.login(request);
         }
         catch(LockedException ex){ //In case that the user has been blocked from the forum will occur
             throw new ForbiddenException("User has been blocked from forum");

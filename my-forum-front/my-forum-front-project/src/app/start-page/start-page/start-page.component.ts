@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { HttpClient } from '@angular/common/http';
+import { OauthGoogleService } from '../../services/oauth-google.service';
 
 
 @Component({
@@ -8,11 +11,17 @@ import { Router } from '@angular/router';
   imports: [],
   templateUrl: './start-page.component.html',
   styleUrl: './start-page.component.css',
-  providers: [Router]
+  providers: [Router, UserService]
 })
-export class StartPageComponent {
+export class StartPageComponent implements OnInit {
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private userService: UserService,
+    private activateRoute: ActivatedRoute, private http: OauthGoogleService
+  ){}
+
+  ngOnInit(): void {
+
+  }
 
   registerClick(){
     this.router.navigate(['/register-page']);
