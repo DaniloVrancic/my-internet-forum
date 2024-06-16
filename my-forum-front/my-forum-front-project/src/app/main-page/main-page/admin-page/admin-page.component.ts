@@ -28,12 +28,12 @@ export class AdminPageComponent implements OnInit, OnDestroy{
 
   
   public findAllSubscription: any;
-  public findTopicsSubscription: any;
+  public findTopicsSubscription: any; 
 
 
   public errorMessage: string;
   
-  public userPermissions: Permission[];
+  public userPermissions: Permission[]; //List of permissions of current user
   public allTopics: Topic[];
   public allUsers: User[];
 
