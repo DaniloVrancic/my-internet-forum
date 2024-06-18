@@ -34,7 +34,7 @@ export class AdminPageComponent implements OnInit, OnDestroy{
   public errorMessage: string;
   
   public userPermissions: Permission[]; //List of permissions of current user
-  public allTopics: Topic[];
+  public allTopics: Topic[]; //List of topics of current page
   public allUsers: User[];
 
   public possiblePermissions = environment.possiblePermissions;
