@@ -17,7 +17,7 @@ export class MainPageComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    if(typeof sessionStorage !== "undefined"){
+    if(typeof sessionStorage !== "undefined"){ //if the sessionStorage is undefined
       let reload = sessionStorage.getItem(environment.needsReloadString);
       if(reload === "true"){
         sessionStorage.removeItem(environment.needsReloadString);
