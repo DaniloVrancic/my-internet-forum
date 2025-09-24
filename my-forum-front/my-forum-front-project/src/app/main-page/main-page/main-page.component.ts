@@ -17,8 +17,8 @@ export class MainPageComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    if(typeof sessionStorage !== "undefined"){
-      let reload = sessionStorage.getItem(environment.needsReloadString);
+    if(typeof sessionStorage !== "undefined"){ //if the sessionStorage is undefined
+      let reload = sessionStorage.getItem(environment.needsReloadString); //reload flag, detects if it is necessary to reload page to fix a glich with handlers now getting attached to div's
       if(reload === "true"){
         sessionStorage.removeItem(environment.needsReloadString);
         window.location.reload();

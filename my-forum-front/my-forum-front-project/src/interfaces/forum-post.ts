@@ -1,4 +1,4 @@
-export interface ForumPost{
+export interface ForumPost{ //Determines the interface for a ForumPost on my forum
     id: number,
     title: string,
     content: string,
